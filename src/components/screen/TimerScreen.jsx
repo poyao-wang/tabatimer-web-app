@@ -7,10 +7,13 @@ function TimerScreen(props) {
   } = useContext(MainContext);
 
   return (
-    <div>
-      <p>TimerScreen</p>
-      <p>{JSON.stringify(mainData.settings, null, 4)}</p>
-    </div>
+    <>
+      <div className="center-container">
+        <p>TimerScreen</p>
+        <p>{JSON.stringify(mainData.settings, null, 4)}</p>
+      </div>
+      <div className="bottom-container">Btn</div>
+    </>
   );
 }
 

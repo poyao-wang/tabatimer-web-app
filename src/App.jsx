@@ -15,13 +15,14 @@ function App() {
 
   return (
     <div className="App">
-      <main className="container">
-        <MainContext.Provider
-          value={{
-            tabBar: { tabBarShow, setTabBarShow },
-            timer: { timerSetup, setTimerSetup },
-          }}
-        >
+      <MainContext.Provider
+        value={{
+          tabBar: { tabBarShow, setTabBarShow },
+          timer: { timerSetup, setTimerSetup },
+        }}
+      >
+        <div className="screen-container">
+          <div className="top-container">Top</div>
           <Switch>
             <Route
               path="/timer"
@@ -41,8 +42,8 @@ function App() {
             />
             <Redirect from="/" exact to="/timer" />
           </Switch>
-        </MainContext.Provider>
-      </main>
+        </div>
+      </MainContext.Provider>
     </div>
   );
 }
