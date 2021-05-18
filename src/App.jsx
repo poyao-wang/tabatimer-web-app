@@ -8,6 +8,7 @@ import EditorScreen from "./components/screen/EditorScreen";
 import TimerScreen from "./components/screen/TimerScreen";
 import timerSetupDefaultData from "./components/config/timerSetupDefaultData";
 import WorkoutListScreen from "./components/screen/WorkoutListScreen";
+import NavBar from "./components/NavBar";
 
 function App() {
   const [tabBarShow, setTabBarShow] = useState(true);
@@ -22,7 +23,9 @@ function App() {
         }}
       >
         <div className="screen-container">
-          <div className="top-container">Top</div>
+          <div className="top-container">
+            <NavBar />
+          </div>
           <Switch>
             <Route
               path="/timer"
