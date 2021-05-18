@@ -1,9 +1,3 @@
-.center-container-top,
-.center-container-mid,
-.center-container-low {
-  border: var(--border-testing);
-}
-
 .center-container-mid {
   height: 40%;
 }

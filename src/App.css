@@ -1,24 +1,22 @@
 :root {
   --side-container-ratio: 4;
-  --border-testing: 2px solid blue;
+  --border-testing: 1px solid blue;
+}
+
+* {
+  border: var(--border-testing);
+  box-sizing: border-box;
 }
 
 .App {
   text-align: center;
 }
 
-.bottom-container,
-.center-container,
-.screen-container,
-.top-container {
-  border: var(--border-testing);
-}
-
 .screen-container {
   display: flex;
+  width: 99vw;
+  height: 99vh;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
 }
 
 .center-container {
@@ -36,9 +34,9 @@
 
 @media screen and (orientation: portrait) {
   :root {
-    --center-container-size-min: 60vw;
-    --center-container-size: calc(100vh - 40vw);
-    --center-container-size-max: 100vw;
+    --center-container-size-min: 59vw;
+    --center-container-size: calc(99vh - 40vw);
+    --center-container-size-max: 99vw;
   }
 
   .screen-container {
@@ -63,9 +61,9 @@
 
 @media screen and (orientation: landscape) {
   :root {
-    --center-container-size-min: 60vh;
-    --center-container-size: calc(100vw - 40vh);
-    --center-container-size-max: 100vh;
+    --center-container-size-min: 59vh;
+    --center-container-size: calc(99vw - 40vh);
+    --center-container-size-max: 99vh;
   }
 
   .screen-container {
