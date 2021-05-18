@@ -19,6 +19,10 @@
   align-items: center;
 }
 
+.top-container {
+  display: flex;
+}
+
 .center-container {
   height: clamp(
     var(--center-container-size-min),
@@ -42,6 +46,10 @@
   .screen-container {
     flex-direction: column;
     padding-bottom: 15%;
+  }
+
+  .top-container {
+    flex-direction: row;
   }
 
   .top-container,
@@ -69,6 +77,10 @@
   .screen-container {
     flex-direction: row-reverse;
     justify-content: center;
+  }
+
+  .top-container {
+    flex-direction: column;
   }
 
   .top-container,
