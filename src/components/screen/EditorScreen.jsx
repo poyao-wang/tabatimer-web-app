@@ -3,6 +3,7 @@ import { MainContext } from "../config/MainContext";
 
 import "./EditorScreen.css";
 import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
+import EditorItem from "./EditorItem";
 
 function EditorScreen(props) {
   const {
@@ -10,47 +11,27 @@ function EditorScreen(props) {
   } = useContext(MainContext);
 
   const [screenData, setScreenData] = useState(mainData);
+  const [ifAnyIsSetting, setIfAnyIsSetting] = useState(false);
 
-  const renderItem = useCallback(
-    (itemKey) => {
-      const item = screenData[itemKey];
-      const title = itemKey + " title";
-      const subtitle = itemKey + "subtitle";
-
-      return (
-        <div
-          className="center-container-item"
-          onPress={() => {
-            //navigate to EditorDetailScreen
-          }}
-        >
-          <div className="titles-ontainer">
-            <div className="title">{title}</div>
-            <div className="subtitle">{subtitle}</div>
-          </div>
-          <div className="value-text-container">
-            <div className="value-text">
-              {item.type == "number" && item.value}
-              {!(item.type == "number") &&
-                timeDataSetupFunctions.totalSecToMinAndSec(item.value)
-                  .displayText}
-            </div>
-          </div>
-        </div>
-      );
-    },
-    [screenData]
-  );
+  const renderEditorItem = (itemKey) => {
+    return (
+      <EditorItem
+        screenData={screenData}
+        itemKey={itemKey}
+        useIfAnyIsSettingState={{ ifAnyIsSetting, setIfAnyIsSetting }}
+      />
+    );
+  };
 
   return (
     <>
       <div className="center-container editor-screen-center-container">
-        {renderItem("prepareTime")}
-        {renderItem("workoutTime")}
-        {renderItem("restTime")}
-        {renderItem("restTimeSets")}
-        {renderItem("sets")}
-        {renderItem("workouts")}
+        {renderEditorItem("prepareTime")}
+        {renderEditorItem("workoutTime")}
+        {renderEditorItem("restTime")}
+        {renderEditorItem("restTimeSets")}
+        {renderEditorItem("sets")}
+        {renderEditorItem("workouts")}
       </div>
       <div className="bottom-container editor-screen-bottom-container">
         <div className="bottom-container-item">

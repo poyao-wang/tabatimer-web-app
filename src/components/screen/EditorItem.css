@@ -1,0 +1,21 @@
+.editor-screen-item {
+  height: calc(var(--center-container-size) / 6);
+  display: flex;
+  flex-direction: row;
+}
+
+.editor-screen-item-title-container {
+  width: 40%;
+}
+
+.editor-screen-item-text-container {
+  width: 20%;
+}
+
+.editor-screen-item-setting-container {
+  width: 40%;
+}
+
+.editor-screen-item-value-text {
+  display: flex;
+}
