@@ -19,7 +19,8 @@
   align-items: center;
 }
 
-.top-container {
+.top-container,
+.bottom-container {
   display: flex;
 }
 
@@ -48,7 +49,8 @@
     padding-bottom: 15%;
   }
 
-  .top-container {
+  .top-container,
+  .bottom-container {
     flex-direction: row;
   }
 
@@ -79,7 +81,8 @@
     justify-content: center;
   }
 
-  .top-container {
+  .top-container,
+  .bottom-container {
     flex-direction: column;
   }
 

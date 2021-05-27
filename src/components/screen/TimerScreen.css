@@ -1,8 +1,28 @@
 .center-container-mid {
   height: 40%;
+  display: flex;
+}
+
+.center-container-mid-item {
+  flex: 1;
 }
 
 .center-container-top,
 .center-container-low {
   height: 30%;
+}
+
+.center-container-low {
+  display: flex;
+}
+
+.center-container-low-item-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.bottom-container-item {
+  flex: 1;
 }
