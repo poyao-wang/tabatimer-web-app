@@ -26,3 +26,20 @@
 .bottom-container-item {
   flex: 1;
 }
+
+.img-container {
+  height: clamp(
+    calc(var(--center-container-size-min) * 0.3),
+    calc(var(--center-container-size) * 0.3),
+    calc(var(--center-container-size-max) * 0.3)
+  );
+  width: clamp(
+    calc(var(--center-container-size-min) * 0.3),
+    calc(var(--center-container-size) * 0.3),
+    calc(var(--center-container-size-max) * 0.3)
+  );
+}
+
+.img-container img {
+  width: 80%;
+}

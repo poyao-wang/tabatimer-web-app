@@ -16,6 +16,8 @@ function TimerScreen(props) {
   const [timerOn, setTimerOn] = useState(false);
   const [btnPressable, setBtnPressable] = useState(true);
   const [sectionId, setSectionId] = useState(0);
+  const [centerContainerItemsValues, setCenterContainerItemsValues] =
+    useState(null);
 
   const [{ sectionSeconds }, api] = useSpring(() => ({
     from: { sectionSeconds: 0 },
@@ -90,6 +92,49 @@ function TimerScreen(props) {
     });
   }
 
+  function createCenterContainerItemsValues() {
+    const totalWorkoutAmt = mainData.workouts.value;
+    const currentWoroutNo = timeData[sectionId].workoutNo;
+
+    function createReturnObj(ltIndexNo, miIndexNo, rtIndexNo) {
+      function retrunObj(indexNo) {
+        return {
+          index: indexNo,
+          imageUri: indexNo !== null ? flatListArray[indexNo].image : "",
+        };
+      }
+
+      return {
+        lt: retrunObj(ltIndexNo),
+        mi: retrunObj(miIndexNo),
+        rt: retrunObj(rtIndexNo),
+      };
+    }
+
+    if (currentWoroutNo <= 1) {
+      return createReturnObj(null, 0, 1);
+    }
+    if (currentWoroutNo >= totalWorkoutAmt) {
+      return createReturnObj(currentWoroutNo - 2, currentWoroutNo - 1, null);
+    }
+
+    return createReturnObj(
+      currentWoroutNo - 2,
+      currentWoroutNo - 1,
+      currentWoroutNo
+    );
+  }
+
+  useEffect(() => {
+    if (mainData.workoutSetup.updated) {
+      setFlatListArray(mainData.workoutSetup.flatListArray);
+      setTimeData(mainData.workoutSetup.workoutArray);
+      reset();
+      mainData.workoutSetup.updated = false;
+      setMainData(mainData);
+    }
+  }, []);
+
   useEffect(() => {
     if (timerOn) {
       timerAnimationLoop(sectionSeconds.get());
@@ -102,6 +147,7 @@ function TimerScreen(props) {
     if (timerOn) {
       timerAnimationLoop(0);
     }
+    setCenterContainerItemsValues(createCenterContainerItemsValues());
   }, [sectionId]);
 
   return (
@@ -114,9 +160,11 @@ function TimerScreen(props) {
         <div className="center-container-mid">
           <div className="center-container-mid-item">
             <div className="img-container">
-              {timeData[sectionId].workoutNo - 1 < 1
-                ? "null"
-                : timeData[sectionId].workoutNo - 1}
+              {centerContainerItemsValues?.lt?.index}
+              <img
+                src={centerContainerItemsValues?.lt?.imageUri}
+                alt="lt-img"
+              />
             </div>
             <button
               onClick={() => {
@@ -128,16 +176,20 @@ function TimerScreen(props) {
           </div>
           <div className="center-container-mid-item">
             <div className="img-container">
-              {timeData[sectionId].workoutNo < 1
-                ? "null"
-                : timeData[sectionId].workoutNo}
+              {centerContainerItemsValues?.mi?.index}
+              <img
+                src={centerContainerItemsValues?.mi?.imageUri}
+                alt="mi-img"
+              />
             </div>
           </div>
           <div className="center-container-mid-item">
             <div className="img-container">
-              {timeData[sectionId].workoutNo + 1 > mainData.workouts.value
-                ? "null"
-                : timeData[sectionId].workoutNo + 1}
+              {centerContainerItemsValues?.rt?.index}
+              <img
+                src={centerContainerItemsValues?.rt?.imageUri}
+                alt="rt-img"
+              />
             </div>
             <button
               onClick={() => {
