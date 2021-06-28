@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import "./WorkoutListScreen.css";
 import { MainContext } from "../config/MainContext";
-import WorkoutListItem from "./WorkoutListItem";
+import WorkoutListItem from "../components/WorkoutListItem";
 
 function WorkoutListScreen(props) {
   const {

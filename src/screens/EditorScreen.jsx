@@ -3,7 +3,7 @@ import { MainContext } from "../config/MainContext";
 
 import "./EditorScreen.css";
 import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
-import EditorItem from "./EditorItem";
+import EditorItem from "../components/EditorItem";
 
 function EditorScreen(props) {
   const {

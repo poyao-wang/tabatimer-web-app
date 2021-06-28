@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 
 import "./App.css";
-import { MainContext } from "./components/config/MainContext";
-import AccountScreen from "./components/screen/AccountScreen";
-import EditorScreen from "./components/screen/EditorScreen";
-import TimerScreen from "./components/screen/TimerScreen";
-import timerSetupDefaultData from "./components/config/timerSetupDefaultData";
-import WorkoutListScreen from "./components/screen/WorkoutListScreen";
+import { MainContext } from "./config/MainContext";
+import AccountScreen from "./screens/AccountScreen";
+import EditorScreen from "./screens/EditorScreen";
+import TimerScreen from "./screens/TimerScreen";
+import timerSetupDefaultData from "./config/timerSetupDefaultData";
+import WorkoutListScreen from "./screens/WorkoutListScreen";
 import NavBar from "./components/NavBar";
 
 function App() {
