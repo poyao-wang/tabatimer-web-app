@@ -38,6 +38,13 @@ function WorkoutListItem({ item, index }) {
     };
   }
 
+  function deleteImage() {
+    setImageSrc("");
+    mainData.workoutSetup.flatListArray[item.id].image = "";
+    mainData.workoutSetup.updated = true;
+    setMainData(mainData);
+  }
+
   return (
     <div className="workout-list-item">
       <div className="reorder-icon-container">
@@ -68,7 +75,7 @@ function WorkoutListItem({ item, index }) {
         </button>
       </div>
       <div className="workout-image-delete-icon">
-        <button>{"delete"}</button>
+        <button onClick={deleteImage}>{"delete"}</button>
       </div>
     </div>
   );
