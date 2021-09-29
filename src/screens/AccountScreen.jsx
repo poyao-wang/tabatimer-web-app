@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { MainContext } from "../config/MainContext";
+import Icon from "../components/Icon";
+import MainContainerBtm from "../components/MainContainerBtm";
 
 function AccountScreen(props) {
   const {
@@ -7,10 +9,20 @@ function AccountScreen(props) {
   } = useContext(MainContext);
 
   return (
-    <div>
-      <p>AccountScreen</p>
-      <p>{JSON.stringify(mainData.settings, null, 4)}</p>
-    </div>
+    <>
+      <div className="center-container">
+        <p>AccountScreen</p>
+        <p>{JSON.stringify(mainData.settings, null, 4)}</p>
+      </div>
+      <MainContainerBtm>
+        <a href="#">
+          <Icon.CloudUpload />
+        </a>
+        <a href="#">
+          <Icon.CloudDownload />
+        </a>
+      </MainContainerBtm>
+    </>
   );
 }
 

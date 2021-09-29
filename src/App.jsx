@@ -27,7 +27,7 @@ function App() {
           <div className="top-container">
             <NavBar />
           </div>
-          {/* <Switch>
+          <Switch>
             <Route
               path="/timer"
               render={(props) => <TimerScreen {...props} />}
@@ -45,7 +45,7 @@ function App() {
               render={(props) => <WorkoutListScreen {...props} />}
             />
             <Redirect from="/" exact to="/timer" />
-          </Switch> */}
+          </Switch>
         </div>
       </MainContext.Provider>
     </div>

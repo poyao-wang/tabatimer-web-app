@@ -44,9 +44,10 @@ html {
   width: 10rem;
 }
 
-.top-container,
-.bottom-container {
+.top-container {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
 }
 
@@ -60,12 +61,11 @@ html {
   }
 
   .top-container,
-  .bottom-container {
+  .main-container-btm {
     flex-direction: row;
   }
 
-  .top-container,
-  .bottom-container {
+  .top-container {
     align-self: stretch;
   }
 }
@@ -80,13 +80,11 @@ html {
     justify-content: center;
   }
 
-  .top-container,
-  .bottom-container {
+  .top-container {
     flex-direction: column;
   }
 
-  .top-container,
-  .bottom-container {
+  .top-container {
     align-self: stretch;
   }
 }

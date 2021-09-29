@@ -1,0 +1,34 @@
+.main-container-btm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex: 1;
+  line-height: 0;
+  justify-content: space-around;
+}
+
+.main-container-btm .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.main-container-btm a {
+  transition-duration: 100ms;
+}
+
+.main-container-btm a:hover {
+  transform: scale(1.1);
+}
+
+@media screen and (orientation: portrait) {
+  .main-container-btm {
+    flex-direction: row;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .main-container-btm {
+    flex-direction: column;
+  }
+}
