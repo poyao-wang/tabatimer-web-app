@@ -1,6 +1,5 @@
 :root {
-  --side-container-ratio: 4;
-  --border-testing: 1px solid blue;
+  --border-testing: 0.1px solid blue;
 }
 
 * {
@@ -8,45 +7,56 @@
   box-sizing: border-box;
 }
 
+html {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .App {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  height: 100vh;
 }
 
 .screen-container {
   display: flex;
-  width: 99vw;
-  height: 99vh;
   align-items: center;
+  justify-content: center;
+  flex: 1;
+  align-self: stretch;
+}
+
+.center-container {
+  height: 10rem;
+  width: 10rem;
 }
 
 .top-container,
 .bottom-container {
   display: flex;
-}
-
-.center-container {
-  height: clamp(
-    var(--center-container-size-min),
-    var(--center-container-size),
-    var(--center-container-size-max)
-  );
-  width: clamp(
-    var(--center-container-size-min),
-    calc(var(--center-container-size)),
-    var(--center-container-size-max)
-  );
+  flex: 1;
 }
 
 @media screen and (orientation: portrait) {
   :root {
-    --center-container-size-min: 59vw;
-    --center-container-size: calc(99vh - 40vw);
-    --center-container-size-max: 99vw;
+    font-size: 10vw;
   }
 
   .screen-container {
     flex-direction: column;
-    padding-bottom: 15%;
   }
 
   .top-container,
@@ -56,24 +66,13 @@
 
   .top-container,
   .bottom-container {
-    height: clamp(
-      calc(var(--center-container-size-min) / var(--side-container-ratio)),
-      calc(var(--center-container-size) / var(--side-container-ratio)),
-      calc(var(--center-container-size-max) / var(--side-container-ratio))
-    );
-    width: clamp(
-      var(--center-container-size-min),
-      var(--center-container-size),
-      var(--center-container-size-max)
-    );
+    align-self: stretch;
   }
 }
 
 @media screen and (orientation: landscape) {
   :root {
-    --center-container-size-min: 59vh;
-    --center-container-size: calc(99vw - 40vh);
-    --center-container-size-max: 99vh;
+    font-size: 10vh;
   }
 
   .screen-container {
@@ -88,19 +87,6 @@
 
   .top-container,
   .bottom-container {
-    height: clamp(
-      var(--center-container-size-min),
-      var(--center-container-size),
-      var(--center-container-size-max)
-    );
-    width: clamp(
-      calc(var(--center-container-size-min) / var(--side-container-ratio)),
-      calc(var(--center-container-size) / var(--side-container-ratio)),
-      calc(var(--center-container-size-max) / var(--side-container-ratio))
-    );
+    align-self: stretch;
   }
-}
-
-html {
-  font-size: calc(var(--center-container-size) / 10);
 }
