@@ -1,5 +1,7 @@
 :root {
   --border-testing: 0.1px solid blue;
+  --color-dark: #0c0c0c;
+  --color-red-google: #df4a32;
 }
 
 * {
