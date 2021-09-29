@@ -1,0 +1,29 @@
+.account-screen__title {
+  font-weight: 500;
+  font-size: 0.85rem;
+  line-height: 1.2rem;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+
+.account-screen__subtitle {
+  font-size: 0.35rem;
+  line-height: 0.5rem;
+  margin: 0;
+  padding: 0;
+  margin-top: 0.25rem;
+  display: inline-block;
+}
+
+.account-screen-btns {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.9rem;
+}
+
+.account-screen-btns .btn-account-screen {
+  margin: 0.15rem;
+}
