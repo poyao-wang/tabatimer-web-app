@@ -1,4 +1,8 @@
 .main-container-mid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 10rem;
   width: 10rem;
 }
