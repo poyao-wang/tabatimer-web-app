@@ -100,3 +100,7 @@
     );
   }
 }
+
+html {
+  font-size: calc(var(--center-container-size) / 10);
+}
