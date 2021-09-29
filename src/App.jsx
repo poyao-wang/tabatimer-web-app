@@ -16,49 +16,40 @@ function App() {
   const [timerSetup, setTimerSetup] = useState(timerSetupDefaultData);
 
   return (
-    <>
-      <ImgWorkout.PlankElbow />
-      <ImgWorkout.PlankFull />
-      <ImgWorkout.PlankSideLeft />
-      <ImgWorkout.PlankSideRight />
-    </>
+    <div className="App">
+      <MainContext.Provider
+        value={{
+          tabBar: { tabBarShow, setTabBarShow },
+          timer: { timerSetup, setTimerSetup },
+        }}
+      >
+        <div className="screen-container">
+          <div className="top-container">
+            <NavBar />
+          </div>
+          {/* <Switch>
+            <Route
+              path="/timer"
+              render={(props) => <TimerScreen {...props} />}
+            />
+            <Route
+              path="/account"
+              render={(props) => <AccountScreen {...props} />}
+            />
+            <Route
+              path="/editor"
+              render={(props) => <EditorScreen {...props} />}
+            />
+            <Route
+              path="/workout-list"
+              render={(props) => <WorkoutListScreen {...props} />}
+            />
+            <Redirect from="/" exact to="/timer" />
+          </Switch> */}
+        </div>
+      </MainContext.Provider>
+    </div>
   );
-
-  // return (
-  //   <div className="App">
-  //     <MainContext.Provider
-  //       value={{
-  //         tabBar: { tabBarShow, setTabBarShow },
-  //         timer: { timerSetup, setTimerSetup },
-  //       }}
-  //     >
-  //       <div className="screen-container">
-  //         <div className="top-container">
-  //           <NavBar />
-  //         </div>
-  //         <Switch>
-  //           <Route
-  //             path="/timer"
-  //             render={(props) => <TimerScreen {...props} />}
-  //           />
-  //           <Route
-  //             path="/account"
-  //             render={(props) => <AccountScreen {...props} />}
-  //           />
-  //           <Route
-  //             path="/editor"
-  //             render={(props) => <EditorScreen {...props} />}
-  //           />
-  //           <Route
-  //             path="/workout-list"
-  //             render={(props) => <WorkoutListScreen {...props} />}
-  //           />
-  //           <Redirect from="/" exact to="/timer" />
-  //         </Switch>
-  //       </div>
-  //     </MainContext.Provider>
-  //   </div>
-  // );
 }
 
 export default App;
