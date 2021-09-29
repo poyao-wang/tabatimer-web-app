@@ -41,11 +41,6 @@ html {
   align-self: stretch;
 }
 
-.center-container {
-  height: 10rem;
-  width: 10rem;
-}
-
 .top-container {
   display: flex;
   align-items: center;
