@@ -1,0 +1,16 @@
+.btn-list-order {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.05rem solid var(--color-dark);
+  border-radius: 0.15rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  overflow: hidden;
+}
+
+.btn-list-order .icon {
+  border: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+}
