@@ -9,7 +9,7 @@ import TimerScreen from "./screens/TimerScreen";
 import timerSetupDefaultData from "./config/timerSetupDefaultData";
 import WorkoutListScreen from "./screens/WorkoutListScreen";
 import NavBar from "./components/NavBar";
-import Icon from "./components/Icon";
+import ImgWorkout from "./components/ImgWorkout";
 
 function App() {
   const [tabBarShow, setTabBarShow] = useState(true);
@@ -17,11 +17,10 @@ function App() {
 
   return (
     <>
-      <Icon.AddCircle />;
-      <Icon.Add />;
-      <Icon.AddPhotoAlternate />;
-      <Icon.Apple />;
-      <Icon.ArrowBottom />;
+      <ImgWorkout.PlankElbow />
+      <ImgWorkout.PlankFull />
+      <ImgWorkout.PlankSideLeft />
+      <ImgWorkout.PlankSideRight />
     </>
   );
 
