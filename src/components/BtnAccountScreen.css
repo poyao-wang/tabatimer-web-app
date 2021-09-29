@@ -1,0 +1,37 @@
+.btn-account-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.15rem;
+  width: 6.5rem;
+  font-size: 0.5rem;
+  line-height: 1.2rem;
+  color: white;
+  transition-duration: 100ms;
+}
+
+.btn-account-screen:hover {
+  transform: scale(1.03);
+}
+
+.btn-account-screen .icon {
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-right: 0.35rem;
+}
+
+.btn-account-screen svg path {
+  fill: white;
+}
+
+.btn-account-screen--sign-in {
+  background-color: var(--color-dark);
+}
+
+.btn-account-screen--apple {
+  background-color: var(--color-dark);
+}
+
+.btn-account-screen--google {
+  background-color: var(--color-red-google);
+}
