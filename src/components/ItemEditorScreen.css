@@ -1,0 +1,46 @@
+.item-editor-screen {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 8.55rem;
+  transition-duration: 100ms;
+}
+
+.item-editor-screen .icon {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.item-editor-screen:hover {
+  transform: scale(1.02);
+}
+
+.item-editor-screen__div-r {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.item-editor-screen__title {
+  font-size: 0.5rem;
+  line-height: 0.7rem;
+  margin: 0;
+  text-align: left;
+}
+
+.item-editor-screen__subtitle {
+  font-size: 0.3rem;
+  line-height: 0.5rem;
+  margin: 0;
+  text-align: left;
+  text-indent: 0.35rem;
+}
+
+.item-editor-screen__value {
+  font-size: 0.5rem;
+  line-height: 0.5rem;
+  margin: 0;
+  display: block;
+}
