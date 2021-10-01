@@ -1,0 +1,55 @@
+.item-workout-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 8.5rem;
+  padding: 0.15rem 0;
+  border-bottom: 1px solid var(--color-dark);
+}
+.list-order-btns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 0.25rem;
+}
+
+.list-order-btns a:hover {
+  transform: scale(1.1);
+}
+
+.item-workout-list .img-workout-container {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-left: 0.6rem;
+}
+
+.item-workout-list .img-workout-container img {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.item-workout-list .icon {
+  width: 1rem;
+  height: 1rem;
+}
+.item-workout-list .icon-add-image {
+  margin-left: 0.6rem;
+  line-height: 0;
+}
+
+.item-workout-list .icon-add-image:hover {
+  transform: scale(1.1);
+}
+
+.item-workout-list__number-container {
+  width: 1.1rem;
+  margin-left: 0.6rem;
+}
+
+.item-workout-list__number {
+  font-size: 0.8rem;
+  line-height: 1rem;
+  margin: 0;
+}
