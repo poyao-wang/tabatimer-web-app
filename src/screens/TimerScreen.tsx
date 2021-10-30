@@ -3,11 +3,15 @@ import { useSpring, animated } from "react-spring";
 
 import "./TimerScreen.css";
 import { MainContext } from "../config/MainContext";
+import MainContainerBtm from "../components/MainContainerBtm";
+import Icon from "../components/Icon";
+import MainContainerMid from "../components/MainContainerMid";
+import FractionTimerScreen from "../components/FractionTimerScreen";
 
-function TimerScreen(props) {
+const TimerScreen: React.FC = (props) => {
   const {
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
-  } = useContext(MainContext);
+  } = useContext(MainContext) as any;
 
   const [timeData, setTimeData] = useState(mainData.workoutSetup.workoutArray);
   const [flatListArray, setFlatListArray] = useState(
@@ -16,8 +20,11 @@ function TimerScreen(props) {
   const [timerOn, setTimerOn] = useState(false);
   const [btnPressable, setBtnPressable] = useState(true);
   const [sectionId, setSectionId] = useState(0);
-  const [centerContainerItemsValues, setCenterContainerItemsValues] =
-    useState(null);
+  const [centerContainerItemsValues, setCenterContainerItemsValues] = useState({
+    lt: { index: null, imageUri: null },
+    mi: { index: null, imageUri: null },
+    rt: { index: null, imageUri: null },
+  });
 
   const [{ sectionSeconds }, api] = useSpring(() => ({
     from: { sectionSeconds: 0 },
@@ -27,7 +34,7 @@ function TimerScreen(props) {
     setTimerOn(!timerOn);
   }
 
-  function setPlusOrMinus(plus) {
+  function setPlusOrMinus(plus: boolean) {
     setTimerOn(false);
 
     const workoutNo = 1;
@@ -47,7 +54,7 @@ function TimerScreen(props) {
     setSectionId(newSectionId);
   }
 
-  function setWorkoutPlusOrMinus(plus) {
+  function setWorkoutPlusOrMinus(plus: boolean) {
     setTimerOn(false);
     const totalWorkoutAmt = mainData.workouts.value;
     let workoutNo = timeData[sectionId].workoutNo;
@@ -96,8 +103,12 @@ function TimerScreen(props) {
     const totalWorkoutAmt = mainData.workouts.value;
     const currentWoroutNo = timeData[sectionId].workoutNo;
 
-    function createReturnObj(ltIndexNo, miIndexNo, rtIndexNo) {
-      function retrunObj(indexNo) {
+    function createReturnObj(
+      ltIndexNo: number | null,
+      miIndexNo: number | null,
+      rtIndexNo: number | null
+    ) {
+      function retrunObj(indexNo: number | null) {
         return {
           index: indexNo,
           imageUri: indexNo !== null ? flatListArray[indexNo].image : "",
@@ -147,90 +158,107 @@ function TimerScreen(props) {
     if (timerOn) {
       timerAnimationLoop(0);
     }
-    setCenterContainerItemsValues(createCenterContainerItemsValues());
+    setCenterContainerItemsValues(createCenterContainerItemsValues() as any);
   }, [sectionId]);
 
   return (
     <>
-      <div className="center-container">
-        <div className="center-container-top">
+      <MainContainerMid customClassName="in-timer-screen">
+        <div className="container-top">
           <animated.div>{sectionSeconds.to((n) => n.toFixed(2))}</animated.div>
           <div>{timeData[sectionId].type}</div>
         </div>
-        <div className="center-container-mid">
-          <div className="center-container-mid-item">
-            <div className="img-container">
-              {centerContainerItemsValues?.lt?.index}
+        <div className="container-mid">
+          <div className="container-mid__container">
+            <div className="img-container img-container--left">
+              <a
+                href="#"
+                onClick={() => {
+                  setWorkoutPlusOrMinus(false);
+                }}
+              >
+                <div className="icon-bg" />
+                <Icon.SkipPreviousCircle />
+              </a>
               <img
-                src={centerContainerItemsValues?.lt?.imageUri}
+                src={
+                  centerContainerItemsValues?.lt?.imageUri
+                    ? centerContainerItemsValues?.lt?.imageUri
+                    : ""
+                }
                 alt="lt-img"
               />
             </div>
-            <button
-              onClick={() => {
-                setWorkoutPlusOrMinus(false);
-              }}
-            >
-              {"<"}
-            </button>
           </div>
-          <div className="center-container-mid-item">
-            <div className="img-container">
-              {centerContainerItemsValues?.mi?.index}
+          <div className="container-mid__container">
+            <div className="img-container img-container--mid">
               <img
-                src={centerContainerItemsValues?.mi?.imageUri}
+                src={
+                  centerContainerItemsValues?.mi?.imageUri
+                    ? centerContainerItemsValues?.mi?.imageUri
+                    : ""
+                }
                 alt="mi-img"
               />
             </div>
           </div>
-          <div className="center-container-mid-item">
-            <div className="img-container">
-              {centerContainerItemsValues?.rt?.index}
+          <div className="container-mid__container">
+            <div className="img-container img-container--right">
+              <a
+                href="#"
+                onClick={() => {
+                  setWorkoutPlusOrMinus(true);
+                }}
+              >
+                <div className="icon-bg" />
+                <Icon.SkipNextCircle />
+              </a>
               <img
-                src={centerContainerItemsValues?.rt?.imageUri}
+                src={
+                  centerContainerItemsValues?.rt?.imageUri
+                    ? centerContainerItemsValues?.rt?.imageUri
+                    : ""
+                }
                 alt="rt-img"
               />
             </div>
-            <button
-              onClick={() => {
-                setWorkoutPlusOrMinus(true);
-              }}
-            >
-              {">"}
-            </button>
           </div>
         </div>
-        <div className="center-container-low">
-          <div className="center-container-low-item-container">
-            {"Set: " +
-              timeData[sectionId].setNo.toString() +
-              " / " +
-              mainData.sets.value}
+        <div className="container-btm">
+          <div className="container-btm__container">
+            <FractionTimerScreen
+              title="Set"
+              textTop={timeData[sectionId].setNo.toString()}
+              textBtm={mainData.sets.value}
+            />
           </div>
-          <div className="center-container-low-item-container">
-            <button onClick={toggle}>{timerOn ? "Pause" : "Play"}</button>
+          <div className="container-btm__container">
+            <a onClick={toggle}>
+              {timerOn ? <Icon.Cancel /> : <Icon.PlayCircle />}
+            </a>
           </div>
-          <div className="center-container-low-item-container">
-            {"Workout: " +
-              timeData[sectionId].workoutNo.toString() +
-              " / " +
-              mainData.workouts.value}
+          <div className="container-btm__container">
+            <FractionTimerScreen
+              title="Workout"
+              textTop={timeData[sectionId].workoutNo.toString()}
+              textBtm={mainData.workouts.value}
+            />
           </div>
         </div>
-      </div>
-      <div className="bottom-container">
-        <div className="bottom-container-item">
-          <button onClick={() => setPlusOrMinus(true)}>Set +</button>
-        </div>
-        <div className="bottom-container-item">
-          <button onClick={() => setPlusOrMinus(false)}>Set -</button>
-        </div>
-        <div className="bottom-container-item">
-          <button onClick={reset}>Reset</button>
-        </div>
-      </div>
+      </MainContainerMid>
+      <MainContainerBtm>
+        <a href="#" onClick={() => setPlusOrMinus(true)}>
+          <Icon.AddCircle />
+        </a>
+        <a href="#" onClick={() => setPlusOrMinus(false)}>
+          <Icon.RemoveCircle />
+        </a>
+        <a href="#" onClick={reset}>
+          <Icon.RestartAlt />
+        </a>
+      </MainContainerBtm>
     </>
   );
-}
+};
 
 export default TimerScreen;
