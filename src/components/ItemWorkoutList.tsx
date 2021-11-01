@@ -17,7 +17,7 @@ const ItemWorkoutList: React.FC<ItemWorkoutListProps> = ({ item, index }) => {
   } = useContext(MainContext as any);
 
   const [imageSrc, setImageSrc] = useState(
-    mainData.workoutSetup.flatListArray[index].image
+    mainData.workoutSetup.flatListArray[index].imgSrcForReact
   );
 
   const inputRef = createRef<HTMLInputElement>();

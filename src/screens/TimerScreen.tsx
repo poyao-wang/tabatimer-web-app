@@ -11,7 +11,7 @@ import FractionTimerScreen from "../components/FractionTimerScreen";
 const TimerScreen: React.FC = (props) => {
   const {
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
-  } = useContext(MainContext) as any;
+  } = useContext(MainContext);
 
   const [timeData, setTimeData] = useState(mainData.workoutSetup.workoutArray);
   const [flatListArray, setFlatListArray] = useState(
@@ -86,7 +86,7 @@ const TimerScreen: React.FC = (props) => {
   function timerAnimationLoop(startTime = 0) {
     api.start({
       from: { sectionSeconds: startTime },
-      to: timeData[sectionId].duration,
+      to: { sectionSeconds: timeData[sectionId].duration },
       config: { duration: (timeData[sectionId].duration - startTime) * 1000 },
       onRest: ({ finished }) => {
         if (sectionId + 1 > timeData.length - 1) {
@@ -111,7 +111,8 @@ const TimerScreen: React.FC = (props) => {
       function retrunObj(indexNo: number | null) {
         return {
           index: indexNo,
-          imageUri: indexNo !== null ? flatListArray[indexNo].image : "",
+          imageUri:
+            indexNo !== null ? flatListArray[indexNo].imgSrcForReact : "",
         };
       }
 
@@ -229,7 +230,7 @@ const TimerScreen: React.FC = (props) => {
             <FractionTimerScreen
               title="Set"
               textTop={timeData[sectionId].setNo.toString()}
-              textBtm={mainData.sets.value}
+              textBtm={mainData.sets.value.toString()}
             />
           </div>
           <div className="container-btm__container">
@@ -241,7 +242,7 @@ const TimerScreen: React.FC = (props) => {
             <FractionTimerScreen
               title="Workout"
               textTop={timeData[sectionId].workoutNo.toString()}
-              textBtm={mainData.workouts.value}
+              textBtm={mainData.workouts.value.toString()}
             />
           </div>
         </div>
