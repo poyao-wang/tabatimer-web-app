@@ -1,5 +1,19 @@
-const makeWorkoutsArray = (mainData) => {
-  let newArray = [];
+import {
+  WorkoutSetupProps,
+  ItemWorkoutArrayProps,
+  ItemFlatListArrayProps,
+} from "./timerSetupDefaultData";
+
+// Imports for React Native
+// import Constants from "expo-constants";
+
+// Imports for React
+const currentAppVer = process.env.REACT_APP_VERSION as string;
+
+const makeWorkoutsArray: (
+  mainData: WorkoutSetupProps
+) => ItemWorkoutArrayProps[] = (mainData) => {
+  let newArray: ItemWorkoutArrayProps[] = [];
   const setAmt = mainData.sets.value;
   const workoutAmt = mainData.workouts.value;
   const workoutTime = mainData.workoutTime.value;
@@ -67,7 +81,10 @@ const makeWorkoutsArray = (mainData) => {
   return newArray;
 };
 
-const makeFlatListArray = (mainData, workoutAmt) => {
+const makeFlatListArray: (
+  mainData: WorkoutSetupProps,
+  workoutAmt: number
+) => ItemFlatListArrayProps[] = (mainData, workoutAmt) => {
   let newArray = [...mainData.workoutSetup.flatListArray];
   let arrayLength = newArray.length;
   if (arrayLength > workoutAmt) {
@@ -76,20 +93,28 @@ const makeFlatListArray = (mainData, workoutAmt) => {
     }
   } else if (arrayLength < workoutAmt) {
     for (let i = 0; i < workoutAmt - arrayLength; i++) {
-      newArray.push({});
+      newArray.push({
+        id: "new",
+        image: null,
+        imgSrcForReact: "",
+        name: "new",
+      });
     }
   }
 
   for (let i = 0; i < newArray.length; i++) {
     newArray[i].id = i;
     if (!newArray[i].name) newArray[i].name = `workout${i + 1}`;
-    if (!newArray[i].image) newArray[i].image = "";
+    if (!newArray[i].image) newArray[i].image = null;
   }
 
   return newArray;
 };
 
-const resetFlatListArray = (mainData, workoutAmt) => {
+const resetFlatListArray: (
+  mainData: WorkoutSetupProps,
+  workoutAmt: number
+) => ItemFlatListArrayProps[] = (mainData, workoutAmt) => {
   let newArray = [...mainData.workoutSetup.flatListArray];
   let arrayLength = newArray.length;
   if (arrayLength > workoutAmt) {
@@ -98,20 +123,25 @@ const resetFlatListArray = (mainData, workoutAmt) => {
     }
   } else if (arrayLength < workoutAmt) {
     for (let i = 0; i < workoutAmt - arrayLength; i++) {
-      newArray.push({});
+      newArray.push({
+        id: "new",
+        image: null,
+        imgSrcForReact: "",
+        name: "new",
+      });
     }
   }
 
   for (let i = 0; i < newArray.length; i++) {
     newArray[i].id = i;
     if (!newArray[i].name) newArray[i].name = `workout${i + 1}`;
-    newArray[i].image = "";
+    newArray[i].image = null;
   }
 
   return newArray;
 };
 
-const resetMainData = (mainData) => {
+const resetMainData: (mainData: WorkoutSetupProps) => void = (mainData) => {
   mainData.prepareTime.value = 15;
   mainData.workoutTime.value = 30;
   mainData.restTime.value = 10;
@@ -119,7 +149,11 @@ const resetMainData = (mainData) => {
   mainData.sets.value = 3;
   mainData.workouts.value = 6;
 
-  mainData.settings = { playSound: true };
+  mainData.settings = {
+    playSound: true,
+    language: "en",
+    appVer: currentAppVer,
+  };
   mainData.workoutSetup.updated = true;
   mainData.workoutSetup.workoutArray = makeWorkoutsArray(mainData);
   mainData.workoutSetup.flatListArray = makeFlatListArray(
@@ -128,7 +162,12 @@ const resetMainData = (mainData) => {
   );
 };
 
-const totalSecToMinAndSec = (totalSec) => {
+const totalSecToMinAndSec: (totalSec: number) => {
+  min: number;
+  sec: number;
+  displayText: string;
+  mixedText: string;
+} = (totalSec) => {
   const min = Math.floor(totalSec / 60);
   const sec = totalSec - 60 * min;
   const displayText = ("00" + min).slice(-2) + ":" + ("00" + sec).slice(-2);
@@ -136,7 +175,7 @@ const totalSecToMinAndSec = (totalSec) => {
   return { min, sec, displayText, mixedText };
 };
 
-const checkImageUri = (uri) => {
+const checkImageUri = (uri: any) => {
   let source = typeof uri === "string" ? { uri } : uri;
 
   if (!uri) source = null;
