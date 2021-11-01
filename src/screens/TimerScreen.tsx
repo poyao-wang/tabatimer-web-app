@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { useSpring, animated } from "react-spring";
 
 import "./TimerScreen.css";
@@ -7,6 +7,13 @@ import MainContainerBtm from "../components/MainContainerBtm";
 import Icon from "../components/Icon";
 import MainContainerMid from "../components/MainContainerMid";
 import FractionTimerScreen from "../components/FractionTimerScreen";
+
+interface ImgContainerProps {
+  type: "left" | "mid" | "right";
+  imgSrc: string;
+  icon: ReactElement;
+  btnOnClick: () => void;
+}
 
 const TimerScreen: React.FC = (props) => {
   const {
@@ -162,6 +169,20 @@ const TimerScreen: React.FC = (props) => {
     setCenterContainerItemsValues(createCenterContainerItemsValues() as any);
   }, [sectionId]);
 
+  const ImgContainerSide: React.FC<ImgContainerProps> = (props) => {
+    return props.imgSrc ? (
+      <div className={"img-container img-container--" + props.type}>
+        <a href="#" onClick={props.btnOnClick}>
+          <div className="icon-bg" />
+          {props.icon}
+        </a>
+        <img src={props.imgSrc} alt={"img" + props.type} />
+      </div>
+    ) : (
+      <div className={"img-container img-container--hidden"} />
+    );
+  };
+
   return (
     <>
       <MainContainerMid customClassName="in-timer-screen">
@@ -171,25 +192,18 @@ const TimerScreen: React.FC = (props) => {
         </div>
         <div className="container-mid">
           <div className="container-mid__container">
-            <div className="img-container img-container--left">
-              <a
-                href="#"
-                onClick={() => {
-                  setWorkoutPlusOrMinus(false);
-                }}
-              >
-                <div className="icon-bg" />
-                <Icon.SkipPreviousCircle />
-              </a>
-              <img
-                src={
-                  centerContainerItemsValues?.lt?.imageUri
-                    ? centerContainerItemsValues?.lt?.imageUri
-                    : ""
-                }
-                alt="lt-img"
-              />
-            </div>
+            <ImgContainerSide
+              icon={<Icon.SkipPreviousCircle />}
+              type="left"
+              imgSrc={
+                centerContainerItemsValues?.lt?.imageUri
+                  ? centerContainerItemsValues?.lt?.imageUri
+                  : ""
+              }
+              btnOnClick={() => {
+                setWorkoutPlusOrMinus(false);
+              }}
+            />
           </div>
           <div className="container-mid__container">
             <div className="img-container img-container--mid">
@@ -204,25 +218,18 @@ const TimerScreen: React.FC = (props) => {
             </div>
           </div>
           <div className="container-mid__container">
-            <div className="img-container img-container--right">
-              <a
-                href="#"
-                onClick={() => {
-                  setWorkoutPlusOrMinus(true);
-                }}
-              >
-                <div className="icon-bg" />
-                <Icon.SkipNextCircle />
-              </a>
-              <img
-                src={
-                  centerContainerItemsValues?.rt?.imageUri
-                    ? centerContainerItemsValues?.rt?.imageUri
-                    : ""
-                }
-                alt="rt-img"
-              />
-            </div>
+            <ImgContainerSide
+              icon={<Icon.SkipNextCircle />}
+              type="right"
+              imgSrc={
+                centerContainerItemsValues?.rt?.imageUri
+                  ? centerContainerItemsValues?.rt?.imageUri
+                  : ""
+              }
+              btnOnClick={() => {
+                setWorkoutPlusOrMinus(true);
+              }}
+            />
           </div>
         </div>
         <div className="container-btm">

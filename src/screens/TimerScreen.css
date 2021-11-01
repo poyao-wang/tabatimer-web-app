@@ -63,6 +63,10 @@
   transform: scale(0.7) translateX(-0.5rem);
 }
 
+.in-timer-screen .img-container--hidden {
+  opacity: 0;
+}
+
 .in-timer-screen .img-container img {
   color: white;
   width: 100%;
