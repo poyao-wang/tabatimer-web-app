@@ -7,6 +7,13 @@ import MainContainerBtm from "../components/MainContainerBtm";
 import Icon from "../components/Icon";
 import MainContainerMid from "../components/MainContainerMid";
 import FractionTimerScreen from "../components/FractionTimerScreen";
+import useTimerControl, {
+  ResetTimerCBs,
+  ScrollingChangeSectionCBs,
+  SetPlusOrMinusCBs,
+  StateChangeSectionIdCBs,
+  StateChangeTimerOnCBs,
+} from "../hook/useTimerControl";
 
 interface ImgContainerProps {
   type: "left" | "mid" | "right";
@@ -17,16 +24,44 @@ interface ImgContainerProps {
 
 const TimerScreen: React.FC = (props) => {
   const {
-    timer: { timerSetup: mainData, setTimerSetup: setMainData },
+    timer: useTimerSetupState,
+    tabBar: { setTabBarShow },
+    // language: { uiText }, TODO: Language support
   } = useContext(MainContext);
 
-  const [timeData, setTimeData] = useState(mainData.workoutSetup.workoutArray);
-  const [flatListArray, setFlatListArray] = useState(
-    mainData.workoutSetup.flatListArray
+  const [timeData, setTimeData] = useState(
+    useTimerSetupState.timerSetup.workoutSetup.workoutArray
   );
-  const [timerOn, setTimerOn] = useState(false);
+
+  // TODO: Play sound support
+
+  const [workoutArray, setWorkoutArray] = useState(
+    useTimerSetupState.timerSetup.workoutSetup.workoutArray
+  );
+  const [flatListArray, setFlatListArray] = useState(
+    useTimerSetupState.timerSetup.workoutSetup.flatListArray
+  );
+
+  const {
+    timerOn: { current: timerOn, set: setTimerOn },
+    sectionId: { current: sectionId, set: setSectionId },
+    hidableBtnsShow: { current: hidableBtnsShow, set: setHidableBtnsShow },
+    directControlFns: {
+      toggleOnOff: toggle,
+      setPlusOrMinus: setPlusOrMinus,
+      resetTimer: reset,
+      scrollingChangeSection: scrollingChangeSection,
+    },
+    stateChange: {
+      hidableBtnsShow: StateChangeHidableBtnsShow,
+      workoutArray: StateChangeWorkoutArray,
+      sectionId: StateChangeSectionId,
+      timerOn: StateChangeTimerOn,
+    },
+  } = useTimerControl(workoutArray, useTimerSetupState);
+
   const [btnPressable, setBtnPressable] = useState(true);
-  const [sectionId, setSectionId] = useState(0);
+
   const [centerContainerItemsValues, setCenterContainerItemsValues] = useState({
     lt: { index: null, imageUri: null },
     mi: { index: null, imageUri: null },
@@ -37,33 +72,9 @@ const TimerScreen: React.FC = (props) => {
     from: { sectionSeconds: 0 },
   }));
 
-  function toggle() {
-    setTimerOn(!timerOn);
-  }
-
-  function setPlusOrMinus(plus: boolean) {
-    setTimerOn(false);
-
-    const workoutNo = 1;
-    let setNo = timeData[sectionId].setNo;
-    if (setNo == 0) setNo = 1;
-    setNo = plus ? setNo + 1 : setNo - 1;
-
-    const totalWorkoutAmt = mainData.workouts.value;
-    const totalSetAmt = mainData.sets.value;
-
-    if (setNo <= 0) return;
-    if (setNo > totalSetAmt) return;
-
-    const newSectionId =
-      1 + (setNo - 1) * 2 * totalWorkoutAmt + (workoutNo - 1) * 2;
-    sectionSeconds.set(0);
-    setSectionId(newSectionId);
-  }
-
   function setWorkoutPlusOrMinus(plus: boolean) {
     setTimerOn(false);
-    const totalWorkoutAmt = mainData.workouts.value;
+    const totalWorkoutAmt = useTimerSetupState.timerSetup.workouts.value;
     let workoutNo = timeData[sectionId].workoutNo;
     if (plus) {
       if (workoutNo + 1 <= totalWorkoutAmt) workoutNo = workoutNo + 1;
@@ -84,12 +95,6 @@ const TimerScreen: React.FC = (props) => {
     setSectionId(newSectionId);
   }
 
-  function reset() {
-    setTimerOn(false);
-    sectionSeconds.set(0);
-    setSectionId(0);
-  }
-
   function timerAnimationLoop(startTime = 0) {
     api.start({
       from: { sectionSeconds: startTime },
@@ -107,7 +112,7 @@ const TimerScreen: React.FC = (props) => {
   }
 
   function createCenterContainerItemsValues() {
-    const totalWorkoutAmt = mainData.workouts.value;
+    const totalWorkoutAmt = useTimerSetupState.timerSetup.workouts.value;
     const currentWoroutNo = timeData[sectionId].workoutNo;
 
     function createReturnObj(
@@ -144,28 +149,95 @@ const TimerScreen: React.FC = (props) => {
     );
   }
 
+  // Directly control functions callbacks
+
+  const setPlusOrMinusCallbacks: SetPlusOrMinusCBs = {
+    setTotalSecAndUpdateInput: (newSectionId) => {
+      console.log("setTotalSecAndUpdateInput called"); // non exist in web ver
+    },
+    resetSectionSeconds: () => {
+      sectionSeconds.set(0);
+    },
+    picturesScrollToHead: () => {
+      console.log("picturesScrollToHead called");
+    },
+    updateSetInput: (newSectionId) => {
+      console.log("updateSetInput called");
+    },
+    resetBgAnime: () => {
+      console.log("resetBgAnime called");
+    },
+  };
+
+  const resetTimerCallbacks: ResetTimerCBs = {
+    resetTotalSecAndInput: () => {
+      console.log("resetTotalSecAndInput called");
+    },
+    resetSectionSeconds: () => {
+      sectionSeconds.set(0);
+    },
+    picturesScrollToHead: () => {
+      setSectionId(0);
+    },
+    resetSetInput: () => {
+      console.log("resetSetInput called");
+    },
+    resetSectionSecondsRemainsInput: () => {
+      console.log("resetSectionSecondsRemainsInput called");
+    },
+    resetBgAnime: () => {
+      console.log("resetBgAnime called");
+    },
+  };
+
+  const stateChangeTimerOnCallbacks: StateChangeTimerOnCBs = {
+    startAnimeLoop: () => {
+      timerAnimationLoop(sectionSeconds.get());
+    },
+    stppAnimeLoop: () => {
+      api.stop();
+    },
+  };
+
+  const stateChangeSectionIdCallbacks: StateChangeSectionIdCBs = {
+    changeBgColor: (sectionType) => {
+      // TODO:
+    },
+    picturesScrollToIndex: (index) => {
+      setCenterContainerItemsValues(createCenterContainerItemsValues() as any);
+    },
+    resetSectionSeconds: () => {
+      // sectionSeconds.setValue(0);
+    },
+    resetBackgroundAnimationValue: () => {
+      // TODO:
+    },
+    updateSetInput: (sectionId) => {
+      // non in web ver
+    },
+    startNewSectionAnimeLoop: () => {
+      timerAnimationLoop(0);
+    },
+  };
+
+  StateChangeTimerOn(stateChangeTimerOnCallbacks);
+  StateChangeSectionId(stateChangeSectionIdCallbacks);
+
+  // Other useEffects
+
   useEffect(() => {
-    if (mainData.workoutSetup.updated) {
-      setFlatListArray(mainData.workoutSetup.flatListArray);
-      setTimeData(mainData.workoutSetup.workoutArray);
-      reset();
-      mainData.workoutSetup.updated = false;
-      setMainData(mainData);
+    if (useTimerSetupState.timerSetup.workoutSetup.updated) {
+      setFlatListArray(
+        useTimerSetupState.timerSetup.workoutSetup.flatListArray
+      );
+      setTimeData(useTimerSetupState.timerSetup.workoutSetup.workoutArray);
+      reset(resetTimerCallbacks);
+      useTimerSetupState.timerSetup.workoutSetup.updated = false;
+      useTimerSetupState.setTimerSetup(useTimerSetupState.timerSetup);
     }
   }, []);
 
   useEffect(() => {
-    if (timerOn) {
-      timerAnimationLoop(sectionSeconds.get());
-    } else {
-      api.stop();
-    }
-  }, [timerOn]);
-
-  useEffect(() => {
-    if (timerOn) {
-      timerAnimationLoop(0);
-    }
     setCenterContainerItemsValues(createCenterContainerItemsValues() as any);
   }, [sectionId]);
 
@@ -237,7 +309,7 @@ const TimerScreen: React.FC = (props) => {
             <FractionTimerScreen
               title="Set"
               textTop={timeData[sectionId].setNo.toString()}
-              textBtm={mainData.sets.value.toString()}
+              textBtm={useTimerSetupState.timerSetup.sets.value.toString()}
             />
           </div>
           <div className="container-btm__container">
@@ -249,19 +321,25 @@ const TimerScreen: React.FC = (props) => {
             <FractionTimerScreen
               title="Workout"
               textTop={timeData[sectionId].workoutNo.toString()}
-              textBtm={mainData.workouts.value.toString()}
+              textBtm={useTimerSetupState.timerSetup.workouts.value.toString()}
             />
           </div>
         </div>
       </MainContainerMid>
       <MainContainerBtm>
-        <a href="#" onClick={() => setPlusOrMinus(true)}>
+        <a
+          href="#"
+          onClick={() => setPlusOrMinus(true, setPlusOrMinusCallbacks)}
+        >
           <Icon.AddCircle />
         </a>
-        <a href="#" onClick={() => setPlusOrMinus(false)}>
+        <a
+          href="#"
+          onClick={() => setPlusOrMinus(false, setPlusOrMinusCallbacks)}
+        >
           <Icon.RemoveCircle />
         </a>
-        <a href="#" onClick={reset}>
+        <a href="#" onClick={() => reset(resetTimerCallbacks)}>
           <Icon.RestartAlt />
         </a>
       </MainContainerBtm>
