@@ -259,7 +259,11 @@ const TimerScreen: React.FC = (props) => {
     <>
       <MainContainerMid customClassName="in-timer-screen">
         <div className="container-top">
-          <animated.div>{sectionSeconds.to((n) => n.toFixed(2))}</animated.div>
+          <animated.div>
+            {sectionSeconds.to((n) =>
+              Math.ceil(workoutArray[sectionId].duration - n)
+            )}
+          </animated.div>
           <div>{timeData[sectionId].type}</div>
         </div>
         <div className="container-mid">
