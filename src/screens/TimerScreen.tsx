@@ -257,6 +257,31 @@ const TimerScreen: React.FC = (props) => {
 
   return (
     <>
+      <animated.div
+        style={{
+          zIndex: -1,
+          position: "absolute",
+          width: "100vw",
+          height: sectionSeconds.to(
+            (n) => `${(n * 100) / workoutArray[sectionId].duration}vh`
+          ),
+          backgroundColor: "white",
+        }}
+      />
+      <animated.div
+        style={{
+          zIndex: -2,
+          position: "absolute",
+          width: "100vw",
+          height: "100vh",
+          backgroundColor:
+            workoutArray[sectionId].type === "workout"
+              ? "red"
+              : workoutArray[sectionId].type === "rest"
+              ? "green"
+              : "gray",
+        }}
+      />
       <MainContainerMid customClassName="in-timer-screen">
         <div className="container-top">
           <animated.div>

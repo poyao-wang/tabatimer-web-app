@@ -55,6 +55,7 @@ html {
   }
 
   .screen-container {
+    justify-content: start;
     flex-direction: column;
   }
 
@@ -75,7 +76,7 @@ html {
 
   .screen-container {
     flex-direction: row-reverse;
-    justify-content: center;
+    align-items: flex-start;
   }
 
   .top-container {
