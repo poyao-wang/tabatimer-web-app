@@ -22,6 +22,12 @@ interface ImgContainerProps {
   btnOnClick: () => void;
 }
 
+interface CenterContainerItemsValuesProps {
+  lt: { index: number | null; imageUri: string | null };
+  mi: { index: number | null; imageUri: string | null };
+  rt: { index: number | null; imageUri: string | null };
+}
+
 const TimerScreen: React.FC = (props) => {
   const {
     timer: useTimerSetupState,
@@ -62,14 +68,19 @@ const TimerScreen: React.FC = (props) => {
 
   const [btnPressable, setBtnPressable] = useState(true);
 
-  const [centerContainerItemsValues, setCenterContainerItemsValues] = useState({
-    lt: { index: null, imageUri: null },
-    mi: { index: null, imageUri: null },
-    rt: { index: null, imageUri: null },
-  });
+  const [centerContainerItemsValues, setCenterContainerItemsValues] =
+    useState<CenterContainerItemsValuesProps>({
+      lt: { index: null, imageUri: null },
+      mi: { index: null, imageUri: null },
+      rt: { index: null, imageUri: null },
+    });
 
-  const [{ sectionSeconds }, api] = useSpring(() => ({
+  const [{ sectionSeconds }, sectionSecondsApi] = useSpring(() => ({
     from: { sectionSeconds: 0 },
+  }));
+
+  const [{ secondsOpacity, textOpacity }, opacityApi] = useSpring(() => ({
+    from: { secondsOpacity: 1, textOpacity: 0 },
   }));
 
   function setWorkoutPlusOrMinus(plus: boolean) {
@@ -96,7 +107,7 @@ const TimerScreen: React.FC = (props) => {
   }
 
   function timerAnimationLoop(startTime = 0) {
-    api.start({
+    sectionSecondsApi.start({
       from: { sectionSeconds: startTime },
       to: { sectionSeconds: timeData[sectionId].duration },
       config: { duration: (timeData[sectionId].duration - startTime) * 1000 },
@@ -109,9 +120,16 @@ const TimerScreen: React.FC = (props) => {
         console.log("finished", finished);
       },
     });
+    opacityApi.start({
+      to: [
+        { secondsOpacity: 0, textOpacity: 1 },
+        { secondsOpacity: 1, textOpacity: 0 },
+      ],
+      reset: true,
+    });
   }
 
-  function createCenterContainerItemsValues() {
+  function createCenterContainerItemsValues(): CenterContainerItemsValuesProps {
     const totalWorkoutAmt = useTimerSetupState.timerSetup.workouts.value;
     const currentWoroutNo = timeData[sectionId].workoutNo;
 
@@ -195,7 +213,7 @@ const TimerScreen: React.FC = (props) => {
       timerAnimationLoop(sectionSeconds.get());
     },
     stppAnimeLoop: () => {
-      api.stop();
+      sectionSecondsApi.stop();
     },
   };
 
@@ -204,7 +222,7 @@ const TimerScreen: React.FC = (props) => {
       // TODO:
     },
     picturesScrollToIndex: (index) => {
-      setCenterContainerItemsValues(createCenterContainerItemsValues() as any);
+      setCenterContainerItemsValues(createCenterContainerItemsValues());
     },
     resetSectionSeconds: () => {
       // sectionSeconds.setValue(0);
@@ -257,7 +275,7 @@ const TimerScreen: React.FC = (props) => {
 
   return (
     <>
-      <animated.div
+      <animated.div // TODO: refactor styles, give classname
         style={{
           zIndex: -1,
           position: "absolute",
@@ -268,12 +286,13 @@ const TimerScreen: React.FC = (props) => {
           backgroundColor: "white",
         }}
       />
-      <animated.div
+      <div // TODO: refactor styles, give classname
         style={{
           zIndex: -2,
           position: "absolute",
           width: "100vw",
           height: "100vh",
+          transitionDuration: "200ms",
           backgroundColor:
             workoutArray[sectionId].type === "workout"
               ? "red"
@@ -284,12 +303,18 @@ const TimerScreen: React.FC = (props) => {
       />
       <MainContainerMid customClassName="in-timer-screen">
         <div className="container-top">
-          <animated.div>
+          <animated.div // TODO: refactor styles, give classname
+            style={{ opacity: secondsOpacity }}
+          >
             {sectionSeconds.to((n) =>
               Math.ceil(workoutArray[sectionId].duration - n)
             )}
           </animated.div>
-          <div>{timeData[sectionId].type}</div>
+          <animated.div // TODO: refactor styles, give classname
+            style={{ position: "absolute", opacity: textOpacity }}
+          >
+            {timeData[sectionId].type}
+          </animated.div>
         </div>
         <div className="container-mid">
           <div className="container-mid__container">
