@@ -7,6 +7,7 @@ import MainContainerBtm from "../components/MainContainerBtm";
 import Icon from "../components/Icon";
 import MainContainerMid from "../components/MainContainerMid";
 import FractionTimerScreen from "../components/FractionTimerScreen";
+import useAudio from "../hook/useAudio";
 import useTimerControl, {
   ResetTimerCBs,
   ScrollingChangeSectionCBs,
@@ -41,7 +42,7 @@ const TimerScreen: React.FC = (props) => {
     useTimerSetupState.timerSetup.workoutSetup.workoutArray
   );
 
-  // TODO: Play sound support
+  const { playSound, playTickingSound } = useAudio();
 
   const [workoutArray, setWorkoutArray] = useState(
     useTimerSetupState.timerSetup.workoutSetup.workoutArray
@@ -109,24 +110,68 @@ const TimerScreen: React.FC = (props) => {
   }
 
   function timerAnimationLoop(startTime = 0) {
+    let sectionSecondsRemainsCeil: number;
+    let newSectionSecondsRemainsCeil: number;
+
     sectionSecondsApi.start({
       from: { sectionSeconds: startTime },
       to: { sectionSeconds: timeData[sectionId].duration },
       config: { duration: (timeData[sectionId].duration - startTime) * 1000 },
-      onRest: ({ finished }) => {
-        if (sectionId + 1 > timeData.length - 1) {
-          setTimerOn(false);
-        } else {
-          if (finished) setSectionId(sectionId + 1);
+      onChange: ({ value: { sectionSeconds: value } }) => {
+        // Calc newSectionSecondsRemainsCeil
+        newSectionSecondsRemainsCeil = Math.ceil(
+          workoutArray[sectionId].duration - value
+        );
+        if (newSectionSecondsRemainsCeil !== sectionSecondsRemainsCeil) {
+          // If timer is running
+          if (timerOn) {
+            // If seconds remains <= 3
+            if (
+              newSectionSecondsRemainsCeil === 3 ||
+              newSectionSecondsRemainsCeil === 2 ||
+              newSectionSecondsRemainsCeil === 1
+            ) {
+              // Play the countDown sound
+              playTickingSound(
+                "countDown",
+                useTimerSetupState.timerSetup.settings.playSound
+              );
+            } else {
+              // Otherwise play the normal tick sound
+              playTickingSound(
+                "tick",
+                useTimerSetupState.timerSetup.settings.playSound
+              );
+            }
+          }
+
+          // Set new ceiled value
+          sectionSecondsRemainsCeil = newSectionSecondsRemainsCeil;
+          // console.log(sectionSecondsRemainsCeil);
         }
-        console.log("finished", finished);
+      },
+      onRest: ({ finished }) => {
+        if (finished) {
+          if (sectionId + 1 > timeData.length - 1) {
+            setTimerOn(false);
+            setHidableBtnsShow(true);
+            playSound(
+              "finished",
+              useTimerSetupState.timerSetup.settings.playSound
+            );
+            console.log("finished", finished);
+            sectionSeconds.set(0);
+          } else {
+            setSectionId(sectionId + 1);
+          }
+        }
       },
     });
+    opacityApi.set({ secondsOpacity: 0, textOpacity: 1 });
     opacityApi.start({
-      to: [
-        { secondsOpacity: 0, textOpacity: 1 },
-        { secondsOpacity: 1, textOpacity: 0 },
-      ],
+      from: { secondsOpacity: 0, textOpacity: 1 },
+      to: { secondsOpacity: 1, textOpacity: 0 },
+      delay: 500,
       reset: true,
     });
   }
@@ -167,6 +212,20 @@ const TimerScreen: React.FC = (props) => {
       currentWoroutNo - 1,
       currentWoroutNo
     );
+  }
+
+  function loopTimerAnimeWithStartSound(startSectionTime = 0) {
+    const soundType =
+      workoutArray[sectionId].type == "prepare"
+        ? "rest"
+        : workoutArray[sectionId].type == "workout"
+        ? "workOutStart"
+        : workoutArray[sectionId].type == "rest"
+        ? "rest"
+        : null;
+
+    playSound(soundType, useTimerSetupState.timerSetup.settings.playSound);
+    timerAnimationLoop(startSectionTime);
   }
 
   // Directly control functions callbacks
@@ -212,7 +271,7 @@ const TimerScreen: React.FC = (props) => {
 
   const stateChangeTimerOnCallbacks: StateChangeTimerOnCBs = {
     startAnimeLoop: () => {
-      timerAnimationLoop(sectionSeconds.get());
+      loopTimerAnimeWithStartSound(sectionSeconds.get());
     },
     stppAnimeLoop: () => {
       sectionSecondsApi.stop();
@@ -236,7 +295,7 @@ const TimerScreen: React.FC = (props) => {
       // non in web ver
     },
     startNewSectionAnimeLoop: () => {
-      timerAnimationLoop(0);
+      loopTimerAnimeWithStartSound(0);
     },
   };
 
