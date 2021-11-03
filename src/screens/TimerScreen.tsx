@@ -244,10 +244,7 @@ const TimerScreen: React.FC = (props) => {
       setTabBarShow(show);
     },
     setBottomContainerShow: (show) => {
-      //TODO: btnContainer show/hide
-      // animationBottomViewAnimation({
-      //   toValue: show ? 0 : 1,
-      // }).start();
+      // No need in web ver
     },
   };
 
@@ -394,7 +391,7 @@ const TimerScreen: React.FC = (props) => {
           </div>
         </div>
       </MainContainerMid>
-      <MainContainerBtm>
+      <MainContainerBtm show={hidableBtnsShow}>
         <a
           href="#"
           onClick={() => setPlusOrMinus(true, setPlusOrMinusCallbacks)}

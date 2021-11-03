@@ -1,8 +1,18 @@
-import React from "react";
+import React, { ReactInstance, ReactNode } from "react";
 import "./MainContainerBtm.css";
 
-const MainContainerBtm: React.FC = ({ children }) => {
-  return <div className="main-container-btm">{children}</div>;
+interface MainContainerBtmProps {
+  show?: boolean;
+}
+
+const MainContainerBtm: React.FC<MainContainerBtmProps> = ({
+  show,
+  children,
+}) => {
+  const className =
+    "main-container-btm" + (show ? "" : " main-container-btm--hide");
+
+  return <div className={className}>{children}</div>;
 };
 
 export default MainContainerBtm;

@@ -6,6 +6,11 @@
   flex: 1;
   line-height: 0;
   justify-content: space-around;
+  transition-duration: 100ms;
+}
+
+.main-container-btm--hide {
+  opacity: 0;
 }
 
 .main-container-btm .icon {
@@ -25,10 +30,17 @@
   .main-container-btm {
     flex-direction: row;
   }
+
+  .main-container-btm--hide {
+    transform: translateY(4rem);
+  }
 }
 
 @media screen and (orientation: landscape) {
   .main-container-btm {
     flex-direction: column;
+  }
+  .main-container-btm--hide {
+    transform: translateX(-4rem);
   }
 }
