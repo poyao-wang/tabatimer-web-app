@@ -47,6 +47,12 @@ html {
   align-items: center;
   justify-content: center;
   flex: 1;
+  align-self: stretch;
+  transition-duration: 100ms;
+}
+
+.top-container--hide {
+  opacity: 0;
 }
 
 @media screen and (orientation: portrait) {
@@ -64,8 +70,8 @@ html {
     flex-direction: row;
   }
 
-  .top-container {
-    align-self: stretch;
+  .top-container--hide {
+    transform: translateY(-4rem);
   }
 }
 
@@ -83,7 +89,7 @@ html {
     flex-direction: column;
   }
 
-  .top-container {
-    align-self: stretch;
+  .top-container--hide {
+    transform: translateX(4rem);
   }
 }

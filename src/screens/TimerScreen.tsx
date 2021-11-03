@@ -11,6 +11,7 @@ import useTimerControl, {
   ResetTimerCBs,
   ScrollingChangeSectionCBs,
   SetPlusOrMinusCBs,
+  StateChangeHidableBtnsShowCBs,
   StateChangeSectionIdCBs,
   StateChangeTimerOnCBs,
 } from "../hook/useTimerControl";
@@ -238,8 +239,21 @@ const TimerScreen: React.FC = (props) => {
     },
   };
 
+  const stateChangeHidableBtnsShowCallbacks: StateChangeHidableBtnsShowCBs = {
+    setNavBarShow: (show) => {
+      setTabBarShow(show);
+    },
+    setBottomContainerShow: (show) => {
+      //TODO: btnContainer show/hide
+      // animationBottomViewAnimation({
+      //   toValue: show ? 0 : 1,
+      // }).start();
+    },
+  };
+
   StateChangeTimerOn(stateChangeTimerOnCallbacks);
   StateChangeSectionId(stateChangeSectionIdCallbacks);
+  StateChangeHidableBtnsShow(stateChangeHidableBtnsShowCallbacks);
 
   // Other useEffects
 

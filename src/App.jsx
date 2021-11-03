@@ -15,6 +15,9 @@ function App() {
   const [tabBarShow, setTabBarShow] = useState(true);
   const [timerSetup, setTimerSetup] = useState(timerSetupDefaultData);
 
+  const topContainerClassName =
+    "top-container" + (tabBarShow ? "" : " top-container--hide");
+
   return (
     <div className="App">
       <MainContext.Provider
@@ -24,7 +27,7 @@ function App() {
         }}
       >
         <div className="screen-container">
-          <div className="top-container">
+          <div className={topContainerClassName}>
             <NavBar />
           </div>
           <Switch>
