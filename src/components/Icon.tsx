@@ -22,6 +22,7 @@ import { ReactComponent as KeyboardDoubleArrowUp } from "../assets/icons/keyboar
 import { ReactComponent as Login } from "../assets/icons/login.svg";
 import { ReactComponent as ManageAccounts } from "../assets/icons/manage_accounts.svg";
 import { ReactComponent as PlayCircle } from "../assets/icons/play_circle.svg";
+import { ReactComponent as PauseCircle } from "../assets/icons/pause_circle.svg";
 import { ReactComponent as RemoveCircle } from "../assets/icons/remove_circle.svg";
 import { ReactComponent as RestartAlt } from "../assets/icons/restart_alt.svg";
 import { ReactComponent as Settings } from "../assets/icons/settings.svg";
@@ -56,6 +57,7 @@ const Icon = {
   Login: () => <Login className="icon" />,
   ManageAccounts: () => <ManageAccounts className="icon" />,
   PlayCircle: () => <PlayCircle className="icon" />,
+  PauseCircle: () => <PauseCircle className="icon" />,
   RemoveCircle: () => <RemoveCircle className="icon" />,
   RestartAlt: () => <RestartAlt className="icon" />,
   Settings: () => <Settings className="icon" />,
