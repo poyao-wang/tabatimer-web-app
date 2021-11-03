@@ -17,6 +17,7 @@ import useTimerControl, {
 } from "../hook/useTimerControl";
 
 interface ImgContainerProps {
+  show: boolean;
   type: "left" | "mid" | "right";
   imgSrc: string;
   icon: ReactElement;
@@ -271,9 +272,11 @@ const TimerScreen: React.FC = (props) => {
   }, [sectionId]);
 
   const ImgContainerSide: React.FC<ImgContainerProps> = (props) => {
+    const btnClassName = "btn-skip" + (props.show ? "" : " btn-skip--hide");
+
     return props.imgSrc ? (
       <div className={"img-container img-container--" + props.type}>
-        <a href="#" onClick={props.btnOnClick}>
+        <a className={btnClassName} href="#" onClick={props.btnOnClick}>
           <div className="icon-bg" />
           {props.icon}
         </a>
@@ -340,6 +343,7 @@ const TimerScreen: React.FC = (props) => {
               btnOnClick={() => {
                 setWorkoutPlusOrMinus(false);
               }}
+              show={hidableBtnsShow}
             />
           </div>
           <div className="container-mid__container">
@@ -366,6 +370,7 @@ const TimerScreen: React.FC = (props) => {
               btnOnClick={() => {
                 setWorkoutPlusOrMinus(true);
               }}
+              show={hidableBtnsShow}
             />
           </div>
         </div>
@@ -379,7 +384,7 @@ const TimerScreen: React.FC = (props) => {
           </div>
           <div className="container-btm__container">
             <a onClick={toggle}>
-              {timerOn ? <Icon.Cancel /> : <Icon.PlayCircle />}
+              {timerOn ? <Icon.PauseCircle /> : <Icon.PlayCircle />}
             </a>
           </div>
           <div className="container-btm__container">
