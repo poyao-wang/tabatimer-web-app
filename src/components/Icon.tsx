@@ -30,6 +30,7 @@ import { ReactComponent as SkipNextCircle } from "../assets/icons/skip_next_circ
 import { ReactComponent as SkipPreviousCircle } from "../assets/icons/skip_previous_circle.svg";
 import { ReactComponent as Timer } from "../assets/icons/timer.svg";
 import { ReactComponent as Translate } from "../assets/icons/translate.svg";
+import { ReactComponent as VolumeOff } from "../assets/icons/volume_off.svg";
 import { ReactComponent as VolumeUp } from "../assets/icons/volume_up.svg";
 
 const Icon = {
@@ -65,6 +66,7 @@ const Icon = {
   SkipPreviousCircle: () => <SkipPreviousCircle className="icon" />,
   Timer: () => <Timer className="icon" />,
   Translate: () => <Translate className="icon" />,
+  VolumeOff: () => <VolumeOff className="icon" />,
   VolumeUp: () => <VolumeUp className="icon" />,
 };
 
