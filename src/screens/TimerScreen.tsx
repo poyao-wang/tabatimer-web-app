@@ -17,6 +17,8 @@ import useTimerControl, {
   StateChangeTimerOnCBs,
 } from "../hook/useTimerControl";
 
+import _ from "lodash";
+
 interface ImgContainerProps {
   show: boolean;
   type: "left" | "mid" | "right";
@@ -346,6 +348,12 @@ const TimerScreen: React.FC = (props) => {
     );
   };
 
+  const heightCal = (n: number): string =>
+    `${(n * 100) / workoutArray[sectionId].duration}vh`;
+
+  const secRemainCal = (n: number): number =>
+    Math.ceil(workoutArray[sectionId].duration - n);
+
   return (
     <>
       <animated.div // TODO: refactor styles, give classname
@@ -353,9 +361,7 @@ const TimerScreen: React.FC = (props) => {
           zIndex: -1,
           position: "absolute",
           width: "100vw",
-          height: sectionSeconds.to(
-            (n) => `${(n * 100) / workoutArray[sectionId].duration}vh`
-          ),
+          height: sectionSeconds.to(_.throttle(heightCal, 10) as any),
           backgroundColor: "white",
         }}
       />
@@ -379,9 +385,7 @@ const TimerScreen: React.FC = (props) => {
           <animated.div // TODO: refactor styles, give classname
             style={{ opacity: secondsOpacity }}
           >
-            {sectionSeconds.to((n) =>
-              Math.ceil(workoutArray[sectionId].duration - n)
-            )}
+            {sectionSeconds.to(_.throttle(secRemainCal, 100))}
           </animated.div>
           <animated.div // TODO: refactor styles, give classname
             style={{ position: "absolute", opacity: textOpacity }}
