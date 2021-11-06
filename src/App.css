@@ -2,6 +2,8 @@
   --border-testing: 0px solid blue;
   --color-dark: #0c0c0c;
   --color-red-google: #df4a32;
+  --color-red-cancel: #f1444d;
+  --color-green-confirm: #2dc772;
 }
 
 * {
