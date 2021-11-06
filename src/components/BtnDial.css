@@ -1,0 +1,21 @@
+.btn-dial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.05rem solid var(--color-dark);
+  border-radius: 0.15rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  overflow: hidden;
+  transition-duration: 100ms;
+}
+
+.btn-dial:hover {
+  transform: scale(1.1);
+}
+
+.btn-dial .icon {
+  border: 0;
+  width: 0.8rem;
+  height: 0.8rem;
+}
