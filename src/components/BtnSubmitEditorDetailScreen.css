@@ -1,0 +1,28 @@
+.btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  overflow: hidden;
+  transition-duration: 100ms;
+}
+
+.btn-submit:hover {
+  transform: scale(1.1);
+}
+
+.btn-submit .icon {
+  border: 0;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.btn-apply svg path {
+  fill: var(--color-green-confirm);
+}
+
+.btn-cancel svg path {
+  fill: var(--color-red-cancel);
+  /* fill: red; */
+}
