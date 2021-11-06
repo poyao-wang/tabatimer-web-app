@@ -9,6 +9,7 @@ const MainContainerBtm: React.FC<MainContainerBtmProps> = ({
   show,
   children,
 }) => {
+  if (show === undefined) show = true;
   const className =
     "main-container-btm" + (show ? "" : " main-container-btm--hide");
 
