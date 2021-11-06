@@ -1,5 +1,11 @@
 import React, { ReactElement, useContext, useEffect, useState } from "react";
-import { useSpring, animated } from "react-spring";
+import {
+  useSpring,
+  animated,
+  SpringValue,
+  OnRest,
+  Controller,
+} from "react-spring";
 
 import "./TimerScreen.css";
 import { MainContext } from "../config/MainContext";
@@ -44,7 +50,16 @@ const TimerScreen: React.FC = (props) => {
     useTimerSetupState.timerSetup.workoutSetup.workoutArray
   );
 
-  const { playSound, playTickingSound } = useAudio();
+  const {
+    soundsLoaded,
+    loadSounds,
+    playSound,
+    playCountDownSound,
+    pauseAllSounds,
+    checkIfAnySoundIsPlaying,
+  } = useAudio();
+
+  const [mutedForReact, setMutedForReact] = useState<boolean>(true);
 
   const [workoutArray, setWorkoutArray] = useState(
     useTimerSetupState.timerSetup.workoutSetup.workoutArray
@@ -111,56 +126,126 @@ const TimerScreen: React.FC = (props) => {
     setSectionId(newSectionId);
   }
 
+  function checkCurrentSectionTypeAndPlayStartingSound() {
+    const soundType =
+      workoutArray[sectionId].type === "prepare"
+        ? "rest"
+        : workoutArray[sectionId].type === "workout"
+        ? "workOutStart"
+        : workoutArray[sectionId].type === "rest"
+        ? "rest"
+        : null;
+
+    playSound(soundType, soundsLoaded && !mutedForReact);
+  }
+
   function timerAnimationLoop(startTime = 0) {
     let sectionSecondsRemainsCeil: number;
     let newSectionSecondsRemainsCeil: number;
+
+    const checkSectionTypeAndDecideCountDownSoundType = ():
+      | "countDownStart"
+      | "countDownRest"
+      | "countDown" => {
+      if (
+        workoutArray[sectionId].type === "prepare" ||
+        workoutArray[sectionId].type === "rest"
+      ) {
+        return "countDownStart";
+      } else if (workoutArray[sectionId].type === "workout") {
+        return "countDownRest";
+      } else return "countDown";
+    };
+
+    const countDownSoundType = checkSectionTypeAndDecideCountDownSoundType();
+
+    const checkAndUploadRemainsCeilThenPlaySound: OnRest<
+      SpringValue<{ sectionSeconds: number }>,
+      Controller<{
+        sectionSeconds: number;
+      }>
+    > = ({ value: { sectionSeconds: value } }) => {
+      // Calc newSectionSecondsRemainsCeil
+      newSectionSecondsRemainsCeil = Math.ceil(
+        workoutArray[sectionId].duration - value
+      );
+      if (newSectionSecondsRemainsCeil !== sectionSecondsRemainsCeil) {
+        // If timer is running
+        if (timerOn) {
+          // If seconds remains <= 3
+          if (
+            sectionSecondsRemainsCeil === 5 &&
+            newSectionSecondsRemainsCeil === 4
+          ) {
+            playCountDownSound(
+              countDownSoundType,
+              soundsLoaded && !mutedForReact,
+              0
+            );
+          } else if (
+            sectionSecondsRemainsCeil === 4 &&
+            newSectionSecondsRemainsCeil === 3
+          ) {
+            playCountDownSound(
+              countDownSoundType,
+              soundsLoaded && !mutedForReact,
+              1
+            );
+          } else if (
+            sectionSecondsRemainsCeil === 3 &&
+            newSectionSecondsRemainsCeil === 2
+          ) {
+            playCountDownSound(
+              countDownSoundType,
+              soundsLoaded && !mutedForReact,
+              2
+            );
+          } else if (
+            sectionSecondsRemainsCeil === 2 &&
+            newSectionSecondsRemainsCeil === 1
+          ) {
+            playCountDownSound(
+              countDownSoundType,
+              soundsLoaded && !mutedForReact,
+              3
+            );
+          } else if (
+            sectionSecondsRemainsCeil === 1 &&
+            newSectionSecondsRemainsCeil === 0
+          ) {
+            playCountDownSound(
+              countDownSoundType,
+              soundsLoaded && !mutedForReact,
+              4
+            );
+          }
+        }
+
+        // Set new ceiled value
+        sectionSecondsRemainsCeil = newSectionSecondsRemainsCeil;
+        // console.log(sectionSecondsRemainsCeil);
+      }
+    };
+
+    if (!checkIfAnySoundIsPlaying()) {
+      checkCurrentSectionTypeAndPlayStartingSound();
+    }
 
     sectionSecondsApi.start({
       from: { sectionSeconds: startTime },
       to: { sectionSeconds: timeData[sectionId].duration },
       config: { duration: (timeData[sectionId].duration - startTime) * 1000 },
-      onChange: ({ value: { sectionSeconds: value } }) => {
-        // Calc newSectionSecondsRemainsCeil
-        newSectionSecondsRemainsCeil = Math.ceil(
-          workoutArray[sectionId].duration - value
-        );
-        if (newSectionSecondsRemainsCeil !== sectionSecondsRemainsCeil) {
-          // If timer is running
-          if (timerOn) {
-            // If seconds remains <= 3
-            if (
-              newSectionSecondsRemainsCeil === 3 ||
-              newSectionSecondsRemainsCeil === 2 ||
-              newSectionSecondsRemainsCeil === 1
-            ) {
-              // Play the countDown sound
-              playTickingSound(
-                "countDown",
-                useTimerSetupState.timerSetup.settings.playSound
-              );
-            } else {
-              // Otherwise play the normal tick sound
-              playTickingSound(
-                "tick",
-                useTimerSetupState.timerSetup.settings.playSound
-              );
-            }
-          }
-
-          // Set new ceiled value
-          sectionSecondsRemainsCeil = newSectionSecondsRemainsCeil;
-          // console.log(sectionSecondsRemainsCeil);
-        }
-      },
+      onChange: _.throttle(checkAndUploadRemainsCeilThenPlaySound, 50),
       onRest: ({ finished }) => {
         if (finished) {
           if (sectionId + 1 > timeData.length - 1) {
             setTimerOn(false);
             setHidableBtnsShow(true);
-            playSound(
-              "finished",
-              useTimerSetupState.timerSetup.settings.playSound
-            );
+
+            const playFinishedSound = () =>
+              playSound("finished", soundsLoaded && !mutedForReact);
+
+            setTimeout(playFinishedSound, 500);
             console.log("finished", finished);
             sectionSeconds.set(0);
           } else {
@@ -217,16 +302,6 @@ const TimerScreen: React.FC = (props) => {
   }
 
   function loopTimerAnimeWithStartSound(startSectionTime = 0) {
-    const soundType =
-      workoutArray[sectionId].type == "prepare"
-        ? "rest"
-        : workoutArray[sectionId].type == "workout"
-        ? "workOutStart"
-        : workoutArray[sectionId].type == "rest"
-        ? "rest"
-        : null;
-
-    playSound(soundType, useTimerSetupState.timerSetup.settings.playSound);
     timerAnimationLoop(startSectionTime);
   }
 
@@ -272,17 +347,23 @@ const TimerScreen: React.FC = (props) => {
   };
 
   const stateChangeTimerOnCallbacks: StateChangeTimerOnCBs = {
+    playStartingSound: () => {
+      checkCurrentSectionTypeAndPlayStartingSound();
+    },
     startAnimeLoop: () => {
       loopTimerAnimeWithStartSound(sectionSeconds.get());
     },
-    stppAnimeLoop: () => {
+    stopAnimeLoop: () => {
       sectionSecondsApi.stop();
+    },
+    stopAllSounds: () => {
+      pauseAllSounds();
     },
   };
 
   const stateChangeSectionIdCallbacks: StateChangeSectionIdCBs = {
     changeBgColor: (sectionType) => {
-      // TODO:
+      // no need for react ver
     },
     picturesScrollToIndex: (index) => {
       setCenterContainerItemsValues(createCenterContainerItemsValues());
@@ -291,7 +372,7 @@ const TimerScreen: React.FC = (props) => {
       // sectionSeconds.setValue(0);
     },
     resetBackgroundAnimationValue: () => {
-      // TODO:
+      // non in web ver
     },
     updateSetInput: (sectionId) => {
       // non in web ver
@@ -347,6 +428,12 @@ const TimerScreen: React.FC = (props) => {
       <div className={"img-container img-container--hidden"} />
     );
   };
+
+  useEffect(() => {
+    if (soundsLoaded) {
+      setBtnPressable(true);
+    }
+  }, [soundsLoaded]);
 
   const heightCal = (n: number): string =>
     `${(n * 100) / workoutArray[sectionId].duration}vh`;
@@ -446,9 +533,9 @@ const TimerScreen: React.FC = (props) => {
             />
           </div>
           <div className="container-btm__container">
-            <a onClick={toggle}>
+            <button onClick={toggle} disabled={!btnPressable}>
               {timerOn ? <Icon.PauseCircle /> : <Icon.PlayCircle />}
-            </a>
+            </button>
           </div>
           <div className="container-btm__container">
             <FractionTimerScreen
@@ -474,6 +561,18 @@ const TimerScreen: React.FC = (props) => {
         </a>
         <a href="#" onClick={() => reset(resetTimerCallbacks)}>
           <Icon.RestartAlt />
+        </a>
+        <a
+          href="#"
+          onClick={() => {
+            if (mutedForReact && !soundsLoaded) {
+              setBtnPressable(false);
+              loadSounds();
+            }
+            setMutedForReact(!mutedForReact);
+          }}
+        >
+          {!mutedForReact ? <Icon.VolumeUp /> : <Icon.VolumeOff />}
         </a>
       </MainContainerBtm>
     </>
