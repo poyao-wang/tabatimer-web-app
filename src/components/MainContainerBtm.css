@@ -18,11 +18,11 @@
   height: 1.5rem;
 }
 
-.main-container-btm a {
+.main-container-btm button {
   transition-duration: 100ms;
 }
 
-.main-container-btm a:hover {
+.main-container-btm button:hover {
   transform: scale(1.1);
 }
 

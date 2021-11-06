@@ -55,18 +55,18 @@ const ItemWorkoutList: React.FC<ItemWorkoutListProps> = ({ item, index }) => {
   return (
     <div className="item-workout-list">
       <div className="list-order-btns">
-        <a href="#">
+        <button>
           <BtnListOrder.Up />
-        </a>
-        <a href="#">
+        </button>
+        <button>
           <BtnListOrder.Top />
-        </a>
-        <a href="#">
+        </button>
+        <button>
           <BtnListOrder.Down />
-        </a>
-        <a href="#">
+        </button>
+        <button>
           <BtnListOrder.Bottom />
-        </a>
+        </button>
       </div>
       <div className="item-workout-list__number-container">
         <p className="item-workout-list__number">{index + 1 + ". "}</p>
@@ -74,9 +74,9 @@ const ItemWorkoutList: React.FC<ItemWorkoutListProps> = ({ item, index }) => {
       <div className="img-workout-container">
         <img className="workout-image" src={imageSrc} alt="" />
       </div>
-      <a className="icon-add-image" href="#">
+      <button className="icon-add-image">
         <Icon.AddPhotoAlternate />
-      </a>
+      </button>
     </div>
   );
 };
@@ -85,8 +85,7 @@ export default ItemWorkoutList;
 
 // Add and delete image btns
 
-{
-  /* <div className="workout-image-add-icon">
+/* <div className="workout-image-add-icon">
 <input
   ref={inputRef}
   type="file"
@@ -105,4 +104,3 @@ export default ItemWorkoutList;
 <div className="workout-image-delete-icon">
 <button onClick={deleteImage}>{"delete"}</button>
 </div> */
-}

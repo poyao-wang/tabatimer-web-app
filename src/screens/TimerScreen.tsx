@@ -418,10 +418,10 @@ const TimerScreen: React.FC = (props) => {
 
     return props.imgSrc ? (
       <div className={"img-container img-container--" + props.type}>
-        <a className={btnClassName} href="#" onClick={props.btnOnClick}>
+        <button className={btnClassName} onClick={props.btnOnClick}>
           <div className="icon-bg" />
           {props.icon}
-        </a>
+        </button>
         <img src={props.imgSrc} alt={"img" + props.type} />
       </div>
     ) : (
@@ -547,23 +547,16 @@ const TimerScreen: React.FC = (props) => {
         </div>
       </MainContainerMid>
       <MainContainerBtm show={hidableBtnsShow}>
-        <a
-          href="#"
-          onClick={() => setPlusOrMinus(true, setPlusOrMinusCallbacks)}
-        >
+        <button onClick={() => setPlusOrMinus(true, setPlusOrMinusCallbacks)}>
           <Icon.AddCircle />
-        </a>
-        <a
-          href="#"
-          onClick={() => setPlusOrMinus(false, setPlusOrMinusCallbacks)}
-        >
+        </button>
+        <button onClick={() => setPlusOrMinus(false, setPlusOrMinusCallbacks)}>
           <Icon.RemoveCircle />
-        </a>
-        <a href="#" onClick={() => reset(resetTimerCallbacks)}>
+        </button>
+        <button onClick={() => reset(resetTimerCallbacks)}>
           <Icon.RestartAlt />
-        </a>
-        <a
-          href="#"
+        </button>
+        <button
           onClick={() => {
             if (mutedForReact && !soundsLoaded) {
               setBtnPressable(false);
@@ -573,7 +566,7 @@ const TimerScreen: React.FC = (props) => {
           }}
         >
           {!mutedForReact ? <Icon.VolumeUp /> : <Icon.VolumeOff />}
-        </a>
+        </button>
       </MainContainerBtm>
     </>
   );

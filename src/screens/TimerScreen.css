@@ -26,12 +26,12 @@
   align-items: center;
 }
 
-.in-timer-screen .container-btm__container a {
+.in-timer-screen .container-btm__container button {
   line-height: 0;
   transition-duration: 100ms;
 }
 
-.in-timer-screen .container-btm__container a:hover {
+.in-timer-screen .container-btm__container button:hover {
   transform: scale(1.1);
 }
 

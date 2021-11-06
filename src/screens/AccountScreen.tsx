@@ -26,12 +26,12 @@ const AccountScreen: React.FC = (props) => {
         </div>
       </MainContainerMid>
       <MainContainerBtm>
-        <a href="#">
+        <button>
           <Icon.CloudUpload />
-        </a>
-        <a href="#">
+        </button>
+        <button>
           <Icon.CloudDownload />
-        </a>
+        </button>
       </MainContainerBtm>
     </>
   );

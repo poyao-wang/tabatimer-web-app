@@ -36,15 +36,15 @@ const EditorScreen: React.FC = (props) => {
         {renderItem("workouts")}
       </MainContainerMid>
       <MainContainerBtm>
-        <a href="#">
+        <button>
           {screenData.settings.playSound ? <Icon.VolumeUp /> : <Icon.Cancel />}
-        </a>
-        <a href="#">
+        </button>
+        <button>
           <Icon.RestartAlt />
-        </a>
-        <a href="#">
+        </button>
+        <button>
           <Icon.Translate />
-        </a>
+        </button>
       </MainContainerBtm>
     </>
   );

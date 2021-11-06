@@ -13,7 +13,7 @@
   grid-gap: 0.25rem;
 }
 
-.list-order-btns a:hover {
+.list-order-btns button:hover {
   transform: scale(1.1);
 }
 
