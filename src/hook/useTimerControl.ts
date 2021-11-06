@@ -51,8 +51,10 @@ export interface StateChangeSectionIdCBs {
 }
 
 export interface StateChangeTimerOnCBs {
+  playStartingSound: () => void;
   startAnimeLoop: () => void;
-  stppAnimeLoop: () => void;
+  stopAnimeLoop: () => void;
+  stopAllSounds: () => void;
 }
 
 const useTimerControl = (
@@ -218,11 +220,13 @@ const useTimerControl = (
   function StateChangeTimerOn(callbacks: StateChangeTimerOnCBs) {
     useEffect(() => {
       if (timerOn) {
+        callbacks.playStartingSound();
         // CB: Start anime loop
         callbacks.startAnimeLoop();
       } else {
+        callbacks.stopAllSounds();
         // CB: Stop anime loop
-        callbacks.stppAnimeLoop();
+        callbacks.stopAnimeLoop();
       }
     }, [timerOn]);
   }
