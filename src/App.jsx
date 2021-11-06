@@ -10,6 +10,7 @@ import timerSetupDefaultData from "./config/timerSetupDefaultData";
 import WorkoutListScreen from "./screens/WorkoutListScreen";
 import NavBar from "./components/NavBar";
 import ImgWorkout from "./components/ImgWorkout";
+import EditorDetailScreen from "./screens/EditorDetailScreen";
 
 function App() {
   const [tabBarShow, setTabBarShow] = useState(true);
@@ -42,6 +43,10 @@ function App() {
             <Route
               path="/editor"
               render={(props) => <EditorScreen {...props} />}
+            />
+            <Route
+              path="/editor-detail"
+              render={(props) => <EditorDetailScreen {...props} />}
             />
             <Route
               path="/workout-list"

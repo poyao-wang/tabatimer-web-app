@@ -1,0 +1,58 @@
+.in-editor-detail-screen > * {
+  margin: 0.15rem;
+}
+
+.in-editor-detail-screen .dials {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.in-editor-detail-screen .dials > * {
+  margin: 0.25rem;
+}
+
+.in-editor-detail-screen .screen-title {
+  font-size: 0.85rem;
+  line-height: 1.2rem;
+}
+
+.in-editor-detail-screen .screen-subtitle {
+  font-size: 0.5rem;
+  line-height: 0.65rem;
+}
+
+.in-editor-detail-screen .dial-text {
+  font-size: 0.8rem;
+  line-height: 1rem;
+}
+
+.in-editor-detail-screen .dial-right,
+.in-editor-detail-screen .dial-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.in-editor-detail-screen .dial-right > *,
+.in-editor-detail-screen .dial-left > * {
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+}
+
+.in-editor-detail-screen .dial-top-btns,
+.in-editor-detail-screen .dial-btm-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 1.8rem;
+}
+
+.in-editor-detail-screen .submit-btns {
+  width: 4.2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
