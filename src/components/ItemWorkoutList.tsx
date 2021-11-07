@@ -1,5 +1,4 @@
 import React, { createRef, useContext, useState } from "react";
-import Jimp from "jimp";
 
 import "./ItemWorkoutList.css";
 import { MainContext } from "../config/MainContext";
@@ -21,36 +20,6 @@ const ItemWorkoutList: React.FC<ItemWorkoutListProps> = ({ item, index }) => {
   );
 
   const inputRef = createRef<HTMLInputElement>();
-
-  function addImage(e: any) {
-    let file = e.target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      Jimp.read(reader.result as string, (err, image) => {
-        if (err) throw err;
-        else {
-          image
-            .background(0xffffffff)
-            .contain(300, 300)
-            .quality(70)
-            .getBase64(Jimp.MIME_JPEG, function (err, src) {
-              setImageSrc(src);
-              mainData.workoutSetup.flatListArray[item.id].image = src;
-              mainData.workoutSetup.updated = true;
-              setMainData(mainData);
-            });
-        }
-      });
-    };
-  }
-
-  function deleteImage() {
-    setImageSrc("");
-    mainData.workoutSetup.flatListArray[item.id].image = "";
-    mainData.workoutSetup.updated = true;
-    setMainData(mainData);
-  }
 
   return (
     <div className="item-workout-list">
@@ -85,6 +54,8 @@ export default ItemWorkoutList;
 
 // Add and delete image btns
 
+// import Jimp from "jimp";
+
 /* <div className="workout-image-add-icon">
 <input
   ref={inputRef}
@@ -104,3 +75,33 @@ export default ItemWorkoutList;
 <div className="workout-image-delete-icon">
 <button onClick={deleteImage}>{"delete"}</button>
 </div> */
+
+// function addImage(e: any) {
+//   let file = e.target.files[0];
+//   let reader = new FileReader();
+//   reader.readAsDataURL(file);
+//   reader.onload = () => {
+//     Jimp.read(reader.result as string, (err, image) => {
+//       if (err) throw err;
+//       else {
+//         image
+//           .background(0xffffffff)
+//           .contain(300, 300)
+//           .quality(70)
+//           .getBase64(Jimp.MIME_JPEG, function (err, src) {
+//             setImageSrc(src);
+//             mainData.workoutSetup.flatListArray[item.id].image = src;
+//             mainData.workoutSetup.updated = true;
+//             setMainData(mainData);
+//           });
+//       }
+//     });
+//   };
+// }
+
+// function deleteImage() {
+//   setImageSrc("");
+//   mainData.workoutSetup.flatListArray[item.id].image = "";
+//   mainData.workoutSetup.updated = true;
+//   setMainData(mainData);
+// }
