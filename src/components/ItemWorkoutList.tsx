@@ -10,12 +10,14 @@ interface ItemWorkoutListProps {
   item: ItemFlatListArrayProps;
   index: number;
   onMoveOrderAndSetData: (index: number, type: MoveOrderActionType) => void;
+  onAddImgClicked: () => void;
 }
 
 const ItemWorkoutList: React.FC<ItemWorkoutListProps> = ({
   item,
   index,
   onMoveOrderAndSetData,
+  onAddImgClicked,
 }) => {
   return (
     <div className="item-workout-list">
@@ -55,7 +57,7 @@ const ItemWorkoutList: React.FC<ItemWorkoutListProps> = ({
       <div className="img-workout-container">
         <img className="workout-image" src={item.imgSrcForReact} alt="" />
       </div>
-      <button className="icon-add-image">
+      <button className="icon-add-image" onClick={onAddImgClicked}>
         <Icon.AddPhotoAlternate />
       </button>
     </div>

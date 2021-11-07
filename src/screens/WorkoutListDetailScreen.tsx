@@ -14,19 +14,23 @@ const WorkoutListDetailScreen: React.FC<
     StaticContext,
     {
       item: ItemFlatListArrayProps;
-      title: string;
+      index: number;
     }
   >
 > = (props) => {
   const {
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
+    tabBar: { setTabBarShow },
   } = useContext(MainContext);
 
-  const [title, setTitle] = useState("title");
-  const [imgSrc, setImgSrc] = useState("/assets/plank-side-L.jpg");
+  // const [title, setTitle] = useState("title");
+  // const [imgSrc, setImgSrc] = useState("/assets/plank-side-L.jpg");
   // const [imgSrc, setImgSrc] = useState("");
 
-  // const title = props.location.state.title ? props.location.state.title : "no";
+  const title = props.location.state.index + 1 + ".";
+  const imgSrc = props.location.state.item.imgSrcForReact;
+
+  setTabBarShow(false);
 
   return (
     <>
@@ -46,11 +50,16 @@ const WorkoutListDetailScreen: React.FC<
             </button>
           )}
         </div>
-        <button className="btn-back">
+        <button
+          className="btn-back"
+          onClick={() => {
+            props.history.push("/workout-list");
+          }}
+        >
           <Icon.ArrowCircleLeft />
         </button>
       </MainContainerMid>
-      <MainContainerBtm></MainContainerBtm>
+      <MainContainerBtm />
     </>
   );
 };

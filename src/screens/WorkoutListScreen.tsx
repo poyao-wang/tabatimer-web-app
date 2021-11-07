@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import _ from "lodash";
+import { RouteComponentProps, StaticContext } from "react-router";
 
 import "./WorkoutListScreen.css";
 import { ItemFlatListArrayProps } from "../config/timerSetupDefaultData";
@@ -11,7 +12,9 @@ import MainContainerMid from "../components/MainContainerMid";
 
 export type MoveOrderActionType = "up" | "upToTop" | "down" | "downToBtm";
 
-const WorkoutListScreen: React.FC = (props) => {
+const WorkoutListScreen: React.FC<
+  RouteComponentProps<{}, StaticContext, unknown>
+> = (props) => {
   const {
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
     tabBar: { setTabBarShow },
@@ -65,6 +68,12 @@ const WorkoutListScreen: React.FC = (props) => {
         item={item}
         key={index}
         index={index}
+        onAddImgClicked={() => {
+          props.history.push("/workout-list-detail", {
+            item,
+            index,
+          });
+        }}
       />
     );
   };
