@@ -441,6 +441,8 @@ const TimerScreen: React.FC = (props) => {
   const secRemainCal = (n: number): number =>
     Math.ceil(workoutArray[sectionId].duration - n);
 
+  setTabBarShow(true);
+
   return (
     <>
       <animated.div // TODO: refactor styles, give classname

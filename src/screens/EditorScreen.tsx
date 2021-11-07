@@ -13,6 +13,7 @@ const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
   (props) => {
     const {
       timer: { timerSetup: mainData, setTimerSetup: setMainData },
+      tabBar: { setTabBarShow },
     } = useContext(MainContext);
 
     const [screenData, setScreenData] = useState(mainData);
@@ -39,6 +40,8 @@ const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
         />
       );
     };
+
+    setTabBarShow(true);
 
     return (
       <>

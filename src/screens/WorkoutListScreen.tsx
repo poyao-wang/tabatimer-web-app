@@ -14,6 +14,7 @@ export type MoveOrderActionType = "up" | "upToTop" | "down" | "downToBtm";
 const WorkoutListScreen: React.FC = (props) => {
   const {
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
+    tabBar: { setTabBarShow },
   } = useContext(MainContext);
 
   const [data, setData] = useState<ItemFlatListArrayProps[]>(
@@ -67,6 +68,8 @@ const WorkoutListScreen: React.FC = (props) => {
       />
     );
   };
+
+  setTabBarShow(true);
 
   return (
     <>

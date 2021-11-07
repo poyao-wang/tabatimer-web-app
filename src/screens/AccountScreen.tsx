@@ -8,9 +8,12 @@ import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
 
 const AccountScreen: React.FC = (props) => {
-  // const {
-  //   timer: { timerSetup: mainData, setTimerSetup: setMainData },
-  // } = useContext(MainContext);
+  const {
+    timer: { timerSetup: mainData, setTimerSetup: setMainData },
+    tabBar: { setTabBarShow },
+  } = useContext(MainContext);
+
+  setTabBarShow(true);
 
   return (
     <>
