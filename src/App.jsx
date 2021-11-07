@@ -11,6 +11,7 @@ import WorkoutListScreen from "./screens/WorkoutListScreen";
 import NavBar from "./components/NavBar";
 import ImgWorkout from "./components/ImgWorkout";
 import EditorDetailScreen from "./screens/EditorDetailScreen";
+import WorkoutListDetailScreen from "./screens/WorkoutListDetailScreen";
 
 function App() {
   const [tabBarShow, setTabBarShow] = useState(true);
@@ -51,6 +52,10 @@ function App() {
             <Route
               path="/workout-list"
               render={(props) => <WorkoutListScreen {...props} />}
+            />
+            <Route
+              path="/workout-list-detail"
+              render={(props) => <WorkoutListDetailScreen {...props} />}
             />
             <Redirect from="/" exact to="/timer" />
           </Switch>
