@@ -1,37 +1,84 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
+import _ from "lodash";
 
 import "./WorkoutListScreen.css";
+import { ItemFlatListArrayProps } from "../config/timerSetupDefaultData";
 import { MainContext } from "../config/MainContext";
 import Icon from "../components/Icon";
+import ItemWorkoutList from "../components/ItemWorkoutList";
 import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
-import ItemWorkoutList from "../components/ItemWorkoutList";
-import BtnListOrder from "../components/BtnListOrder";
+
+export type MoveOrderActionType = "up" | "upToTop" | "down" | "downToBtm";
 
 const WorkoutListScreen: React.FC = (props) => {
   const {
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
-  } = useContext(MainContext) as any;
+  } = useContext(MainContext);
 
-  const [data, setData] = useState(mainData.workoutSetup.flatListArray);
+  const [data, setData] = useState<ItemFlatListArrayProps[]>(
+    mainData.workoutSetup.flatListArray
+  );
 
-  const renderItem = (item: any, key: number) => {
-    return <ItemWorkoutList item={item} key={key} index={key} />;
+  const moveOrderAndSetData = function (
+    index: number,
+    type: MoveOrderActionType
+  ) {
+    const fromIndex = index;
+    let toIndex: number;
+
+    switch (type) {
+      case "upToTop":
+        toIndex = 0;
+        break;
+      case "downToBtm":
+        toIndex = data.length;
+        break;
+      case "up":
+        toIndex = fromIndex - 1 < 0 ? 0 : fromIndex - 1;
+        break;
+      case "down":
+        toIndex = fromIndex + 1 > data.length ? data.length : fromIndex + 1;
+        break;
+    }
+
+    data.splice(toIndex, 0, data.splice(fromIndex, 1)[0]);
+
+    for (let i = 0; i < data.length; i++) {
+      data[i].id = i;
+    }
+
+    const dataClone = _.cloneDeep(data);
+
+    mainData.workoutSetup.flatListArray = dataClone;
+    mainData.workoutSetup.updated = true;
+    setMainData(mainData);
+    setData(dataClone);
+    // useCache.store(mainData); TODO: implement useCache
   };
 
-  useEffect(() => {
-    setData(mainData.workoutSetup.flatListArray);
-  }, []);
+  const renderItem = (item: ItemFlatListArrayProps, index: number) => {
+    return (
+      <ItemWorkoutList
+        onMoveOrderAndSetData={moveOrderAndSetData}
+        item={item}
+        key={index}
+        index={index}
+      />
+    );
+  };
 
   return (
     <>
       <MainContainerMid customClassName="in-workout-list-screen">
         <div className="workout-list-items">
-          {data.map((item: any, key: number) => renderItem(item, key))}
+          {data.map((item, index) => renderItem(item, index))}
         </div>
       </MainContainerMid>
       <MainContainerBtm>
-        <Icon.DeleteSweep />
+        <button onClick={() => {}}>
+          <Icon.DeleteSweep />
+        </button>
       </MainContainerBtm>
     </>
   );

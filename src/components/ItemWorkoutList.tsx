@@ -1,47 +1,59 @@
-import React, { createRef, useContext, useState } from "react";
+import React from "react";
 
 import "./ItemWorkoutList.css";
-import { MainContext } from "../config/MainContext";
+import { ItemFlatListArrayProps } from "../config/timerSetupDefaultData";
+import { MoveOrderActionType } from "../screens/WorkoutListScreen";
 import BtnListOrder from "./BtnListOrder";
 import Icon from "./Icon";
 
 interface ItemWorkoutListProps {
-  item?: any;
+  item: ItemFlatListArrayProps;
   index: number;
+  onMoveOrderAndSetData: (index: number, type: MoveOrderActionType) => void;
 }
 
-const ItemWorkoutList: React.FC<ItemWorkoutListProps> = ({ item, index }) => {
-  const {
-    timer: { timerSetup: mainData, setTimerSetup: setMainData },
-  } = useContext(MainContext as any);
-
-  const [imageSrc, setImageSrc] = useState(
-    mainData.workoutSetup.flatListArray[index].imgSrcForReact
-  );
-
-  const inputRef = createRef<HTMLInputElement>();
-
+const ItemWorkoutList: React.FC<ItemWorkoutListProps> = ({
+  item,
+  index,
+  onMoveOrderAndSetData,
+}) => {
   return (
     <div className="item-workout-list">
       <div className="list-order-btns">
-        <button>
+        <button
+          onClick={() => {
+            onMoveOrderAndSetData(index, "up");
+          }}
+        >
           <BtnListOrder.Up />
         </button>
-        <button>
+        <button
+          onClick={() => {
+            onMoveOrderAndSetData(index, "upToTop");
+          }}
+        >
           <BtnListOrder.Top />
         </button>
-        <button>
+        <button
+          onClick={() => {
+            onMoveOrderAndSetData(index, "down");
+          }}
+        >
           <BtnListOrder.Down />
         </button>
-        <button>
+        <button
+          onClick={() => {
+            onMoveOrderAndSetData(index, "downToBtm");
+          }}
+        >
           <BtnListOrder.Bottom />
         </button>
       </div>
       <div className="item-workout-list__number-container">
-        <p className="item-workout-list__number">{index + 1 + ". "}</p>
+        <p className="item-workout-list__number">{item.id + 1 + "."}</p>
       </div>
       <div className="img-workout-container">
-        <img className="workout-image" src={imageSrc} alt="" />
+        <img className="workout-image" src={item.imgSrcForReact} alt="" />
       </div>
       <button className="icon-add-image">
         <Icon.AddPhotoAlternate />
