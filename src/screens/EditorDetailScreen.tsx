@@ -8,6 +8,7 @@ import BtnDial from "../components/BtnDial";
 import BtnSubmitEditorDetailScreen from "../components/BtnSubmitEditorDetailScreen";
 import { RouteComponentProps, StaticContext } from "react-router";
 import { ItemEditorScreenProps } from "../config/timerSetupDefaultData";
+import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
 
 const EditorDetailScreen: React.FC<
   RouteComponentProps<
@@ -190,6 +191,36 @@ const EditorDetailScreen: React.FC<
     );
   };
 
+  const onSubmitApply = () => {
+    item.value =
+      item.type == "number"
+        ? numbers < 1
+          ? 1
+          : numbers
+        : minutes * 60 + seconds < 5
+        ? 5
+        : minutes * 60 + seconds;
+    mainData.workoutSetup.workoutArray =
+      timeDataSetupFunctions.makeWorkoutsArray(mainData);
+    mainData.workoutSetup.updated = true;
+    console.log(title);
+    if (itemKey == "workouts") {
+      mainData.workoutSetup.flatListArray =
+        timeDataSetupFunctions.makeFlatListArray(mainData, item.value);
+    }
+    setMainData(mainData);
+    setTabBarShow(true);
+
+    props.history.push("/editor");
+    // useCache.store(mainData); TODO: implement cache
+    // navigation.navigate("EditorScreen");
+  };
+
+  const onSubmitCancel = () => {
+    setTabBarShow(true);
+    props.history.push("/editor");
+  };
+
   return (
     <>
       <MainContainerMid customClassName="in-editor-detail-screen">
@@ -199,8 +230,8 @@ const EditorDetailScreen: React.FC<
           {item.type === "time" ? <TimePicker /> : <NumberPicker />}
         </div>
         <div className="submit-btns">
-          <BtnSubmitEditorDetailScreen.Apply onClick={() => {}} />
-          <BtnSubmitEditorDetailScreen.Cancel onClick={() => {}} />
+          <BtnSubmitEditorDetailScreen.Apply onClick={onSubmitApply} />
+          <BtnSubmitEditorDetailScreen.Cancel onClick={onSubmitCancel} />
         </div>
       </MainContainerMid>
       <MainContainerBtm />
