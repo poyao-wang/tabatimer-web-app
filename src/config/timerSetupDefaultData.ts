@@ -16,8 +16,8 @@ export interface ItemWorkoutArrayProps {
 }
 
 export interface ItemFlatListArrayProps {
-  id: number | string;
-  image: NodeRequire | null;
+  id: number;
+  image: NodeRequire | null | string;
   imgSrcForReact: string;
   name: string;
 }

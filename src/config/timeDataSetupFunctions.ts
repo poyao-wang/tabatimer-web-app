@@ -94,7 +94,7 @@ const makeFlatListArray: (
   } else if (arrayLength < workoutAmt) {
     for (let i = 0; i < workoutAmt - arrayLength; i++) {
       newArray.push({
-        id: "new",
+        id: i,
         image: null,
         imgSrcForReact: "",
         name: "new",
@@ -124,7 +124,7 @@ const resetFlatListArray: (
   } else if (arrayLength < workoutAmt) {
     for (let i = 0; i < workoutAmt - arrayLength; i++) {
       newArray.push({
-        id: "new",
+        id: i,
         image: null,
         imgSrcForReact: "",
         name: "new",
