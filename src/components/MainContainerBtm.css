@@ -19,7 +19,20 @@
 }
 
 .main-container-btm button {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  position: relative;
   transition-duration: 100ms;
+}
+
+.main-container-btm button .icon-text {
+  margin: 0;
+  font-size: 0.25rem;
+  line-height: 0.25rem;
+  position: absolute;
+  color: var(--color-dark);
+  top: 1.5rem;
 }
 
 .main-container-btm button:hover {
