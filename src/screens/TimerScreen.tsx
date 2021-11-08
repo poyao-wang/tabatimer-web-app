@@ -426,6 +426,7 @@ const TimerScreen: React.FC = (props) => {
   // Other useEffects
 
   useEffect(() => {
+    setTabBarShow(true);
     if (useTimerSetupState.timerSetup.workoutSetup.updated) {
       setFlatListArray(
         useTimerSetupState.timerSetup.workoutSetup.flatListArray
@@ -502,8 +503,6 @@ const TimerScreen: React.FC = (props) => {
 
   const secRemainCal = (n: number): number =>
     Math.ceil(workoutArray[sectionId].duration - n);
-
-  setTabBarShow(true);
 
   return (
     <>
