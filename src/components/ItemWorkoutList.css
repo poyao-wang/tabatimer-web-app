@@ -18,6 +18,9 @@
 }
 
 .item-workout-list .img-workout-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 1.8rem;
   height: 1.8rem;
   border-radius: 0.5rem;
@@ -28,6 +31,22 @@
 .item-workout-list .img-workout-container img {
   width: 1.8rem;
   height: 1.8rem;
+}
+
+.item-workout-list .img-workout-container .icon-no-img {
+  width: 1.2rem;
+  height: 1.2rem;
+  line-height: 0;
+  opacity: 0.3;
+}
+
+.item-workout-list .img-workout-container .icon-no-img .icon {
+  width: 100%;
+  height: 100%;
+}
+
+.item-workout-list .img-workout-container .icon-no-img svg path {
+  fill: var(--color-dark);
 }
 
 .item-workout-list .icon {

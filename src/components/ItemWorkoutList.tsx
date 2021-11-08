@@ -19,6 +19,20 @@ const ItemWorkoutList: React.FC<ItemWorkoutListProps> = ({
   onMoveOrderAndSetData,
   onAddImgClicked,
 }) => {
+  const Img: React.FC = () => (
+    <img
+      className="workout-image"
+      src={typeof item.image === "string" ? item.image : undefined}
+      alt=""
+    />
+  );
+
+  const IconNoImg: React.FC = () => (
+    <div className="icon-no-img">
+      <Icon.ImageNotSupported />
+    </div>
+  );
+
   return (
     <div className="item-workout-list">
       <div className="list-order-btns">
@@ -55,7 +69,7 @@ const ItemWorkoutList: React.FC<ItemWorkoutListProps> = ({
         <p className="item-workout-list__number">{item.id + 1 + "."}</p>
       </div>
       <div className="img-workout-container">
-        <img className="workout-image" src={item.imgSrcForReact} alt="" />
+        {item.image ? <Img /> : <IconNoImg />}
       </div>
       <button className="icon-add-image" onClick={onAddImgClicked}>
         <Icon.AddPhotoAlternate />
@@ -65,57 +79,3 @@ const ItemWorkoutList: React.FC<ItemWorkoutListProps> = ({
 };
 
 export default ItemWorkoutList;
-
-// Add and delete image btns
-
-// import Jimp from "jimp";
-
-/* <div className="workout-image-add-icon">
-<input
-  ref={inputRef}
-  type="file"
-  style={{ display: "none" }}
-  accept="image/png, image/jpeg"
-  onChange={addImage}
-/>
-<button
-  onClick={() => {
-    inputRef.current?.click();
-  }}
->
-  +
-</button>
-</div>
-<div className="workout-image-delete-icon">
-<button onClick={deleteImage}>{"delete"}</button>
-</div> */
-
-// function addImage(e: any) {
-//   let file = e.target.files[0];
-//   let reader = new FileReader();
-//   reader.readAsDataURL(file);
-//   reader.onload = () => {
-//     Jimp.read(reader.result as string, (err, image) => {
-//       if (err) throw err;
-//       else {
-//         image
-//           .background(0xffffffff)
-//           .contain(300, 300)
-//           .quality(70)
-//           .getBase64(Jimp.MIME_JPEG, function (err, src) {
-//             setImageSrc(src);
-//             mainData.workoutSetup.flatListArray[item.id].image = src;
-//             mainData.workoutSetup.updated = true;
-//             setMainData(mainData);
-//           });
-//       }
-//     });
-//   };
-// }
-
-// function deleteImage() {
-//   setImageSrc("");
-//   mainData.workoutSetup.flatListArray[item.id].image = "";
-//   mainData.workoutSetup.updated = true;
-//   setMainData(mainData);
-// }

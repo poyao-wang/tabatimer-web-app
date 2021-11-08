@@ -1,5 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { createRef, useContext, useState } from "react";
 import { RouteComponentProps, StaticContext } from "react-router";
+import Jimp from "jimp";
 
 import "./WorkoutListDetailScreen.css";
 import { ItemFlatListArrayProps } from "../config/timerSetupDefaultData";
@@ -23,14 +24,46 @@ const WorkoutListDetailScreen: React.FC<
     tabBar: { setTabBarShow },
   } = useContext(MainContext);
 
-  // const [title, setTitle] = useState("title");
-  // const [imgSrc, setImgSrc] = useState("/assets/plank-side-L.jpg");
-  // const [imgSrc, setImgSrc] = useState("");
+  const [imgSrc, setImgSrc] = useState(props.location.state.item.image);
 
+  const item = props.location.state.item;
   const title = props.location.state.index + 1 + ".";
-  const imgSrc = props.location.state.item.imgSrcForReact;
 
   setTabBarShow(false);
+
+  const inputRef = createRef<HTMLInputElement>();
+
+  function addImage(e: any) {
+    let file = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      Jimp.read(reader.result as string, (err, image) => {
+        if (err) throw err;
+        else {
+          image
+            .background(0xffffffff)
+            .contain(300, 300)
+            .quality(70)
+            .getBase64(Jimp.MIME_JPEG, function (err, src) {
+              setImgSrc(src);
+              mainData.workoutSetup.flatListArray[item.id].image = src;
+              mainData.workoutSetup.updated = true;
+              setMainData(mainData);
+              // TODO: Implement cache
+            });
+        }
+      });
+    };
+  }
+
+  function deleteImage() {
+    setImgSrc("");
+    mainData.workoutSetup.flatListArray[item.id].image = "";
+    mainData.workoutSetup.updated = true;
+    setMainData(mainData);
+    // TODO: Implement cache
+  }
 
   return (
     <>
@@ -38,16 +71,30 @@ const WorkoutListDetailScreen: React.FC<
         <p className="screen-title">{title}</p>
         <div className="img-workout-container">
           {imgSrc && (
-            <button className="btn-delete-img">
+            <button className="btn-delete-img" onClick={deleteImage}>
               <Icon.Delete />
             </button>
           )}
           {imgSrc ? (
             <img className="workout-image" src={imgSrc} alt="" />
           ) : (
-            <button className="btn-back">
-              <Icon.Add />
-            </button>
+            <>
+              <input
+                ref={inputRef}
+                type="file"
+                style={{ display: "none" }}
+                accept="image/png, image/jpeg"
+                onChange={addImage}
+              />
+              <button
+                className="btn-add"
+                onClick={() => {
+                  inputRef.current?.click();
+                }}
+              >
+                <Icon.Add />
+              </button>
+            </>
           )}
         </div>
         <button

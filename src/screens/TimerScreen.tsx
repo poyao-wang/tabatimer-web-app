@@ -25,18 +25,28 @@ import useTimerControl, {
 
 import _ from "lodash";
 
+type ImgContainerStatus = "hide" | "img" | "no-img";
+
 interface ImgContainerProps {
-  show: boolean;
+  status: ImgContainerStatus;
+  btnShow: boolean;
   type: "left" | "mid" | "right";
-  imgSrc: string;
+  imgSrc: string | null;
   icon: ReactElement;
   btnOnClick: () => void;
+  textWhenNoImg: string | number;
 }
 
-interface CenterContainerItemsValuesProps {
-  lt: { index: number | null; imageUri: string | null };
-  mi: { index: number | null; imageUri: string | null };
-  rt: { index: number | null; imageUri: string | null };
+interface CenterContainerItemValuesProps {
+  index: number | null;
+  imageUri: string | null;
+  status: ImgContainerStatus;
+}
+
+interface CenterContainerItemsProps {
+  lt: CenterContainerItemValuesProps;
+  mi: CenterContainerItemValuesProps;
+  rt: CenterContainerItemValuesProps;
 }
 
 const TimerScreen: React.FC = (props) => {
@@ -89,10 +99,10 @@ const TimerScreen: React.FC = (props) => {
   const [btnPressable, setBtnPressable] = useState(true);
 
   const [centerContainerItemsValues, setCenterContainerItemsValues] =
-    useState<CenterContainerItemsValuesProps>({
-      lt: { index: null, imageUri: null },
-      mi: { index: null, imageUri: null },
-      rt: { index: null, imageUri: null },
+    useState<CenterContainerItemsProps>({
+      lt: { index: null, imageUri: null, status: "hide" },
+      mi: { index: null, imageUri: null, status: "hide" },
+      rt: { index: null, imageUri: null, status: "hide" },
     });
 
   const [{ sectionSeconds }, sectionSecondsApi] = useSpring(() => ({
@@ -263,7 +273,7 @@ const TimerScreen: React.FC = (props) => {
     });
   }
 
-  function createCenterContainerItemsValues(): CenterContainerItemsValuesProps {
+  function createCenterContainerItemsValues(): CenterContainerItemsProps {
     const totalWorkoutAmt = useTimerSetupState.timerSetup.workouts.value;
     const currentWoroutNo = timeData[sectionId].workoutNo;
 
@@ -271,12 +281,26 @@ const TimerScreen: React.FC = (props) => {
       ltIndexNo: number | null,
       miIndexNo: number | null,
       rtIndexNo: number | null
-    ) {
-      function retrunObj(indexNo: number | null) {
+    ): CenterContainerItemsProps {
+      function retrunObj(
+        indexNo: number | null
+      ): CenterContainerItemValuesProps {
+        let status: ImgContainerStatus;
+
+        if (indexNo === null) {
+          status = "hide";
+        } else {
+          if (flatListArray[indexNo].image) {
+            status = "img";
+          } else {
+            status = "no-img";
+          }
+        }
+
         return {
           index: indexNo,
-          imageUri:
-            indexNo !== null ? flatListArray[indexNo].imgSrcForReact : "",
+          imageUri: indexNo !== null ? flatListArray[indexNo].image : "",
+          status,
         };
       }
 
@@ -285,6 +309,10 @@ const TimerScreen: React.FC = (props) => {
         mi: retrunObj(miIndexNo),
         rt: retrunObj(rtIndexNo),
       };
+    }
+
+    if (totalWorkoutAmt <= 1) {
+      return createReturnObj(null, 0, null);
     }
 
     if (currentWoroutNo <= 1) {
@@ -414,19 +442,53 @@ const TimerScreen: React.FC = (props) => {
   }, [sectionId]);
 
   const ImgContainerSide: React.FC<ImgContainerProps> = (props) => {
-    const btnClassName = "btn-skip" + (props.show ? "" : " btn-skip--hide");
+    const { btnShow, btnOnClick, icon, status } = props;
 
-    return props.imgSrc ? (
+    const btnClassName = "btn-skip" + (btnShow ? "" : " btn-skip--hide");
+
+    const Btn: React.FC = () => (
+      <button className={btnClassName} onClick={btnOnClick}>
+        <div className="icon-bg" />
+        {icon}
+      </button>
+    );
+
+    const ReturnWithImg: React.FC = () => (
       <div className={"img-container img-container--" + props.type}>
-        <button className={btnClassName} onClick={props.btnOnClick}>
-          <div className="icon-bg" />
-          {props.icon}
-        </button>
-        <img src={props.imgSrc} alt={"img" + props.type} />
+        <Btn />
+        <img
+          src={props.imgSrc ? props.imgSrc : undefined}
+          alt={"img" + props.type}
+        />
       </div>
-    ) : (
+    );
+
+    const ReturnNoImg: React.FC = () => (
+      <div className={"img-container img-container--" + props.type}>
+        <Btn />
+        <p className="text-when-no-img">{props.textWhenNoImg}</p>
+      </div>
+    );
+
+    const ReturnHidden: React.FC = () => (
       <div className={"img-container img-container--hidden"} />
     );
+
+    const ReturnItem: React.FC = () => {
+      switch (status) {
+        case "hide":
+          return <ReturnHidden />;
+          break;
+        case "img":
+          return <ReturnWithImg />;
+          break;
+        case "no-img":
+          return <ReturnNoImg />;
+          break;
+      }
+    };
+
+    return <ReturnItem />;
   };
 
   useEffect(() => {
@@ -487,42 +549,54 @@ const TimerScreen: React.FC = (props) => {
             <ImgContainerSide
               icon={<Icon.SkipPreviousCircle />}
               type="left"
-              imgSrc={
-                centerContainerItemsValues?.lt?.imageUri
-                  ? centerContainerItemsValues?.lt?.imageUri
-                  : ""
-              }
+              imgSrc={centerContainerItemsValues?.lt?.imageUri}
+              status={centerContainerItemsValues?.lt?.status}
               btnOnClick={() => {
                 setWorkoutPlusOrMinus(false);
               }}
-              show={hidableBtnsShow}
+              btnShow={hidableBtnsShow}
+              textWhenNoImg={
+                typeof centerContainerItemsValues?.lt?.index === "number"
+                  ? centerContainerItemsValues?.lt?.index + 1
+                  : ""
+              }
             />
           </div>
           <div className="container-mid__container">
             <div className="img-container img-container--mid">
-              <img
-                src={
-                  centerContainerItemsValues?.mi?.imageUri
-                    ? centerContainerItemsValues?.mi?.imageUri
-                    : ""
-                }
-                alt="mi-img"
-              />
+              {centerContainerItemsValues?.mi?.imageUri ? (
+                <img
+                  src={
+                    centerContainerItemsValues?.mi?.imageUri
+                      ? centerContainerItemsValues?.mi?.imageUri
+                      : ""
+                  }
+                  alt="mi-img"
+                />
+              ) : typeof centerContainerItemsValues?.mi?.index === "number" ? (
+                <p className="text-when-no-img">
+                  {centerContainerItemsValues?.mi?.index + 1}
+                </p>
+              ) : (
+                ""
+              )}
             </div>
           </div>
           <div className="container-mid__container">
             <ImgContainerSide
               icon={<Icon.SkipNextCircle />}
               type="right"
-              imgSrc={
-                centerContainerItemsValues?.rt?.imageUri
-                  ? centerContainerItemsValues?.rt?.imageUri
-                  : ""
-              }
+              imgSrc={centerContainerItemsValues?.rt?.imageUri}
+              status={centerContainerItemsValues?.rt?.status}
               btnOnClick={() => {
                 setWorkoutPlusOrMinus(true);
               }}
-              show={hidableBtnsShow}
+              btnShow={hidableBtnsShow}
+              textWhenNoImg={
+                typeof centerContainerItemsValues?.rt?.index === "number"
+                  ? centerContainerItemsValues?.rt?.index + 1
+                  : ""
+              }
             />
           </div>
         </div>
