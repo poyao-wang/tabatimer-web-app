@@ -1,14 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import Icon from "./Icon";
-import { MainContext } from "../config/MainContext";
-import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
 import "./ItemEditorScreen.css";
+import { WorkoutSetupProps } from "../config/timerSetupDefaultData";
+import Icon from "./Icon";
+import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
 
 interface ItemEditorScreenProps {
-  screenData: any;
-  itemKey: any;
-  useIfAnyIsSettingState: any;
+  screenData: WorkoutSetupProps;
+  itemKey: keyof WorkoutSetupProps;
   onClick: React.MouseEventHandler<HTMLDivElement>;
 }
 
@@ -19,13 +18,8 @@ interface DisplayProps {
 const ItemEditorScreen: React.FC<ItemEditorScreenProps> = ({
   screenData,
   itemKey,
-  useIfAnyIsSettingState,
   onClick,
 }) => {
-  const {
-    timer: { timerSetup: mainData, setTimerSetup: setMainData },
-  } = useContext(MainContext) as any;
-
   const item = screenData[itemKey];
   const title = itemKey + " title";
   const subtitle = itemKey + "subtitle";

@@ -1,13 +1,15 @@
 import React, { useContext, useState } from "react";
 import { MainContext } from "../config/MainContext";
+import _ from "lodash";
 
 import "./EditorScreen.css";
-import ItemEditorScreen from "../components/ItemEditorScreen";
-import Icon from "../components/Icon";
-import MainContainerBtm from "../components/MainContainerBtm";
-import MainContainerMid from "../components/MainContainerMid";
 import { RouteComponentProps, StaticContext } from "react-router";
 import { WorkoutSetupProps } from "../config/timerSetupDefaultData";
+import Icon from "../components/Icon";
+import ItemEditorScreen from "../components/ItemEditorScreen";
+import MainContainerBtm from "../components/MainContainerBtm";
+import MainContainerMid from "../components/MainContainerMid";
+import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
 
 const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
   (props) => {
@@ -17,7 +19,6 @@ const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
     } = useContext(MainContext);
 
     const [screenData, setScreenData] = useState(mainData);
-    const [ifAnyIsSetting, setIfAnyIsSetting] = useState(false);
 
     const renderItem = (itemKey: keyof WorkoutSetupProps) => {
       const item = screenData[itemKey];
@@ -28,7 +29,6 @@ const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
         <ItemEditorScreen
           screenData={screenData}
           itemKey={itemKey}
-          useIfAnyIsSettingState={{ ifAnyIsSetting, setIfAnyIsSetting }}
           onClick={() => {
             props.history.push("/editor-detail", {
               itemKey,
@@ -54,14 +54,15 @@ const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
           {renderItem("workouts")}
         </MainContainerMid>
         <MainContainerBtm>
-          <button>
-            {screenData.settings.playSound ? (
-              <Icon.VolumeUp />
-            ) : (
-              <Icon.Cancel />
-            )}
-          </button>
-          <button>
+          <button
+            onClick={() => {
+              timeDataSetupFunctions.resetMainData(mainData);
+              setMainData(mainData);
+              const dataClone = _.cloneDeep(mainData);
+              setScreenData(dataClone);
+              // useCache.store(mainData); // TODO: cache
+            }}
+          >
             <Icon.RestartAlt />
           </button>
           <button
