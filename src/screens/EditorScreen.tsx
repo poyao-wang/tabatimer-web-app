@@ -64,7 +64,11 @@ const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
           <button>
             <Icon.RestartAlt />
           </button>
-          <button>
+          <button
+            onClick={() => {
+              props.history.push("/");
+            }}
+          >
             <Icon.Translate />
           </button>
         </MainContainerBtm>
