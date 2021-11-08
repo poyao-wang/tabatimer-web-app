@@ -23,6 +23,11 @@
 .in-welcome-screen .btn-play {
   width: 1.8rem;
   height: 1.8rem;
+  transition-duration: 100ms;
+}
+
+.in-welcome-screen .btn-play:hover {
+  transform: scale(1.1);
 }
 
 .in-welcome-screen .btn-play .icon {
