@@ -1,3 +1,5 @@
+import workOutImgsBase64 from "./workOutImgsBase64";
+
 // Imports for React Native
 // import Constants from "expo-constants";
 // const currentAppVer = Constants.manifest.version;
@@ -17,7 +19,8 @@ export interface ItemWorkoutArrayProps {
 
 export interface ItemFlatListArrayProps {
   id: number;
-  image: NodeRequire | null | string;
+  // image: NodeRequire | null | string; // Type define for React Native
+  image: null | string; // Type define for React
   imgSrcForReact: string;
   name: string;
 }
@@ -374,37 +377,37 @@ const timerSetupDefaultData: WorkoutSetupProps = {
     flatListArray: [
       {
         id: 0,
-        image: require("../assets/plank-elbow.jpg"),
+        image: workOutImgsBase64.plankElbow,
         imgSrcForReact: "/assets/plank-elbow.jpg",
         name: "workout1",
       },
       {
         id: 1,
-        image: require("../assets/plank-full.jpg"),
+        image: workOutImgsBase64.plankFull,
         imgSrcForReact: "/assets/plank-full.jpg",
         name: "workout2",
       },
       {
         id: 2,
-        image: require("../assets/plank-side-L.jpg"),
+        image: workOutImgsBase64.plankSideL,
         imgSrcForReact: "/assets/plank-side-L.jpg",
         name: "workout3",
       },
       {
         id: 3,
-        image: require("../assets/plank-side-R.jpg"),
+        image: workOutImgsBase64.plankSideR,
         imgSrcForReact: "/assets/plank-side-R.jpg",
         name: "workout4",
       },
       {
         id: 4,
-        image: require("../assets/plank-full.jpg"),
+        image: workOutImgsBase64.plankFull,
         imgSrcForReact: "/assets/plank-full.jpg",
         name: "workout5",
       },
       {
         id: 5,
-        image: require("../assets/plank-elbow.jpg"),
+        image: workOutImgsBase64.plankElbow,
         imgSrcForReact: "/assets/plank-elbow.jpg",
         name: "workout6",
       },
