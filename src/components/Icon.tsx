@@ -14,6 +14,7 @@ import { ReactComponent as Delete } from "../assets/icons/delete.svg";
 import { ReactComponent as DragIndicator } from "../assets/icons/drag_indicator.svg";
 import { ReactComponent as FormatListBulleted } from "../assets/icons/format_list_bulleted.svg";
 import { ReactComponent as Google } from "../assets/icons/google.svg";
+import { ReactComponent as ImageNotSupported } from "../assets/icons/image-not-supported.svg";
 import { ReactComponent as KeyboardArrowDown } from "../assets/icons/keyboard_arrow_down.svg";
 import { ReactComponent as KeyboardArrowUp } from "../assets/icons/keyboard_arrow_up.svg";
 import { ReactComponent as KeyboardDoubleArrowDown } from "../assets/icons/keyboard_double_arrow_down.svg";
@@ -50,6 +51,7 @@ const Icon = {
   DragIndicator: () => <DragIndicator className="icon" />,
   FormatListBulleted: () => <FormatListBulleted className="icon" />,
   Google: () => <Google className="icon" />,
+  ImageNotSupported: () => <ImageNotSupported className="icon" />,
   KeyboardArrowDown: () => <KeyboardArrowDown className="icon" />,
   KeyboardArrowUp: () => <KeyboardArrowUp className="icon" />,
   KeyboardDoubleArrowDown: () => <KeyboardDoubleArrowDown className="icon" />,
