@@ -20,6 +20,9 @@ import { ReactComponent as KeyboardArrowUp } from "../assets/icons/keyboard_arro
 import { ReactComponent as KeyboardDoubleArrowDown } from "../assets/icons/keyboard_double_arrow_down.svg";
 import { ReactComponent as KeyboardDoubleArrowRight } from "../assets/icons/keyboard_double_arrow_right.svg";
 import { ReactComponent as KeyboardDoubleArrowUp } from "../assets/icons/keyboard_double_arrow_up.svg";
+import { ReactComponent as LanguageEn } from "../assets/icons/language-en.svg";
+import { ReactComponent as LanguageJa } from "../assets/icons/language-ja.svg";
+import { ReactComponent as LanguageZh } from "../assets/icons/language-zh.svg";
 import { ReactComponent as Login } from "../assets/icons/login.svg";
 import { ReactComponent as ManageAccounts } from "../assets/icons/manage_accounts.svg";
 import { ReactComponent as PlayCircle } from "../assets/icons/play_circle.svg";
@@ -58,6 +61,9 @@ const Icon = {
   KeyboardDoubleArrowRight: () => <KeyboardDoubleArrowRight className="icon" />,
   KeyboardDoubleArrowUp: () => <KeyboardDoubleArrowUp className="icon" />,
   Login: () => <Login className="icon" />,
+  LanguageEn: () => <LanguageEn className="icon" />,
+  LanguageJa: () => <LanguageJa className="icon" />,
+  LanguageZh: () => <LanguageZh className="icon" />,
   ManageAccounts: () => <ManageAccounts className="icon" />,
   PlayCircle: () => <PlayCircle className="icon" />,
   PauseCircle: () => <PauseCircle className="icon" />,
