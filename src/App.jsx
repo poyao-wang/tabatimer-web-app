@@ -12,6 +12,7 @@ import NavBar from "./components/NavBar";
 import ImgWorkout from "./components/ImgWorkout";
 import EditorDetailScreen from "./screens/EditorDetailScreen";
 import WorkoutListDetailScreen from "./screens/WorkoutListDetailScreen";
+import WelcomeScreen from "./screens/WelcomeScreen";
 
 function App() {
   const [tabBarShow, setTabBarShow] = useState(true);
@@ -33,6 +34,11 @@ function App() {
             <NavBar />
           </div>
           <Switch>
+            <Route
+              path="/"
+              exact
+              render={(props) => <WelcomeScreen {...props} />}
+            />
             <Route
               path="/timer"
               render={(props) => <TimerScreen {...props} />}
@@ -57,7 +63,6 @@ function App() {
               path="/workout-list-detail"
               render={(props) => <WorkoutListDetailScreen {...props} />}
             />
-            <Redirect from="/" exact to="/timer" />
           </Switch>
         </div>
       </MainContext.Provider>

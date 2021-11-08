@@ -1,0 +1,40 @@
+.in-welcome-screen > * {
+  margin: 0.4rem;
+}
+
+.in-welcome-screen .screen-title {
+  font-size: 0.9rem;
+  line-height: 0.9rem;
+  letter-spacing: 0.25rem;
+  color: var(--color-dark);
+}
+
+.in-welcome-screen .app-icon {
+  width: 4rem;
+  height: 4rem;
+}
+
+.in-welcome-screen .app-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: var(--color-dark);
+}
+
+.in-welcome-screen .btn-play {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.in-welcome-screen .btn-play .icon {
+  width: 100%;
+  height: 100%;
+}
+
+.main-container-btm.in-welcome-screen button {
+  opacity: 0.4;
+}
+
+.main-container-btm.in-welcome-screen button.lang-selected {
+  opacity: 1;
+  transform: scale(1.1);
+}
