@@ -13,6 +13,7 @@ import ImgWorkout from "./components/ImgWorkout";
 import EditorDetailScreen from "./screens/EditorDetailScreen";
 import WorkoutListDetailScreen from "./screens/WorkoutListDetailScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [tabBarShow, setTabBarShow] = useState(true);
@@ -34,35 +35,36 @@ function App() {
             <NavBar />
           </div>
           <Switch>
-            <Route
+            <ProtectedRoute
               path="/"
               exact
               render={(props) => <WelcomeScreen {...props} />}
             />
-            <Route
+            <ProtectedRoute
               path="/timer"
               render={(props) => <TimerScreen {...props} />}
             />
-            <Route
+            <ProtectedRoute
               path="/account"
               render={(props) => <AccountScreen {...props} />}
             />
-            <Route
+            <ProtectedRoute
               path="/editor"
               render={(props) => <EditorScreen {...props} />}
             />
-            <Route
+            <ProtectedRoute
               path="/editor-detail"
               render={(props) => <EditorDetailScreen {...props} />}
             />
-            <Route
+            <ProtectedRoute
               path="/workout-list"
               render={(props) => <WorkoutListScreen {...props} />}
             />
-            <Route
+            <ProtectedRoute
               path="/workout-list-detail"
               render={(props) => <WorkoutListDetailScreen {...props} />}
             />
+            <Redirect to="/" />
           </Switch>
         </div>
       </MainContext.Provider>
