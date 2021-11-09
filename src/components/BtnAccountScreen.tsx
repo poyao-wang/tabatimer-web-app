@@ -16,6 +16,15 @@ const Signin: React.FC = (props) => {
   );
 };
 
+const SignOut: React.FC = (props) => {
+  return (
+    <button className="btn-account-screen btn-account-screen--sign-out">
+      <Icon.Logout />
+      Sign out
+    </button>
+  );
+};
+
 const Apple: React.FC = (props) => {
   return (
     <button className="btn-account-screen btn-account-screen--apple">
@@ -59,6 +68,7 @@ const Google: React.FC = (props) => {
 
 const BtnAccountScreen = {
   SignIn: Signin,
+  SignOut: SignOut,
   Apple: Apple,
   Google: Google,
 };

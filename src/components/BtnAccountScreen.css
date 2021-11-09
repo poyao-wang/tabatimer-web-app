@@ -28,6 +28,10 @@
   background-color: var(--color-dark);
 }
 
+.btn-account-screen--sign-out {
+  background-color: var(--color-dark);
+}
+
 .btn-account-screen--apple {
   background-color: var(--color-dark);
 }
