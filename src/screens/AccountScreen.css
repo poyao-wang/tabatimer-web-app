@@ -27,3 +27,8 @@
 .account-screen-btns .btn-account-screen {
   margin: 0.15rem;
 }
+
+.account-screen-btns #loader {
+  width: 5rem;
+  height: 5rem;
+}

@@ -11,6 +11,7 @@ import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
 import { RouteComponentProps, StaticContext } from "react-router";
 import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
+import Loader from "../components/Loader";
 
 const AccountScreen: React.FC<
   RouteComponentProps<
@@ -145,6 +146,14 @@ const AccountScreen: React.FC<
     );
   };
 
+  const LoadingView: React.FC = () => {
+    return (
+      <div className="account-screen-btns">
+        <Loader />
+      </div>
+    );
+  };
+
   useEffect(() => {
     setTabBarShow(true);
   }, []);
@@ -154,9 +163,7 @@ const AccountScreen: React.FC<
       <MainContainerMid>
         <p className="account-screen__title">User Account</p>
         <SubTitle />
-        <div className="account-screen-btns">
-          <SignOutBtns />
-        </div>
+        <LoadingView />
       </MainContainerMid>
       <MainContainerBtm>
         <button>
