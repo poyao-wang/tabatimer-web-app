@@ -2,11 +2,15 @@ import React, { useContext, useEffect } from "react";
 
 import "./AccountScreen.css";
 import { MainContext } from "../config/MainContext";
+import { useAuth } from "../auth/AuthContext";
+import { WorkoutSetupProps } from "../config/timerSetupDefaultData";
 import BtnAccountScreen from "../components/BtnAccountScreen";
+import cache from "../config/cache";
 import Icon from "../components/Icon";
 import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
 import { RouteComponentProps, StaticContext } from "react-router";
+import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
 
 const AccountScreen: React.FC<
   RouteComponentProps<
@@ -21,6 +25,61 @@ const AccountScreen: React.FC<
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
     tabBar: { setTabBarShow },
   } = useContext(MainContext);
+
+  const { currentUser, logout, loading, setLoading } = useAuth();
+
+  const mainDataToString: (mainData: WorkoutSetupProps) => string | null = (
+    mainData
+  ) => {
+    if (mainData) {
+      const prepareTime = mainData?.prepareTime?.value;
+      const restTimeSets = mainData?.restTimeSets?.value;
+      const restTime = mainData?.restTime?.value;
+      const sets = mainData?.sets?.value;
+      const workouts = mainData?.workouts?.value;
+      const workoutList = mainData?.workoutSetup?.flatListArray;
+      const workoutTime = mainData?.workoutTime?.value;
+      const returnObj = {
+        prepareTime,
+        restTimeSets,
+        restTime,
+        sets,
+        workouts,
+        workoutList,
+        workoutTime,
+      };
+      return JSON.stringify(returnObj);
+    }
+    return null;
+  };
+
+  const stringToSetMainData = (inputText: string) => {
+    if (!inputText) throw new Error("noData");
+    const parsedObject = JSON.parse(inputText);
+    const {
+      prepareTime,
+      restTime,
+      restTimeSets,
+      sets,
+      workoutList,
+      workouts,
+      workoutTime,
+    } = parsedObject;
+
+    mainData.prepareTime.value = prepareTime;
+    mainData.restTime.value = restTime;
+    mainData.restTimeSets.value = restTimeSets;
+    mainData.sets.value = sets;
+    mainData.workouts.value = workouts;
+    mainData.workoutTime.value = workoutTime;
+    mainData.workoutSetup.flatListArray = workoutList;
+
+    mainData.workoutSetup.updated = true;
+    mainData.workoutSetup.workoutArray =
+      timeDataSetupFunctions.makeWorkoutsArray(mainData);
+    setMainData(mainData);
+    cache.storeToCache(mainData);
+  };
 
   useEffect(() => {
     setTabBarShow(true);
