@@ -6,8 +6,17 @@ import BtnAccountScreen from "../components/BtnAccountScreen";
 import Icon from "../components/Icon";
 import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
+import { RouteComponentProps, StaticContext } from "react-router";
 
-const AccountScreen: React.FC = (props) => {
+const AccountScreen: React.FC<
+  RouteComponentProps<
+    {
+      [x: string]: string | undefined;
+    },
+    StaticContext,
+    unknown
+  >
+> = (props) => {
   const {
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
     tabBar: { setTabBarShow },

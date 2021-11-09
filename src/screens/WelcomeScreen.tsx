@@ -11,7 +11,13 @@ import { ReactComponent as AppIcon } from "../assets/icons/tabatimer.svg";
 type Language = "en" | "ja" | "zh";
 
 const WelcomeScreen: React.FC<
-  RouteComponentProps<{}, StaticContext, undefined>
+  RouteComponentProps<
+    {
+      [x: string]: string | undefined;
+    },
+    StaticContext,
+    unknown
+  >
 > = (props) => {
   const {
     tabBar: { setTabBarShow },

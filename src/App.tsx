@@ -18,6 +18,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   const [tabBarShow, setTabBarShow] = useState(true);
   const [timerSetup, setTimerSetup] = useState(timerSetupDefaultData);
+  const [language, setLanguage] = useState("en"); // TODO: Lan support
+  // const [uiText, setUiText] = useState(uiTextDefaultData["en"]);
+  const uiText = {} as any; // TODO: Lan support
 
   useEffect(() => {
     cache.getCacheAndSet(timerSetup, setTimerSetup);
@@ -32,6 +35,7 @@ function App() {
         value={{
           tabBar: { tabBarShow, setTabBarShow },
           timer: { timerSetup, setTimerSetup },
+          language: { uiText, setLanguage },
         }}
       >
         <div className="screen-container">
@@ -58,7 +62,7 @@ function App() {
             />
             <ProtectedRoute
               path="/editor-detail"
-              render={(props) => <EditorDetailScreen {...props} />}
+              render={(props: any) => <EditorDetailScreen {...props} />} //TODO: fix any in the future
             />
             <ProtectedRoute
               path="/workout-list"
@@ -66,7 +70,7 @@ function App() {
             />
             <ProtectedRoute
               path="/workout-list-detail"
-              render={(props) => <WorkoutListDetailScreen {...props} />}
+              render={(props: any) => <WorkoutListDetailScreen {...props} />} //TODO: fix any in the future
             />
             <Redirect to="/" />
           </Switch>

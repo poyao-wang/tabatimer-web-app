@@ -24,6 +24,7 @@ import useTimerControl, {
 } from "../hook/useTimerControl";
 
 import _ from "lodash";
+import { RouteComponentProps, StaticContext } from "react-router";
 
 type ImgContainerStatus = "hide" | "img" | "no-img";
 
@@ -49,7 +50,15 @@ interface CenterContainerItemsProps {
   rt: CenterContainerItemValuesProps;
 }
 
-const TimerScreen: React.FC = (props) => {
+const TimerScreen: React.FC<
+  RouteComponentProps<
+    {
+      [x: string]: string | undefined;
+    },
+    StaticContext,
+    unknown
+  >
+> = (props) => {
   const {
     timer: useTimerSetupState,
     tabBar: { setTabBarShow },
