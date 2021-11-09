@@ -7,9 +7,15 @@ import { providerGoogle } from "../App";
 import "./BtnAccountScreen.css";
 import Icon from "./Icon";
 
-const Signin: React.FC = (props) => {
+interface SignInProps {
+  onClick: () => void;
+}
+const SignIn: React.FC<SignInProps> = ({ onClick }) => {
   return (
-    <button className="btn-account-screen btn-account-screen--sign-in">
+    <button
+      className="btn-account-screen btn-account-screen--sign-in"
+      onClick={onClick}
+    >
       <Icon.Login />
       Sign in
     </button>
@@ -67,7 +73,7 @@ const Google: React.FC = (props) => {
 };
 
 const BtnAccountScreen = {
-  SignIn: Signin,
+  SignIn: SignIn,
   SignOut: SignOut,
   Apple: Apple,
   Google: Google,

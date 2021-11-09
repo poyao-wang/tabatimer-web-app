@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import "./AccountScreen.css";
 import { MainContext } from "../config/MainContext";
@@ -21,6 +21,8 @@ const AccountScreen: React.FC<
     unknown
   >
 > = (props) => {
+  const [trackingAuthorized, setTrackingAuthorized] = useState(false);
+
   const {
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
     tabBar: { setTabBarShow },
@@ -106,6 +108,22 @@ const AccountScreen: React.FC<
     );
   };
 
+  const PermissionBtns: React.FC = () => {
+    return (
+      <div className="account-screen-btns">
+        <BtnAccountScreen.SignIn
+          onClick={async () => {
+            try {
+              setTrackingAuthorized(true);
+            } catch (error) {
+              alert(error);
+            }
+          }}
+        />
+      </div>
+    );
+  };
+
   useEffect(() => {
     setTabBarShow(true);
   }, []);
@@ -116,9 +134,7 @@ const AccountScreen: React.FC<
         <p className="account-screen__title">User Account</p>
         <SubTitle />
         <div className="account-screen-btns">
-          <BtnAccountScreen.SignIn />
-          <BtnAccountScreen.Apple />
-          <BtnAccountScreen.Google />
+          <PermissionBtns />
         </div>
       </MainContainerMid>
       <MainContainerBtm>
