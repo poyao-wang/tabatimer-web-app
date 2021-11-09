@@ -81,6 +81,31 @@ const AccountScreen: React.FC<
     cache.storeToCache(mainData);
   };
 
+  const SubTitle: React.FC = () => {
+    const providerText = () => {
+      const textFeomFirebaseAuth = currentUser!.providerData[0]?.providerId;
+      if (textFeomFirebaseAuth === "apple.com") return "Apple";
+      if (textFeomFirebaseAuth === "facebook.com") return "Facebook";
+      if (textFeomFirebaseAuth === "google.com") return "Google";
+    };
+
+    return (
+      <p className="account-screen__subtitle">
+        {/* {!currentUser
+          ? translationText.subtitle.noUser
+          : !currentUser.displayName
+          ? translationText.subtitle.withUserNameNotAvailable
+          : currentUser.displayName}
+        {currentUser
+          ? translationText.subtitle.withUserBeforeProvidor +
+            providerText() +
+            translationText.subtitle.withUserAfterProvidor
+          : null} */}
+        Sign in for upload / download settings
+      </p>
+    );
+  };
+
   useEffect(() => {
     setTabBarShow(true);
   }, []);
@@ -89,9 +114,7 @@ const AccountScreen: React.FC<
     <>
       <MainContainerMid>
         <p className="account-screen__title">User Account</p>
-        <p className="account-screen__subtitle">
-          Sign in for upload / download settings
-        </p>
+        <SubTitle />
         <div className="account-screen-btns">
           <BtnAccountScreen.SignIn />
           <BtnAccountScreen.Apple />
