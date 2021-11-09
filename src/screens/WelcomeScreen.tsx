@@ -1,8 +1,7 @@
-import React, { createRef, useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RouteComponentProps, StaticContext } from "react-router";
 
 import "./WelcomeScreen.css";
-import { ItemFlatListArrayProps } from "../config/timerSetupDefaultData";
 import { MainContext } from "../config/MainContext";
 import Icon from "../components/Icon";
 import MainContainerBtm from "../components/MainContainerBtm";
@@ -15,11 +14,12 @@ const WelcomeScreen: React.FC<
   RouteComponentProps<{}, StaticContext, undefined>
 > = (props) => {
   const {
-    timer: { timerSetup: mainData, setTimerSetup: setMainData },
     tabBar: { setTabBarShow },
   } = useContext(MainContext);
 
-  setTabBarShow(false);
+  useEffect(() => {
+    setTabBarShow(false);
+  }, []);
 
   const [langSelected, setLangSelected] = useState<Language>("en");
 
