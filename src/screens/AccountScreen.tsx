@@ -124,6 +124,15 @@ const AccountScreen: React.FC<
     );
   };
 
+  const SigninBtns: React.FC = () => {
+    return (
+      <div className="account-screen-btns">
+        <BtnAccountScreen.Apple />
+        <BtnAccountScreen.Google />
+      </div>
+    );
+  };
+
   useEffect(() => {
     setTabBarShow(true);
   }, []);
@@ -134,7 +143,7 @@ const AccountScreen: React.FC<
         <p className="account-screen__title">User Account</p>
         <SubTitle />
         <div className="account-screen-btns">
-          <PermissionBtns />
+          <SigninBtns />
         </div>
       </MainContainerMid>
       <MainContainerBtm>
