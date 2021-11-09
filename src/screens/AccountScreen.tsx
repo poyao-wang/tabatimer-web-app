@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import "./AccountScreen.css";
 import { MainContext } from "../config/MainContext";
@@ -22,7 +22,9 @@ const AccountScreen: React.FC<
     tabBar: { setTabBarShow },
   } = useContext(MainContext);
 
-  setTabBarShow(true);
+  useEffect(() => {
+    setTabBarShow(true);
+  }, []);
 
   return (
     <>
