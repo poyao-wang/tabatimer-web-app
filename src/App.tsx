@@ -33,6 +33,8 @@ if (!firebase.apps.length) {
   firebase.app(); // if already initialized, use that one
 }
 
+export const providerGoogle = new firebase.auth.GoogleAuthProvider();
+
 function App() {
   const [tabBarShow, setTabBarShow] = useState(true);
   const [timerSetup, setTimerSetup] = useState(timerSetupDefaultData);

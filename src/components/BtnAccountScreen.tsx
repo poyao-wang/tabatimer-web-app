@@ -1,4 +1,9 @@
 import React from "react";
+import firebase from "firebase";
+
+import { useAuth } from "../auth/AuthContext";
+import { providerGoogle } from "../App";
+
 import "./BtnAccountScreen.css";
 import Icon from "./Icon";
 
@@ -21,8 +26,31 @@ const Apple: React.FC = (props) => {
 };
 
 const Google: React.FC = (props) => {
+  const { setLoading } = useAuth();
+
+  const firebaseSignIn = async () => {
+    try {
+      setLoading(true);
+
+      const result = await firebase.auth().signInWithPopup(providerGoogle);
+
+      await firebase
+        .database()
+        .ref("/users/" + result.user!.uid)
+        .update({
+          additionalUserInfo: result.additionalUserInfo,
+        });
+    } catch (error) {
+      alert(error);
+    }
+  };
   return (
-    <button className="btn-account-screen btn-account-screen--google">
+    <button
+      className="btn-account-screen btn-account-screen--google"
+      onClick={() => {
+        firebaseSignIn();
+      }}
+    >
       <Icon.Google />
       Sign in with Google
     </button>
