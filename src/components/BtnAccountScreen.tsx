@@ -10,6 +10,10 @@ import Icon from "./Icon";
 interface SignInProps {
   onClick: () => void;
 }
+interface SignOutProps {
+  onClick: () => void;
+}
+
 const SignIn: React.FC<SignInProps> = ({ onClick }) => {
   return (
     <button
@@ -22,9 +26,12 @@ const SignIn: React.FC<SignInProps> = ({ onClick }) => {
   );
 };
 
-const SignOut: React.FC = (props) => {
+const SignOut: React.FC<SignOutProps> = ({ onClick }) => {
   return (
-    <button className="btn-account-screen btn-account-screen--sign-out">
+    <button
+      className="btn-account-screen btn-account-screen--sign-out"
+      onClick={onClick}
+    >
       <Icon.Logout />
       Sign out
     </button>

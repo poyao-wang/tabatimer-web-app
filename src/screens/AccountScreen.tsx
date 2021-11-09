@@ -133,6 +133,18 @@ const AccountScreen: React.FC<
     );
   };
 
+  const SignOutBtns: React.FC = () => {
+    return (
+      <div className="account-screen-btns">
+        <BtnAccountScreen.SignOut
+          onClick={() => {
+            logout();
+          }}
+        />
+      </div>
+    );
+  };
+
   useEffect(() => {
     setTabBarShow(true);
   }, []);
@@ -143,7 +155,7 @@ const AccountScreen: React.FC<
         <p className="account-screen__title">User Account</p>
         <SubTitle />
         <div className="account-screen-btns">
-          <SigninBtns />
+          <SignOutBtns />
         </div>
       </MainContainerMid>
       <MainContainerBtm>
