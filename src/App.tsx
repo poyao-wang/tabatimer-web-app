@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
+import firebase from "firebase/app";
 
 import "./App.css";
 import { MainContext } from "./config/MainContext";
@@ -14,6 +15,23 @@ import WorkoutListDetailScreen from "./screens/WorkoutListDetailScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import cache from "./config/cache";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthProvider } from "./auth/AuthContext";
+
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGE_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app(); // if already initialized, use that one
+}
 
 function App() {
   const [tabBarShow, setTabBarShow] = useState(true);
@@ -31,51 +49,53 @@ function App() {
 
   return (
     <div className="App">
-      <MainContext.Provider
-        value={{
-          tabBar: { tabBarShow, setTabBarShow },
-          timer: { timerSetup, setTimerSetup },
-          language: { uiText, setLanguage },
-        }}
-      >
-        <div className="screen-container">
-          <div className={topContainerClassName}>
-            <NavBar />
+      <AuthProvider>
+        <MainContext.Provider
+          value={{
+            tabBar: { tabBarShow, setTabBarShow },
+            timer: { timerSetup, setTimerSetup },
+            language: { uiText, setLanguage },
+          }}
+        >
+          <div className="screen-container">
+            <div className={topContainerClassName}>
+              <NavBar />
+            </div>
+            <Switch>
+              <ProtectedRoute
+                path="/"
+                exact
+                render={(props) => <WelcomeScreen {...props} />}
+              />
+              <ProtectedRoute
+                path="/timer"
+                render={(props) => <TimerScreen {...props} />}
+              />
+              <ProtectedRoute
+                path="/account"
+                render={(props) => <AccountScreen {...props} />}
+              />
+              <ProtectedRoute
+                path="/editor"
+                render={(props) => <EditorScreen {...props} />}
+              />
+              <ProtectedRoute
+                path="/editor-detail"
+                render={(props: any) => <EditorDetailScreen {...props} />} //TODO: fix any in the future
+              />
+              <ProtectedRoute
+                path="/workout-list"
+                render={(props) => <WorkoutListScreen {...props} />}
+              />
+              <ProtectedRoute
+                path="/workout-list-detail"
+                render={(props: any) => <WorkoutListDetailScreen {...props} />} //TODO: fix any in the future
+              />
+              <Redirect to="/" />
+            </Switch>
           </div>
-          <Switch>
-            <ProtectedRoute
-              path="/"
-              exact
-              render={(props) => <WelcomeScreen {...props} />}
-            />
-            <ProtectedRoute
-              path="/timer"
-              render={(props) => <TimerScreen {...props} />}
-            />
-            <ProtectedRoute
-              path="/account"
-              render={(props) => <AccountScreen {...props} />}
-            />
-            <ProtectedRoute
-              path="/editor"
-              render={(props) => <EditorScreen {...props} />}
-            />
-            <ProtectedRoute
-              path="/editor-detail"
-              render={(props: any) => <EditorDetailScreen {...props} />} //TODO: fix any in the future
-            />
-            <ProtectedRoute
-              path="/workout-list"
-              render={(props) => <WorkoutListScreen {...props} />}
-            />
-            <ProtectedRoute
-              path="/workout-list-detail"
-              render={(props: any) => <WorkoutListDetailScreen {...props} />} //TODO: fix any in the future
-            />
-            <Redirect to="/" />
-          </Switch>
-        </div>
-      </MainContext.Provider>
+        </MainContext.Provider>
+      </AuthProvider>
     </div>
   );
 }
