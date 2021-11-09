@@ -9,6 +9,7 @@ import BtnSubmitEditorDetailScreen from "../components/BtnSubmitEditorDetailScre
 import { RouteComponentProps, StaticContext } from "react-router";
 import { ItemEditorScreenProps } from "../config/timerSetupDefaultData";
 import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
+import cache from "../config/cache";
 
 const EditorDetailScreen: React.FC<
   RouteComponentProps<
@@ -26,6 +27,8 @@ const EditorDetailScreen: React.FC<
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
     tabBar: { setTabBarShow },
   } = useContext(MainContext);
+
+  const { storeToCache } = cache;
 
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -193,7 +196,7 @@ const EditorDetailScreen: React.FC<
 
   const onSubmitApply = () => {
     item.value =
-      item.type == "number"
+      item.type === "number"
         ? numbers < 1
           ? 1
           : numbers
@@ -204,16 +207,15 @@ const EditorDetailScreen: React.FC<
       timeDataSetupFunctions.makeWorkoutsArray(mainData);
     mainData.workoutSetup.updated = true;
     console.log(title);
-    if (itemKey == "workouts") {
+    if (itemKey === "workouts") {
       mainData.workoutSetup.flatListArray =
         timeDataSetupFunctions.makeFlatListArray(mainData, item.value);
     }
     setMainData(mainData);
     setTabBarShow(true);
 
+    storeToCache(mainData);
     props.history.push("/editor");
-    // useCache.store(mainData); TODO: implement cache
-    // navigation.navigate("EditorScreen");
   };
 
   const onSubmitCancel = () => {

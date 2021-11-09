@@ -10,6 +10,7 @@ import ItemEditorScreen from "../components/ItemEditorScreen";
 import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
 import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
+import cache from "../config/cache";
 
 const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
   (props) => {
@@ -17,6 +18,8 @@ const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
       timer: { timerSetup: mainData, setTimerSetup: setMainData },
       tabBar: { setTabBarShow },
     } = useContext(MainContext);
+
+    const { storeToCache } = cache;
 
     const [screenData, setScreenData] = useState(mainData);
 
@@ -60,7 +63,7 @@ const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
               setMainData(mainData);
               const dataClone = _.cloneDeep(mainData);
               setScreenData(dataClone);
-              // useCache.store(mainData); // TODO: cache
+              storeToCache(mainData);
             }}
           >
             <Icon.RestartAlt />

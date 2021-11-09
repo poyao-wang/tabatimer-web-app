@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 
 import "./App.css";
@@ -9,15 +9,19 @@ import TimerScreen from "./screens/TimerScreen";
 import timerSetupDefaultData from "./config/timerSetupDefaultData";
 import WorkoutListScreen from "./screens/WorkoutListScreen";
 import NavBar from "./components/NavBar";
-import ImgWorkout from "./components/ImgWorkout";
 import EditorDetailScreen from "./screens/EditorDetailScreen";
 import WorkoutListDetailScreen from "./screens/WorkoutListDetailScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
+import cache from "./config/cache";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [tabBarShow, setTabBarShow] = useState(true);
   const [timerSetup, setTimerSetup] = useState(timerSetupDefaultData);
+
+  useEffect(() => {
+    cache.getCacheAndSet(timerSetup, setTimerSetup);
+  }, []);
 
   const topContainerClassName =
     "top-container" + (tabBarShow ? "" : " top-container--hide");

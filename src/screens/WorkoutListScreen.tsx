@@ -9,6 +9,8 @@ import Icon from "../components/Icon";
 import ItemWorkoutList from "../components/ItemWorkoutList";
 import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
+import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
+import cache from "../config/cache";
 
 export type MoveOrderActionType = "up" | "upToTop" | "down" | "downToBtm";
 
@@ -19,6 +21,8 @@ const WorkoutListScreen: React.FC<
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
     tabBar: { setTabBarShow },
   } = useContext(MainContext);
+
+  const { storeToCache } = cache;
 
   const [data, setData] = useState<ItemFlatListArrayProps[]>(
     mainData.workoutSetup.flatListArray
@@ -58,7 +62,7 @@ const WorkoutListScreen: React.FC<
     mainData.workoutSetup.updated = true;
     setMainData(mainData);
     setData(dataClone);
-    // useCache.store(mainData); TODO: implement useCache
+    storeToCache(mainData);
   };
 
   const renderItem = (item: ItemFlatListArrayProps, index: number) => {
@@ -88,7 +92,19 @@ const WorkoutListScreen: React.FC<
         </div>
       </MainContainerMid>
       <MainContainerBtm>
-        <button onClick={() => {}}>
+        <button
+          onClick={() => {
+            timeDataSetupFunctions.resetFlatListArray(
+              mainData,
+              mainData.workouts.value
+            );
+            mainData.workoutSetup.updated = true;
+            setMainData(mainData);
+            const dataClone = _.cloneDeep(mainData.workoutSetup.flatListArray);
+            setData(dataClone);
+            storeToCache(mainData);
+          }}
+        >
           <Icon.DeleteSweep />
         </button>
       </MainContainerBtm>

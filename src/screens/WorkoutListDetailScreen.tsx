@@ -8,6 +8,7 @@ import { MainContext } from "../config/MainContext";
 import Icon from "../components/Icon";
 import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
+import cache from "../config/cache";
 
 const WorkoutListDetailScreen: React.FC<
   RouteComponentProps<
@@ -23,6 +24,8 @@ const WorkoutListDetailScreen: React.FC<
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
     tabBar: { setTabBarShow },
   } = useContext(MainContext);
+
+  const { storeToCache } = cache;
 
   const [imgSrc, setImgSrc] = useState(props.location.state.item.image);
 
@@ -50,7 +53,7 @@ const WorkoutListDetailScreen: React.FC<
               mainData.workoutSetup.flatListArray[item.id].image = src;
               mainData.workoutSetup.updated = true;
               setMainData(mainData);
-              // TODO: Implement cache
+              storeToCache(mainData);
             });
         }
       });
@@ -62,7 +65,7 @@ const WorkoutListDetailScreen: React.FC<
     mainData.workoutSetup.flatListArray[item.id].image = "";
     mainData.workoutSetup.updated = true;
     setMainData(mainData);
-    // TODO: Implement cache
+    storeToCache(mainData);
   }
 
   return (
