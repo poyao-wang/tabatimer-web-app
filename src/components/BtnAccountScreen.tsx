@@ -53,8 +53,10 @@ const Google: React.FC = (props) => {
   const firebaseSignIn = async () => {
     try {
       setLoading(true);
+      await firebase.auth().signInWithRedirect(providerGoogle);
 
-      const result = await firebase.auth().signInWithPopup(providerGoogle);
+      const result = await firebase.auth().getRedirectResult();
+      setLoading(true);
 
       await firebase
         .database()
@@ -64,6 +66,7 @@ const Google: React.FC = (props) => {
         });
     } catch (error) {
       alert(error);
+      setLoading(false);
     }
   };
   return (

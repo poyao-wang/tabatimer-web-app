@@ -73,7 +73,7 @@ function App() {
                 path="/timer"
                 render={(props) => <TimerScreen {...props} />}
               />
-              <ProtectedRoute
+              <Route
                 path="/account"
                 render={(props) => <AccountScreen {...props} />}
               />
