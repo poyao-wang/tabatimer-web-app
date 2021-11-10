@@ -12,6 +12,7 @@ import MainContainerMid from "../components/MainContainerMid";
 import { RouteComponentProps, StaticContext } from "react-router";
 import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
 import Loader from "../components/Loader";
+import cloudDbFunctions from "../auth/cloudDbFunctions";
 
 const AccountScreen: React.FC<
   RouteComponentProps<
@@ -154,6 +155,73 @@ const AccountScreen: React.FC<
     );
   };
 
+  const handleUploadClick = () => {
+    const confirmed = window.confirm("translationText.uploadBtn.alertMainMsg");
+
+    const upload = async () => {
+      try {
+        setLoading(true);
+
+        const stringTrans = mainDataToString(mainData);
+
+        if (!currentUser || !stringTrans) {
+          throw new Error("test");
+        } else {
+          await cloudDbFunctions.upload(currentUser!.uid, stringTrans);
+        }
+
+        setLoading(false);
+        alert(
+          "translationText.uploadBtn.alertSucceedTitle" +
+            "translationText.uploadBtn.alertSucceedMsg"
+        );
+      } catch (error) {
+        alert("translationText.uploadBtn.alertErrorTitle" + error);
+        setLoading(false);
+      }
+    };
+
+    if (confirmed) {
+      upload();
+    }
+  };
+
+  const handleDownloadClick = () => {
+    const confirmed = window.confirm(
+      "translationText.downloadBtn.alertMainTitle" +
+        "translationText.downloadBtn.alertMainMsg"
+    );
+
+    const download = async () => {
+      try {
+        setLoading(true);
+
+        if (!currentUser) {
+          throw new Error("no user");
+        } else {
+          const result = await cloudDbFunctions.download(currentUser.uid);
+          if (result) {
+            stringToSetMainData(result.val());
+          } else {
+            throw new Error("no data");
+          }
+        }
+        setLoading(false);
+        alert(
+          "translationText.downloadBtn.alertSucceedTitle" +
+            "translationText.downloadBtn.alertSucceedMsg"
+        );
+      } catch (error) {
+        alert("translationText.downloadBtn.alertErrorTitle" + error);
+        setLoading(false);
+      }
+    };
+
+    if (confirmed) {
+      download();
+    }
+  };
+
   useEffect(() => {
     setTabBarShow(true);
   }, []);
@@ -163,13 +231,28 @@ const AccountScreen: React.FC<
       <MainContainerMid>
         <p className="account-screen__title">User Account</p>
         <SubTitle />
-        <LoadingView />
+        <>
+          {loading && <LoadingView />}
+          {!loading && currentUser && <SignOutBtns />}
+          {!loading && !currentUser && !trackingAuthorized && (
+            <PermissionBtns />
+          )}
+          {!loading && !currentUser && trackingAuthorized && <SigninBtns />}
+        </>
       </MainContainerMid>
       <MainContainerBtm>
-        <button>
+        <button
+          onClick={handleUploadClick}
+          disabled={!currentUser || loading}
+          className={!currentUser || loading ? "disabled" : ""}
+        >
           <Icon.CloudUpload />
         </button>
-        <button>
+        <button
+          onClick={handleDownloadClick}
+          disabled={!currentUser || loading}
+          className={!currentUser || loading ? "disabled" : ""}
+        >
           <Icon.CloudDownload />
         </button>
       </MainContainerBtm>
