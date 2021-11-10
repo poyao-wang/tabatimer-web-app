@@ -7,6 +7,7 @@ import Icon from "../components/Icon";
 import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
 import { ReactComponent as AppIcon } from "../assets/icons/tabatimer.svg";
+const queryString = require("query-string");
 
 type Language = "en" | "ja" | "zh";
 
@@ -25,6 +26,16 @@ const WelcomeScreen: React.FC<
 
   useEffect(() => {
     setTabBarShow(false);
+    const query = queryString.parse(
+      (props as any).location?.state?.from.search // TODO: Fix any
+    );
+    const pushTo = query.pushTo;
+    const status = query.status;
+    if (pushTo === "account") {
+      props.history.push("/account");
+    } else if (pushTo === "accountLogin") {
+      props.history.push("/account/login");
+    }
   }, []);
 
   const [langSelected, setLangSelected] = useState<Language>("en");

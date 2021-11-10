@@ -6,6 +6,7 @@ import React, {
   Dispatch,
 } from "react";
 import firebase from "firebase/app";
+import { useHistory } from "react-router";
 
 interface AuthContextProps {
   currentUser: firebase.User | null;
@@ -22,7 +23,11 @@ export function useAuth() {
 
 export function AuthProvider({ children }: any) {
   const [currentUser, setCurrentUser] = useState<firebase.User | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(
+    window.location?.pathname === "/account/login" ? true : false
+  );
+
+  const history = useHistory();
 
   const logout = () => {
     return firebase.auth().signOut();
@@ -37,7 +42,12 @@ export function AuthProvider({ children }: any) {
   }, []);
 
   useEffect(() => {
-    setLoading(false);
+    if (currentUser) {
+      setLoading(false);
+      if (window.location?.pathname === "/account/login") {
+        history.push("/account");
+      }
+    }
   }, [currentUser]);
 
   const value = {

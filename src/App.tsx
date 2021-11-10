@@ -77,6 +77,10 @@ function App() {
                 render={(props) => <TimerScreen {...props} />}
               />
               <Route
+                path="/account/login"
+                render={(props) => <AccountScreen {...props} />}
+              />
+              <Route
                 path="/account"
                 render={(props) => <AccountScreen {...props} />}
               />

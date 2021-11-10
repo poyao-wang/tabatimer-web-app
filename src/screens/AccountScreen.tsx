@@ -23,7 +23,11 @@ const AccountScreen: React.FC<
     unknown
   >
 > = (props) => {
-  const [trackingAuthorized, setTrackingAuthorized] = useState(false);
+  const pathname = (props as any).location?.pathname; // TODO: fix any
+
+  const [trackingAuthorized, setTrackingAuthorized] = useState(
+    pathname === "/account/login" ? true : false
+  );
 
   const {
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
@@ -117,6 +121,7 @@ const AccountScreen: React.FC<
           onClick={async () => {
             try {
               setTrackingAuthorized(true);
+              props.history.push("/account/login");
             } catch (error) {
               alert(error);
             }
@@ -224,6 +229,9 @@ const AccountScreen: React.FC<
 
   useEffect(() => {
     setTabBarShow(true);
+    if (pathname === "/account/login") {
+      setLoading(true);
+    }
   }, []);
 
   return (
