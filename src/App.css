@@ -43,6 +43,10 @@ button {
   background: none;
 }
 
+button.disabled {
+  opacity: 0.3;
+}
+
 .screen-container {
   display: flex;
   align-items: center;
