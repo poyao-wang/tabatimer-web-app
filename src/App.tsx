@@ -34,6 +34,9 @@ if (!firebase.apps.length) {
 }
 
 export const providerGoogle = new firebase.auth.GoogleAuthProvider();
+export const providerApple = new firebase.auth.OAuthProvider("apple.com");
+providerApple.addScope("email");
+providerApple.addScope("name");
 
 function App() {
   const [tabBarShow, setTabBarShow] = useState(true);

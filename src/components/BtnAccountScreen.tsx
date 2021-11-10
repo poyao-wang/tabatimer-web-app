@@ -2,7 +2,7 @@ import React from "react";
 import firebase from "firebase";
 
 import { useAuth } from "../auth/AuthContext";
-import { providerGoogle } from "../App";
+import { providerApple, providerGoogle } from "../App";
 
 import "./BtnAccountScreen.css";
 import Icon from "./Icon";
@@ -39,8 +39,35 @@ const SignOut: React.FC<SignOutProps> = ({ onClick }) => {
 };
 
 const Apple: React.FC = (props) => {
+  const { setLoading } = useAuth();
+
+  const firebaseSignIn = async () => {
+    try {
+      setLoading(true);
+      await firebase.auth().signInWithPopup(providerApple);
+
+      const result = await firebase.auth().getRedirectResult();
+      setLoading(true);
+
+      await firebase
+        .database()
+        .ref("/users/" + result.user!.uid)
+        .update({
+          additionalUserInfo: result.additionalUserInfo,
+        });
+    } catch (error) {
+      alert(error);
+      setLoading(false);
+    }
+  };
+
   return (
-    <button className="btn-account-screen btn-account-screen--apple">
+    <button
+      className="btn-account-screen btn-account-screen--apple"
+      onClick={() => {
+        firebaseSignIn();
+      }}
+    >
       <Icon.Apple />
       Sign in with Apple
     </button>
