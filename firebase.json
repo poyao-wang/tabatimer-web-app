@@ -1,0 +1,43 @@
+{
+  "hosting": {
+    "redirects": [
+      {
+        "source": "/account/login",
+        "destination": "/?pushTo=accountLogin",
+        "type": 301
+      },
+      {
+        "source": "/account",
+        "destination": "/?pushTo=account",
+        "type": 301
+      },
+      {
+        "source": "/timer",
+        "destination": "/?pushTo=timer",
+        "type": 301
+      },
+      {
+        "source": "/editor",
+        "destination": "/?pushTo=editor",
+        "type": 301
+      },
+      {
+        "source": "/editor-detail",
+        "destination": "/?pushTo=editor",
+        "type": 301
+      },
+      {
+        "source": "/workout-list",
+        "destination": "/?pushTo=workout-list",
+        "type": 301
+      },
+      {
+        "source": "/workout-list-detail",
+        "destination": "/?pushTo=workout-list",
+        "type": 301
+      }
+    ],
+    "public": "build",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  }
+}
