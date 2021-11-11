@@ -9,13 +9,11 @@ const ProtectedRoute: React.FC<RouteProps> = ({
   ...rest
 }) => {
   let history = useHistory();
-  console.log(history.action);
   return (
     <Route
       path={path}
       {...rest}
       render={(props) => {
-        console.log(props);
         if (history.action === "POP") {
           return (
             <Redirect

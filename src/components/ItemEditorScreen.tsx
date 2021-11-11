@@ -21,7 +21,7 @@ const ItemEditorScreen: React.FC<ItemEditorScreenProps> = ({
   itemKey,
   onClick,
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const itemTransObj = t("editorScreen." + itemKey, {
     returnObjects: true,

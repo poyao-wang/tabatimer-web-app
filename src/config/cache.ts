@@ -1,8 +1,8 @@
-import semver from "semver";
 import _ from "lodash";
+import semver from "semver";
 
-import timeDataSetupFunctions from "./timeDataSetupFunctions";
 import { WorkoutSetupProps } from "./timerSetupDefaultData";
+import timeDataSetupFunctions from "./timeDataSetupFunctions";
 
 const cacheKeyName = "mainData";
 const currentAppVer = process.env.REACT_APP_VERSION as string;
@@ -33,16 +33,15 @@ const getCacheAndSet = async (
 ) => {
   try {
     const result = await getFromCache();
-    console.log(result);
     if (result) {
       const ifcacheAppVerValid = semver.valid(result.settings?.appVer);
       const cacheAppVer = ifcacheAppVerValid
         ? result.settings?.appVer
         : "0.0.0";
       const currGtCache = semver.gt(currentAppVer, cacheAppVer);
-      console.log("current:", "v" + currentAppVer);
-      console.log("cache:", "v" + cacheAppVer);
-      console.log("current > cache:", currGtCache);
+      // console.log("current:", "v" + currentAppVer);
+      // console.log("cache:", "v" + cacheAppVer);
+      // console.log("current > cache:", currGtCache);
 
       const cacheLan = result.settings?.language;
       const lanToSet =
@@ -55,9 +54,6 @@ const getCacheAndSet = async (
           : cacheLan
           ? cacheLan
           : deviceLanguage;
-
-      // console.log("cacheLan", cacheLan);
-      // console.log("lanToSet", lanToSet);
 
       if (currGtCache) {
         mainData.prepareTime.value = result.prepareTime.value;

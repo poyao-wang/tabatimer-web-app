@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { MainContext_Timer } from "../config/MainContext";
-import {
-  ItemWorkoutArrayProps,
-  WorkoutSetupProps,
-} from "../config/timerSetupDefaultData";
+import { ItemWorkoutArrayProps } from "../config/timerSetupDefaultData";
 
 export interface SetPlusOrMinusCBs {
   setTotalSecAndUpdateInput: (newSectionId: number) => void;
@@ -74,7 +71,7 @@ const useTimerControl = (
     // Determine SetNo
     function determineSetNo() {
       let setNo = workoutArray[sectionId].setNo;
-      if (setNo == 0) setNo = 1;
+      if (setNo === 0) setNo = 1;
       setNo = plus ? setNo + 1 : setNo - 1;
 
       return setNo;
@@ -176,7 +173,7 @@ const useTimerControl = (
 
       // CB: Set bottom container show/hide
       callbacks.setBottomContainerShow(hidableBtnsShow);
-    }, [hidableBtnsShow]);
+    }, [hidableBtnsShow]); // eslint-disable-line react-hooks/exhaustive-deps
   }
 
   function StateChangeWorkoutArray(callbacks: StateChangeWorkoutArrayDataCBs) {
@@ -186,7 +183,7 @@ const useTimerControl = (
 
       // Reset sectionSecondsRemainsInput text
       callbacks.resetSectionSecondsRemainsInput();
-    }, [workoutArray]);
+    }, [workoutArray]); // eslint-disable-line react-hooks/exhaustive-deps
   }
 
   function StateChangeSectionId(callbacks: StateChangeSectionIdCBs) {
@@ -214,7 +211,7 @@ const useTimerControl = (
         // CB: Start new section anime loop
         callbacks.startNewSectionAnimeLoop();
       }
-    }, [sectionId]);
+    }, [sectionId]); // eslint-disable-line react-hooks/exhaustive-deps
   }
 
   function StateChangeTimerOn(callbacks: StateChangeTimerOnCBs) {
@@ -228,7 +225,7 @@ const useTimerControl = (
         // CB: Stop anime loop
         callbacks.stopAnimeLoop();
       }
-    }, [timerOn]);
+    }, [timerOn]); // eslint-disable-line react-hooks/exhaustive-deps
   }
 
   return {

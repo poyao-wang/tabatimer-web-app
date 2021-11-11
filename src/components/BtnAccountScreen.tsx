@@ -1,10 +1,9 @@
 import React from "react";
 import firebase from "firebase";
 
-import { useAuth } from "../auth/AuthContext";
-import { providerApple, providerGoogle } from "../App";
-
 import "./BtnAccountScreen.css";
+import { providerApple, providerGoogle } from "../App";
+import { useAuth } from "../auth/AuthContext";
 import Icon from "./Icon";
 
 interface BtnProps {

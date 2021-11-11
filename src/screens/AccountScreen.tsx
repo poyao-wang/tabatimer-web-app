@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import { RouteComponentProps, StaticContext } from "react-router";
 import { useTranslation } from "react-i18next";
+import React, { useContext, useEffect, useState } from "react";
 
 import "./AccountScreen.css";
 import { MainContext } from "../config/MainContext";
@@ -7,13 +8,12 @@ import { useAuth } from "../auth/AuthContext";
 import { WorkoutSetupProps } from "../config/timerSetupDefaultData";
 import BtnAccountScreen from "../components/BtnAccountScreen";
 import cache from "../config/cache";
+import cloudDbFunctions from "../auth/cloudDbFunctions";
 import Icon from "../components/Icon";
+import Loader from "../components/Loader";
 import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
-import { RouteComponentProps, StaticContext } from "react-router";
 import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
-import Loader from "../components/Loader";
-import cloudDbFunctions from "../auth/cloudDbFunctions";
 
 const AccountScreen: React.FC<
   RouteComponentProps<
@@ -24,11 +24,11 @@ const AccountScreen: React.FC<
     unknown
   >
 > = (props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const translationText = t("accountScreen", { returnObjects: true }) as any;
 
-  const pathname = (props as any).location?.pathname; // TODO: fix any
+  const pathname = props.location.pathname;
 
   const [trackingAuthorized, setTrackingAuthorized] = useState(
     pathname === "/account/login" ? true : false
@@ -229,7 +229,7 @@ const AccountScreen: React.FC<
     if (pathname === "/account/login") {
       setLoading(true);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

@@ -48,7 +48,7 @@ export function AuthProvider({ children }: any) {
         history.push("/account");
       }
     }
-  }, [currentUser]);
+  }, [currentUser]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const value = {
     currentUser,

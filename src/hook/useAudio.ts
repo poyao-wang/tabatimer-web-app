@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { StateChangeTimerOnCBs } from "./useTimerControl";
 
 type SoundType =
   | "workOutStart"
@@ -36,7 +35,7 @@ const useAudio = () => {
 
   // These 2 lines prevents Safari loading sound files slowly
   const AudioContext = window.AudioContext;
-  const audioCtx = new AudioContext();
+  const audioCtx = new AudioContext(); // eslint-disable-line @typescript-eslint/no-unused-vars
   //
 
   useEffect(() => {
@@ -65,7 +64,7 @@ const useAudio = () => {
 
   useEffect(() => {
     if (soundsLoaded) {
-      console.log("All sounds loaded");
+      // console.log("All sounds loaded");
     }
   }, [soundsLoaded]);
 
@@ -108,7 +107,7 @@ const useAudio = () => {
     _sound.addEventListener(
       "canplaythrough",
       () => {
-        console.log(`loaded ${Object.keys({ soundStoredFromState })[0]}`);
+        // console.log(`loaded ${Object.keys({ soundStoredFromState })[0]}`);
         setSoundFromState(_sound);
       },
       { once: true }
@@ -171,7 +170,7 @@ const useAudio = () => {
       }
       if (sound) await sound.play();
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 

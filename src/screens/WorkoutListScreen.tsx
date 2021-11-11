@@ -18,7 +18,7 @@ export type MoveOrderActionType = "up" | "upToTop" | "down" | "downToBtm";
 const WorkoutListScreen: React.FC<
   RouteComponentProps<{}, StaticContext, unknown>
 > = (props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const {
     timer: { timerSetup: mainData, setTimerSetup: setMainData },

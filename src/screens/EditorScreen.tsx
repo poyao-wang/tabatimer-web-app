@@ -1,17 +1,17 @@
-import React, { useContext, useState } from "react";
-import { MainContext } from "../config/MainContext";
 import _ from "lodash";
+import { MainContext } from "../config/MainContext";
+import { RouteComponentProps, StaticContext } from "react-router";
 import { useTranslation } from "react-i18next";
+import React, { useContext, useState } from "react";
 
 import "./EditorScreen.css";
-import { RouteComponentProps, StaticContext } from "react-router";
 import { WorkoutSetupProps } from "../config/timerSetupDefaultData";
+import cache from "../config/cache";
 import Icon from "../components/Icon";
 import ItemEditorScreen from "../components/ItemEditorScreen";
 import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
 import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
-import cache from "../config/cache";
 
 const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
   (props) => {
@@ -20,7 +20,7 @@ const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
       tabBar: { setTabBarShow },
     } = useContext(MainContext);
 
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     const { storeToCache } = cache;
 

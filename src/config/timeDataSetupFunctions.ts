@@ -1,7 +1,7 @@
 import {
-  WorkoutSetupProps,
-  ItemWorkoutArrayProps,
   ItemFlatListArrayProps,
+  ItemWorkoutArrayProps,
+  WorkoutSetupProps,
 } from "./timerSetupDefaultData";
 
 // Imports for React Native

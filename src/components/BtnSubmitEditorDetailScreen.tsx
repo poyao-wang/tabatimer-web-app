@@ -1,4 +1,5 @@
-import React, { ReactElement } from "react";
+import React from "react";
+
 import "./BtnSubmitEditorDetailScreen.css";
 import Icon from "./Icon";
 

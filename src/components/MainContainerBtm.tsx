@@ -1,4 +1,5 @@
-import React, { ReactInstance, ReactNode } from "react";
+import React from "react";
+
 import "./MainContainerBtm.css";
 
 interface MainContainerBtmProps {

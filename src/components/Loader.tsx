@@ -1,5 +1,6 @@
 import React from "react";
 import lottie from "lottie-web";
+
 import loaderAnime from "../assets/animations/loader.json";
 
 type LoaderProps = {

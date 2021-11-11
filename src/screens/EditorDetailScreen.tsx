@@ -1,15 +1,15 @@
-import React, { useContext, useState } from "react";
 import { MainContext } from "../config/MainContext";
+import { RouteComponentProps, StaticContext } from "react-router";
+import React, { useContext, useState } from "react";
 
 import "./EditorDetailScreen.css";
-import MainContainerBtm from "../components/MainContainerBtm";
-import MainContainerMid from "../components/MainContainerMid";
+import { ItemEditorScreenProps } from "../config/timerSetupDefaultData";
 import BtnDial from "../components/BtnDial";
 import BtnSubmitEditorDetailScreen from "../components/BtnSubmitEditorDetailScreen";
-import { RouteComponentProps, StaticContext } from "react-router";
-import { ItemEditorScreenProps } from "../config/timerSetupDefaultData";
-import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
 import cache from "../config/cache";
+import MainContainerBtm from "../components/MainContainerBtm";
+import MainContainerMid from "../components/MainContainerMid";
+import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
 
 const EditorDetailScreen: React.FC<
   RouteComponentProps<
@@ -206,7 +206,6 @@ const EditorDetailScreen: React.FC<
     mainData.workoutSetup.workoutArray =
       timeDataSetupFunctions.makeWorkoutsArray(mainData);
     mainData.workoutSetup.updated = true;
-    console.log(title);
     if (itemKey === "workouts") {
       mainData.workoutSetup.flatListArray =
         timeDataSetupFunctions.makeFlatListArray(mainData, item.value);

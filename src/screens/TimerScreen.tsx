@@ -1,23 +1,22 @@
 import React, { ReactElement, useContext, useEffect, useState } from "react";
 import {
-  useSpring,
   animated,
-  SpringValue,
-  OnRest,
   Controller,
+  OnRest,
+  SpringValue,
+  useSpring,
 } from "react-spring";
 import { useTranslation } from "react-i18next";
 
 import "./TimerScreen.css";
 import { MainContext } from "../config/MainContext";
-import MainContainerBtm from "../components/MainContainerBtm";
-import Icon from "../components/Icon";
-import MainContainerMid from "../components/MainContainerMid";
 import FractionTimerScreen from "../components/FractionTimerScreen";
+import Icon from "../components/Icon";
+import MainContainerBtm from "../components/MainContainerBtm";
+import MainContainerMid from "../components/MainContainerMid";
 import useAudio from "../hook/useAudio";
 import useTimerControl, {
   ResetTimerCBs,
-  ScrollingChangeSectionCBs,
   SetPlusOrMinusCBs,
   StateChangeHidableBtnsShowCBs,
   StateChangeSectionIdCBs,
@@ -66,7 +65,7 @@ const TimerScreen: React.FC<
     // language: { uiText }, TODO: Language support
   } = useContext(MainContext);
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [timeData, setTimeData] = useState(
     useTimerSetupState.timerSetup.workoutSetup.workoutArray
@@ -83,7 +82,7 @@ const TimerScreen: React.FC<
 
   const [mutedForReact, setMutedForReact] = useState<boolean>(true);
 
-  const [workoutArray, setWorkoutArray] = useState(
+  const [workoutArray] = useState(
     useTimerSetupState.timerSetup.workoutSetup.workoutArray
   );
   const [flatListArray, setFlatListArray] = useState(
@@ -96,13 +95,13 @@ const TimerScreen: React.FC<
     hidableBtnsShow: { current: hidableBtnsShow, set: setHidableBtnsShow },
     directControlFns: {
       toggleOnOff: toggle,
-      setPlusOrMinus: setPlusOrMinus,
+      setPlusOrMinus,
       resetTimer: reset,
-      scrollingChangeSection: scrollingChangeSection,
+      // scrollingChangeSection: scrollingChangeSection, // non exist in web ver
     },
     stateChange: {
       hidableBtnsShow: StateChangeHidableBtnsShow,
-      workoutArray: StateChangeWorkoutArray,
+      // workoutArray: StateChangeWorkoutArray, // non exist in web ver
       sectionId: StateChangeSectionId,
       timerOn: StateChangeTimerOn,
     },
@@ -277,7 +276,7 @@ const TimerScreen: React.FC<
               playSound("finished", soundsLoaded && !mutedForReact);
 
             setTimeout(playFinishedSound, 500);
-            console.log("finished", finished);
+            // console.log("finished", finished);
             sectionSeconds.set(0);
           } else {
             setSectionId(sectionId + 1);
@@ -358,25 +357,25 @@ const TimerScreen: React.FC<
 
   const setPlusOrMinusCallbacks: SetPlusOrMinusCBs = {
     setTotalSecAndUpdateInput: (newSectionId) => {
-      console.log("setTotalSecAndUpdateInput called"); // non exist in web ver
+      // non exist in web ver
     },
     resetSectionSeconds: () => {
       sectionSeconds.set(0);
     },
     picturesScrollToHead: () => {
-      console.log("picturesScrollToHead called");
+      // non exist in web ver
     },
     updateSetInput: (newSectionId) => {
-      console.log("updateSetInput called");
+      // non exist in web ver
     },
     resetBgAnime: () => {
-      console.log("resetBgAnime called");
+      // non exist in web ver
     },
   };
 
   const resetTimerCallbacks: ResetTimerCBs = {
     resetTotalSecAndInput: () => {
-      console.log("resetTotalSecAndInput called");
+      // non exist in web ver
     },
     resetSectionSeconds: () => {
       sectionSeconds.set(0);
@@ -385,13 +384,13 @@ const TimerScreen: React.FC<
       setSectionId(0);
     },
     resetSetInput: () => {
-      console.log("resetSetInput called");
+      // non exist in web ver
     },
     resetSectionSecondsRemainsInput: () => {
-      console.log("resetSectionSecondsRemainsInput called");
+      // non exist in web ver
     },
     resetBgAnime: () => {
-      console.log("resetBgAnime called");
+      // non exist in web ver
     },
   };
 
@@ -457,11 +456,11 @@ const TimerScreen: React.FC<
       useTimerSetupState.timerSetup.workoutSetup.updated = false;
       useTimerSetupState.setTimerSetup(useTimerSetupState.timerSetup);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setCenterContainerItemsValues(createCenterContainerItemsValues() as any);
-  }, [sectionId]);
+  }, [sectionId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const ImgContainerSide: React.FC<ImgContainerProps> = (props) => {
     const { btnShow, btnOnClick, icon, status } = props;
@@ -500,13 +499,10 @@ const TimerScreen: React.FC<
       switch (status) {
         case "hide":
           return <ReturnHidden />;
-          break;
         case "img":
           return <ReturnWithImg />;
-          break;
         case "no-img":
           return <ReturnNoImg />;
-          break;
       }
     };
 

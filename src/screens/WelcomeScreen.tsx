@@ -21,7 +21,7 @@ const WelcomeScreen: React.FC<
     unknown
   >
 > = (props) => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   const {
     tabBar: { setTabBarShow },
@@ -33,15 +33,12 @@ const WelcomeScreen: React.FC<
       (props as any).location?.state?.from.search // TODO: Fix any
     );
     const pushTo = query.pushTo;
-    const status = query.status;
     if (pushTo === "account") {
       props.history.push("/account");
     } else if (pushTo === "accountLogin") {
       props.history.push("/account/login");
     }
-  }, []);
-
-  console.log("i18n.language", i18n.language);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [langSelected, setLangSelected] = useState<Language>(
     i18n.language.split("-")[0] as any
@@ -49,7 +46,7 @@ const WelcomeScreen: React.FC<
 
   useEffect(() => {
     i18n.changeLanguage(langSelected);
-  }, [langSelected]);
+  }, [langSelected]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
