@@ -1,0 +1,96 @@
+{
+  "timerScreen": {
+    "sectionTypeWorkout": "WORKOUT",
+    "sectionTypeRest": "REST",
+    "sectionTypePrepare": "PREPARE",
+    "fractionDisplayTitleLeft": "CYCLE",
+    "fractionDisplayTitleRight": "WORK",
+    "resetAlertTitle": "Reset Timer",
+    "resetAlertMsg": "Do you want to reset the Timer?",
+    "resetAlertOk": "OK",
+    "resetAlertCancel": "Cancel"
+  },
+  "editorScreen": {
+    "prepareTime": {
+      "title": "Preparation Time",
+      "subtitle": "Preparation before Start"
+    },
+    "workoutTime": {
+      "title": "Workout Time",
+      "subtitle": "Duration for Workout"
+    },
+    "restTime": {
+      "title": "Rest Time",
+      "subtitle": "Rest between Workouts"
+    },
+    "restTimeSets": {
+      "title": "Rest Time - Sets",
+      "subtitle": "Rest between Sets"
+    },
+    "sets": {
+      "title": "Cycles",
+      "subtitle": "Cycle Amount"
+    },
+    "workouts": {
+      "title": "Workouts",
+      "subtitle": "Workouts per Set"
+    },
+    "resetAlertTitle": "Reset Settings",
+    "resetAlertMsg": "Do you want to reset the settings?",
+    "resetAlertOk": "OK",
+    "resetAlertCancel": "Cancel"
+  },
+  "workoutListScreen": {
+    "resetAlertTitle": "Delete All Images",
+    "resetAlertMsg": "Do you want to delete all images?",
+    "resetAlertOk": "OK",
+    "resetAlertCancel": "Cancel"
+  },
+  "workoutListDetailScreen": {
+    "alertPhotosPermissionTitle": "Photos Access Required",
+    "alertPhotosPermissionMsg": "To use your own images for workouts, please allow TabaTimer to access Photos on your device.",
+    "alertPhotosPermissionOk": "Ok",
+    "alertPhotosPermissionCancel": "Cancel",
+    "alertPhotosPermissionMsgAndroid": "To use your own images for workouts, go to \"Settings\" → \"Apps & notifications\" → \"TabaTimer\" → \"Permissions\" → \"Storage\", and allow TabaTimer to access photos on your device.",
+    "alertPhotosPermissionMsgIos": "To use your own images for workouts, go to \"Settings\" → \"TabaTimer\" → \"Photos\", and allow TabaTimer to access photos on your device."
+  },
+  "accountScreen": {
+    "title": "User Account",
+    "subtitle": {
+      "noUser": "Sign in for upload / download settings",
+      "withUserNameNotAvailable": "You",
+      "withUserBeforeProvidor": " signed in with ",
+      "withUserAfterProvidor": ""
+    },
+    "trackingPermission": {
+      "btnText": "Sign in",
+      "alertMainTitle": "Need Tracking Permission",
+      "alertMainMsg": "TabaTimer needs tracking permission to sign in. If you would like to continue, go to \"Settings\" → \"TabaTimer\" on your device, and turn on \"Allow Tracking\".",
+      "alertMainOkBtnText": "Ok",
+      "dataUsageExplainText": "Tabatimer uses your name, email and your accounts id to create your personal account in our database. The data is only used for authentication."
+    },
+    "signOutBtnText": "Sign out",
+    "uploadBtn": {
+      "alertMainTitle": "Upload Settings",
+      "alertMainMsg": "This will overwrite the settings on your account. Continue?",
+      "alertMainOkBtnText": "Ok",
+      "alertMainCancelBtnText": "Cancel",
+      "alertSucceedTitle": "Succeed",
+      "alertSucceedMsg": "Setting uploaded.",
+      "alertErrorTitle": "Error",
+      "textBelow": "Upload"
+    },
+    "downloadBtn": {
+      "alertMainTitle": "Download Settings",
+      "alertMainMsg": "This will overwrite the settings on your device. Continue?",
+      "alertMainOkBtnText": "Ok",
+      "alertMainCancelBtnText": "Cancel",
+      "alertSucceedTitle": "Succeed",
+      "alertSucceedMsg": "Setting downloaded.",
+      "alertErrorTitle": "Error",
+      "alertNoDataTitle": "No Data",
+      "alertNoDataMsg": "No data in your account.",
+      "textBelow": "Download"
+    }
+  }
+}

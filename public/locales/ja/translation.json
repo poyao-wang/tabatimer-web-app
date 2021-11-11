@@ -1,0 +1,96 @@
+{
+  "timerScreen": {
+    "sectionTypeWorkout": "運　動",
+    "sectionTypeRest": "休　憩",
+    "sectionTypePrepare": "準　備",
+    "fractionDisplayTitleLeft": "サイクル",
+    "fractionDisplayTitleRight": "動　作",
+    "resetAlertTitle": "タイマーリセット",
+    "resetAlertMsg": "タイマーをリセットしますか？",
+    "resetAlertOk": "はい",
+    "resetAlertCancel": "いいえ"
+  },
+  "editorScreen": {
+    "prepareTime": {
+      "title": "準備時間",
+      "subtitle": "開始前の準備時間"
+    },
+    "workoutTime": {
+      "title": "運動時間",
+      "subtitle": "運動時間"
+    },
+    "restTime": {
+      "title": "休憩時間",
+      "subtitle": "運動の間の休憩時間"
+    },
+    "restTimeSets": {
+      "title": "休憩時間 - サイクル",
+      "subtitle": "サイクリの間の休憩時間"
+    },
+    "sets": {
+      "title": "サイクル",
+      "subtitle": "サイクル数"
+    },
+    "workouts": {
+      "title": "動　　作",
+      "subtitle": "動作数"
+    },
+    "resetAlertTitle": "設定リセット",
+    "resetAlertMsg": "タイマー設定をリセットしますか？",
+    "resetAlertOk": "はい",
+    "resetAlertCancel": "いいえ"
+  },
+  "workoutListScreen": {
+    "resetAlertTitle": "全画像削除",
+    "resetAlertMsg": "画像を全部削除しますか？",
+    "resetAlertOk": "はい",
+    "resetAlertCancel": "いいえ"
+  },
+  "workoutListDetailScreen": {
+    "alertPhotosPermissionTitle": "写真へのアクセスが必要",
+    "alertPhotosPermissionMsg": "トレーニングにカスタムな写真を使用したい場合、TabaTimerにデバイス上の写真へのアクセスを許可してください。",
+    "alertPhotosPermissionOk": "はい",
+    "alertPhotosPermissionCancel": "いいえ",
+    "alertPhotosPermissionMsgAndroid": "トレーニングにカスタムな写真を使用したい場合、デバイス上の\"設定\" → \"アプリと通知\" → \"TabaTimer\" → \"権限\" → \"ストレージ\"で、TabaTimerにデバイス上の写真へのアクセスを許可してください。",
+    "alertPhotosPermissionMsgIos": "トレーニングにカスタムな写真を使用したい場合、デバイス上の\"設定\" → \"TabaTimer\" → \"写真\"で、TabaTimerにデバイス上の写真へのアクセスを許可してください。"
+  },
+  "accountScreen": {
+    "title": "アカウント",
+    "subtitle": {
+      "noUser": "設定を同期するため、サインインしてください",
+      "withUserNameNotAvailable": "あなた",
+      "withUserBeforeProvidor": " は ",
+      "withUserAfterProvidor": " でログインした"
+    },
+    "trackingPermission": {
+      "btnText": "サインイン",
+      "alertMainTitle": "トラッキングの許可が必要",
+      "alertMainMsg": "TabaTimerにサインインするには、トラッキングの許可が必要です。サインインしたい場合、デバイス上の\"設定\" → \"TabaTimer\"で,\"トラッキングを許可\"をオンにしてください。",
+      "alertMainOkBtnText": "はい",
+      "dataUsageExplainText": "TabaTimerは、使用者の名前、メールアドレスとアカウントIDを使用して、データベースに使用者のアカウントを作成します。データは認証にのみ使用されます。"
+    },
+    "signOutBtnText": "ログアウト",
+    "uploadBtn": {
+      "alertMainTitle": "設定アップロード",
+      "alertMainMsg": "アカウントに保存した設定が上書きされます。よろしいですか？",
+      "alertMainOkBtnText": "はい",
+      "alertMainCancelBtnText": "いいえ",
+      "alertSucceedTitle": "成功",
+      "alertSucceedMsg": "設定をアップロードしました。",
+      "alertErrorTitle": "エラー",
+      "textBelow": "アップロード"
+    },
+    "downloadBtn": {
+      "alertMainTitle": "設定ダウンロード",
+      "alertMainMsg": "デバイスの設定が上書きされます。よろしいですか？",
+      "alertMainOkBtnText": "はい",
+      "alertMainCancelBtnText": "いいえ",
+      "alertSucceedTitle": "成功",
+      "alertSucceedMsg": "設定をダウンロードしました。",
+      "alertErrorTitle": "エラー",
+      "alertNoDataTitle": "データなし",
+      "alertNoDataMsg": "アカウントにデータがありません。",
+      "textBelow": "ダウンロード"
+    }
+  }
+}
