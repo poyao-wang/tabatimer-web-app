@@ -41,7 +41,11 @@ const WelcomeScreen: React.FC<
     }
   }, []);
 
-  const [langSelected, setLangSelected] = useState<Language>("en");
+  console.log("i18n.language", i18n.language);
+
+  const [langSelected, setLangSelected] = useState<Language>(
+    i18n.language.split("-")[0] as any
+  );
 
   useEffect(() => {
     i18n.changeLanguage(langSelected);
