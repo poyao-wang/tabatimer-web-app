@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import firebase from "firebase/app";
 
@@ -53,59 +53,63 @@ function App() {
     "top-container" + (tabBarShow ? "" : " top-container--hide");
 
   return (
-    <div className="App">
-      <AuthProvider>
-        <MainContext.Provider
-          value={{
-            tabBar: { tabBarShow, setTabBarShow },
-            timer: { timerSetup, setTimerSetup },
-            language: { uiText, setLanguage },
-          }}
-        >
-          <div className="screen-container">
-            <div className={topContainerClassName}>
-              <NavBar />
+    <Suspense fallback="loading">
+      <div className="App">
+        <AuthProvider>
+          <MainContext.Provider
+            value={{
+              tabBar: { tabBarShow, setTabBarShow },
+              timer: { timerSetup, setTimerSetup },
+              language: { uiText, setLanguage },
+            }}
+          >
+            <div className="screen-container">
+              <div className={topContainerClassName}>
+                <NavBar />
+              </div>
+              <Switch>
+                <ProtectedRoute
+                  path="/"
+                  exact
+                  render={(props) => <WelcomeScreen {...props} />}
+                />
+                <ProtectedRoute
+                  path="/timer"
+                  render={(props) => <TimerScreen {...props} />}
+                />
+                <Route
+                  path="/account/login"
+                  render={(props) => <AccountScreen {...props} />}
+                />
+                <Route
+                  path="/account"
+                  render={(props) => <AccountScreen {...props} />}
+                />
+                <ProtectedRoute
+                  path="/editor"
+                  render={(props) => <EditorScreen {...props} />}
+                />
+                <ProtectedRoute
+                  path="/editor-detail"
+                  render={(props: any) => <EditorDetailScreen {...props} />} //TODO: fix any in the future
+                />
+                <ProtectedRoute
+                  path="/workout-list"
+                  render={(props) => <WorkoutListScreen {...props} />}
+                />
+                <ProtectedRoute
+                  path="/workout-list-detail"
+                  render={(props: any) => (
+                    <WorkoutListDetailScreen {...props} />
+                  )} //TODO: fix any in the future
+                />
+                <Redirect to="/" />
+              </Switch>
             </div>
-            <Switch>
-              <ProtectedRoute
-                path="/"
-                exact
-                render={(props) => <WelcomeScreen {...props} />}
-              />
-              <ProtectedRoute
-                path="/timer"
-                render={(props) => <TimerScreen {...props} />}
-              />
-              <Route
-                path="/account/login"
-                render={(props) => <AccountScreen {...props} />}
-              />
-              <Route
-                path="/account"
-                render={(props) => <AccountScreen {...props} />}
-              />
-              <ProtectedRoute
-                path="/editor"
-                render={(props) => <EditorScreen {...props} />}
-              />
-              <ProtectedRoute
-                path="/editor-detail"
-                render={(props: any) => <EditorDetailScreen {...props} />} //TODO: fix any in the future
-              />
-              <ProtectedRoute
-                path="/workout-list"
-                render={(props) => <WorkoutListScreen {...props} />}
-              />
-              <ProtectedRoute
-                path="/workout-list-detail"
-                render={(props: any) => <WorkoutListDetailScreen {...props} />} //TODO: fix any in the future
-              />
-              <Redirect to="/" />
-            </Switch>
-          </div>
-        </MainContext.Provider>
-      </AuthProvider>
-    </div>
+          </MainContext.Provider>
+        </AuthProvider>
+      </div>
+    </Suspense>
   );
 }
 
