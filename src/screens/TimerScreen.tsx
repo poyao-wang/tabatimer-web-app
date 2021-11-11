@@ -6,6 +6,7 @@ import {
   OnRest,
   Controller,
 } from "react-spring";
+import { useTranslation } from "react-i18next";
 
 import "./TimerScreen.css";
 import { MainContext } from "../config/MainContext";
@@ -64,6 +65,8 @@ const TimerScreen: React.FC<
     tabBar: { setTabBarShow },
     // language: { uiText }, TODO: Language support
   } = useContext(MainContext);
+
+  const { t, i18n } = useTranslation();
 
   const [timeData, setTimeData] = useState(
     useTimerSetupState.timerSetup.workoutSetup.workoutArray
@@ -157,6 +160,15 @@ const TimerScreen: React.FC<
 
     playSound(soundType, soundsLoaded && !mutedForReact);
   }
+
+  const sectionTypeTextTrans = (textFromTimeData: string) => {
+    if (textFromTimeData === "prepare")
+      return t("timerScreen.sectionTypePrepare");
+    if (textFromTimeData === "workout")
+      return t("timerScreen.sectionTypeWorkout");
+    if (textFromTimeData === "rest") return t("timerScreen.sectionTypeRest");
+    return null;
+  };
 
   function timerAnimationLoop(startTime = 0) {
     let sectionSecondsRemainsCeil: number;
@@ -549,7 +561,7 @@ const TimerScreen: React.FC<
           <animated.div // TODO: refactor styles, give classname
             style={{ position: "absolute", opacity: textOpacity }}
           >
-            {timeData[sectionId].type}
+            {sectionTypeTextTrans(timeData[sectionId].type)}
           </animated.div>
         </div>
         <div className="container-mid">
@@ -611,7 +623,7 @@ const TimerScreen: React.FC<
         <div className="container-btm">
           <div className="container-btm__container">
             <FractionTimerScreen
-              title="Set"
+              title={t("timerScreen.fractionDisplayTitleLeft")}
               textTop={timeData[sectionId].setNo.toString()}
               textBtm={useTimerSetupState.timerSetup.sets.value.toString()}
             />
@@ -623,7 +635,7 @@ const TimerScreen: React.FC<
           </div>
           <div className="container-btm__container">
             <FractionTimerScreen
-              title="Workout"
+              title={t("timerScreen.fractionDisplayTitleRight")}
               textTop={timeData[sectionId].workoutNo.toString()}
               textBtm={useTimerSetupState.timerSetup.workouts.value.toString()}
             />
@@ -637,7 +649,14 @@ const TimerScreen: React.FC<
         <button onClick={() => setPlusOrMinus(false, setPlusOrMinusCallbacks)}>
           <Icon.RemoveCircle />
         </button>
-        <button onClick={() => reset(resetTimerCallbacks)}>
+        <button
+          onClick={() => {
+            const confirmed = window.confirm(t("timerScreen.resetAlertMsg"));
+            if (confirmed) {
+              reset(resetTimerCallbacks);
+            }
+          }}
+        >
           <Icon.RestartAlt />
         </button>
         <button

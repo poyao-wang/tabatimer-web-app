@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import "./ItemEditorScreen.css";
 import { WorkoutSetupProps } from "../config/timerSetupDefaultData";
@@ -20,9 +21,15 @@ const ItemEditorScreen: React.FC<ItemEditorScreenProps> = ({
   itemKey,
   onClick,
 }) => {
+  const { t, i18n } = useTranslation();
+
+  const itemTransObj = t("editorScreen." + itemKey, {
+    returnObjects: true,
+  }) as { title: string; subtitle: string };
+
   const item = screenData[itemKey];
-  const title = itemKey + " title";
-  const subtitle = itemKey + "subtitle";
+  const title = itemTransObj.title;
+  const subtitle = itemTransObj.subtitle;
 
   const Display: React.FC<DisplayProps> = ({ item = null }) => {
     if (!item) return null;

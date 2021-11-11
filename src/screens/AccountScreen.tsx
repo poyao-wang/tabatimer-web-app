@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import "./AccountScreen.css";
 import { MainContext } from "../config/MainContext";
@@ -23,6 +24,10 @@ const AccountScreen: React.FC<
     unknown
   >
 > = (props) => {
+  const { t, i18n } = useTranslation();
+
+  const translationText = t("accountScreen", { returnObjects: true }) as any;
+
   const pathname = (props as any).location?.pathname; // TODO: fix any
 
   const [trackingAuthorized, setTrackingAuthorized] = useState(
@@ -99,7 +104,7 @@ const AccountScreen: React.FC<
 
     return (
       <p className="account-screen__subtitle">
-        {/* {!currentUser
+        {!currentUser
           ? translationText.subtitle.noUser
           : !currentUser.displayName
           ? translationText.subtitle.withUserNameNotAvailable
@@ -108,8 +113,7 @@ const AccountScreen: React.FC<
           ? translationText.subtitle.withUserBeforeProvidor +
             providerText() +
             translationText.subtitle.withUserAfterProvidor
-          : null} */}
-        Sign in for upload / download settings
+          : null}
       </p>
     );
   };
@@ -118,6 +122,7 @@ const AccountScreen: React.FC<
     return (
       <div className="account-screen-btns">
         <BtnAccountScreen.SignIn
+          btnText={translationText.trackingPermission.btnText}
           onClick={async () => {
             try {
               setTrackingAuthorized(true);
@@ -134,8 +139,8 @@ const AccountScreen: React.FC<
   const SigninBtns: React.FC = () => {
     return (
       <div className="account-screen-btns">
-        <BtnAccountScreen.Apple />
-        <BtnAccountScreen.Google />
+        <BtnAccountScreen.Apple btnText="Sign in with Apple" />
+        <BtnAccountScreen.Google btnText="Sign in with Google" />
       </div>
     );
   };
@@ -144,6 +149,7 @@ const AccountScreen: React.FC<
     return (
       <div className="account-screen-btns">
         <BtnAccountScreen.SignOut
+          btnText={translationText.signOutBtnText}
           onClick={() => {
             logout();
           }}
@@ -161,7 +167,7 @@ const AccountScreen: React.FC<
   };
 
   const handleUploadClick = () => {
-    const confirmed = window.confirm("translationText.uploadBtn.alertMainMsg");
+    const confirmed = window.confirm(translationText.uploadBtn.alertMainMsg);
 
     const upload = async () => {
       try {
@@ -176,12 +182,9 @@ const AccountScreen: React.FC<
         }
 
         setLoading(false);
-        alert(
-          "translationText.uploadBtn.alertSucceedTitle" +
-            "translationText.uploadBtn.alertSucceedMsg"
-        );
+        alert(translationText.uploadBtn.alertSucceedMsg);
       } catch (error) {
-        alert("translationText.uploadBtn.alertErrorTitle" + error);
+        alert(translationText.uploadBtn.alertErrorTitle + error);
         setLoading(false);
       }
     };
@@ -192,10 +195,7 @@ const AccountScreen: React.FC<
   };
 
   const handleDownloadClick = () => {
-    const confirmed = window.confirm(
-      "translationText.downloadBtn.alertMainTitle" +
-        "translationText.downloadBtn.alertMainMsg"
-    );
+    const confirmed = window.confirm(translationText.downloadBtn.alertMainMsg);
 
     const download = async () => {
       try {
@@ -212,12 +212,9 @@ const AccountScreen: React.FC<
           }
         }
         setLoading(false);
-        alert(
-          "translationText.downloadBtn.alertSucceedTitle" +
-            "translationText.downloadBtn.alertSucceedMsg"
-        );
+        alert(translationText.downloadBtn.alertSucceedMsg);
       } catch (error) {
-        alert("translationText.downloadBtn.alertErrorTitle" + error);
+        alert(translationText.downloadBtn.alertErrorTitle + error);
         setLoading(false);
       }
     };
@@ -237,7 +234,7 @@ const AccountScreen: React.FC<
   return (
     <>
       <MainContainerMid>
-        <p className="account-screen__title">User Account</p>
+        <p className="account-screen__title">{translationText.title}</p>
         <SubTitle />
         <>
           {loading && <LoadingView />}
@@ -255,6 +252,7 @@ const AccountScreen: React.FC<
           className={!currentUser || loading ? "disabled" : ""}
         >
           <Icon.CloudUpload />
+          <p className="icon-text">{translationText.uploadBtn.textBelow}</p>
         </button>
         <button
           onClick={handleDownloadClick}
@@ -262,6 +260,7 @@ const AccountScreen: React.FC<
           className={!currentUser || loading ? "disabled" : ""}
         >
           <Icon.CloudDownload />
+          <p className="icon-text">{translationText.downloadBtn.textBelow}</p>
         </button>
       </MainContainerBtm>
     </>

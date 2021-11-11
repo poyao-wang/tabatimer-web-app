@@ -7,38 +7,42 @@ import { providerApple, providerGoogle } from "../App";
 import "./BtnAccountScreen.css";
 import Icon from "./Icon";
 
-interface SignInProps {
+interface BtnProps {
+  btnText: string;
+}
+
+interface SignInProps extends BtnProps {
   onClick: () => void;
 }
-interface SignOutProps {
+interface SignOutProps extends BtnProps {
   onClick: () => void;
 }
 
-const SignIn: React.FC<SignInProps> = ({ onClick }) => {
+const SignIn: React.FC<SignInProps> = ({ onClick, btnText }) => {
   return (
     <button
       className="btn-account-screen btn-account-screen--sign-in"
       onClick={onClick}
     >
       <Icon.Login />
-      Sign in
+      {btnText}
     </button>
   );
 };
 
-const SignOut: React.FC<SignOutProps> = ({ onClick }) => {
+const SignOut: React.FC<SignOutProps> = ({ onClick, btnText }) => {
   return (
     <button
       className="btn-account-screen btn-account-screen--sign-out"
       onClick={onClick}
     >
       <Icon.Logout />
-      Sign out
+      {btnText}
     </button>
   );
 };
 
-const Apple: React.FC = (props) => {
+const Apple: React.FC<BtnProps> = ({ btnText }) => {
   const { setLoading } = useAuth();
 
   const firebaseSignIn = async () => {
@@ -69,12 +73,12 @@ const Apple: React.FC = (props) => {
       }}
     >
       <Icon.Apple />
-      Sign in with Apple
+      {btnText}
     </button>
   );
 };
 
-const Google: React.FC = (props) => {
+const Google: React.FC<BtnProps> = ({ btnText }) => {
   const { setLoading } = useAuth();
 
   const firebaseSignIn = async () => {
@@ -104,7 +108,7 @@ const Google: React.FC = (props) => {
       }}
     >
       <Icon.Google />
-      Sign in with Google
+      {btnText}
     </button>
   );
 };

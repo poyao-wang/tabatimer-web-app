@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { MainContext } from "../config/MainContext";
 import _ from "lodash";
+import { useTranslation } from "react-i18next";
 
 import "./EditorScreen.css";
 import { RouteComponentProps, StaticContext } from "react-router";
@@ -18,6 +19,8 @@ const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
       timer: { timerSetup: mainData, setTimerSetup: setMainData },
       tabBar: { setTabBarShow },
     } = useContext(MainContext);
+
+    const { t, i18n } = useTranslation();
 
     const { storeToCache } = cache;
 
@@ -59,11 +62,14 @@ const EditorScreen: React.FC<RouteComponentProps<{}, StaticContext, unknown>> =
         <MainContainerBtm>
           <button
             onClick={() => {
-              timeDataSetupFunctions.resetMainData(mainData);
-              setMainData(mainData);
-              const dataClone = _.cloneDeep(mainData);
-              setScreenData(dataClone);
-              storeToCache(mainData);
+              const confirmed = window.confirm(t("editorScreen.resetAlertMsg"));
+              if (confirmed) {
+                timeDataSetupFunctions.resetMainData(mainData);
+                setMainData(mainData);
+                const dataClone = _.cloneDeep(mainData);
+                setScreenData(dataClone);
+                storeToCache(mainData);
+              }
             }}
           >
             <Icon.RestartAlt />

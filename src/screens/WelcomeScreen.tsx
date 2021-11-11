@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { RouteComponentProps, StaticContext } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import "./WelcomeScreen.css";
 import { MainContext } from "../config/MainContext";
@@ -20,6 +21,8 @@ const WelcomeScreen: React.FC<
     unknown
   >
 > = (props) => {
+  const { t, i18n } = useTranslation();
+
   const {
     tabBar: { setTabBarShow },
   } = useContext(MainContext);
@@ -39,6 +42,10 @@ const WelcomeScreen: React.FC<
   }, []);
 
   const [langSelected, setLangSelected] = useState<Language>("en");
+
+  useEffect(() => {
+    i18n.changeLanguage(langSelected);
+  }, [langSelected]);
 
   return (
     <>

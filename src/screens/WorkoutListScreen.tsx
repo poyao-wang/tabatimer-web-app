@@ -11,12 +11,15 @@ import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
 import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
 import cache from "../config/cache";
+import { useTranslation } from "react-i18next";
 
 export type MoveOrderActionType = "up" | "upToTop" | "down" | "downToBtm";
 
 const WorkoutListScreen: React.FC<
   RouteComponentProps<{}, StaticContext, unknown>
 > = (props) => {
+  const { t, i18n } = useTranslation();
+
   const {
     timer: { timerSetup: mainData, setTimerSetup: setMainData },
     tabBar: { setTabBarShow },
@@ -94,15 +97,22 @@ const WorkoutListScreen: React.FC<
       <MainContainerBtm>
         <button
           onClick={() => {
-            timeDataSetupFunctions.resetFlatListArray(
-              mainData,
-              mainData.workouts.value
+            const confirmed = window.confirm(
+              t("workoutListScreen.resetAlertMsg")
             );
-            mainData.workoutSetup.updated = true;
-            setMainData(mainData);
-            const dataClone = _.cloneDeep(mainData.workoutSetup.flatListArray);
-            setData(dataClone);
-            storeToCache(mainData);
+            if (confirmed) {
+              timeDataSetupFunctions.resetFlatListArray(
+                mainData,
+                mainData.workouts.value
+              );
+              mainData.workoutSetup.updated = true;
+              setMainData(mainData);
+              const dataClone = _.cloneDeep(
+                mainData.workoutSetup.flatListArray
+              );
+              setData(dataClone);
+              storeToCache(mainData);
+            }
           }}
         >
           <Icon.DeleteSweep />
