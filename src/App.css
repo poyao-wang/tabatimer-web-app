@@ -4,6 +4,12 @@
   --color-red-google: #df4a32;
   --color-red-cancel: #f1444d;
   --color-green-confirm: #2dc772;
+  --color-timer-prepare: #d9d9d9;
+  --color-timer-prepare--dark: #969696;
+  --color-timer-rest: #4feca0;
+  --color-timer-rest--dark: #18a05d;
+  --color-timer-workout: #f98e8e;
+  --color-timer-workout--dark: #f34747;
 }
 
 * {

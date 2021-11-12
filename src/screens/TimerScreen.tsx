@@ -62,7 +62,6 @@ const TimerScreen: React.FC<
   const {
     timer: useTimerSetupState,
     tabBar: { setTabBarShow },
-    // language: { uiText }, TODO: Language support
   } = useContext(MainContext);
 
   const { t } = useTranslation();
@@ -523,38 +522,30 @@ const TimerScreen: React.FC<
 
   return (
     <>
-      <animated.div // TODO: refactor styles, give classname
+      <animated.div
+        id="timer-animation-bg-block"
         style={{
-          zIndex: -1,
-          position: "absolute",
-          width: "100vw",
           height: sectionSeconds.to(_.throttle(heightCal, 10) as any),
           backgroundColor: "white",
+          ...props,
         }}
       />
-      <div // TODO: refactor styles, give classname
-        style={{
-          zIndex: -2,
-          position: "absolute",
-          width: "100vw",
-          height: "100vh",
-          transitionDuration: "200ms",
-          backgroundColor:
-            workoutArray[sectionId].type === "workout"
-              ? "red"
-              : workoutArray[sectionId].type === "rest"
-              ? "green"
-              : "gray",
-        }}
+      <div
+        id="timer-bg"
+        className={"section-type--" + workoutArray[sectionId].type}
       />
       <MainContainerMid customClassName="in-timer-screen">
         <div className="container-top">
-          <animated.div // TODO: refactor styles, give classname
+          <animated.div
+            id="timer-animetion-seconds-remain"
+            className={"section-type--" + workoutArray[sectionId].type}
             style={{ opacity: secondsOpacity }}
           >
             {sectionSeconds.to(_.throttle(secRemainCal, 100))}
           </animated.div>
-          <animated.div // TODO: refactor styles, give classname
+          <animated.div
+            id="timer-animetion-section-type"
+            className={"section-type--" + workoutArray[sectionId].type}
             style={{ position: "absolute", opacity: textOpacity }}
           >
             {sectionTypeTextTrans(timeData[sectionId].type)}

@@ -1,3 +1,52 @@
+#timer-animation-bg-block {
+  z-index: -1;
+  position: absolute;
+  width: 100%;
+  background-color: "white";
+}
+
+#timer-bg {
+  z-index: -2;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  transition-duration: 200ms;
+}
+
+#timer-animetion-seconds-remain {
+  font-size: 2rem;
+  line-height: 2rem;
+}
+
+#timer-bg.section-type--prepare {
+  background-color: var(--color-timer-prepare);
+}
+
+#timer-bg.section-type--workout {
+  background-color: var(--color-timer-workout);
+}
+
+#timer-bg.section-type--rest {
+  background-color: var(--color-timer-rest);
+}
+
+#timer-animetion-section-type {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+#timer-animetion-section-type.section-type--prepare {
+  color: var(--color-timer-prepare--dark);
+}
+
+#timer-animetion-section-type.section-type--workout {
+  color: var(--color-timer-workout--dark);
+}
+
+#timer-animetion-section-type.section-type--rest {
+  color: var(--color-timer-rest--dark);
+}
+
 .in-timer-screen .container-top,
 .in-timer-screen .container-mid,
 .in-timer-screen .container-btm {
@@ -57,10 +106,12 @@
 
 .in-timer-screen .img-container--left {
   transform: scale(0.7) translateX(0.4rem);
+  opacity: 0.7;
 }
 
 .in-timer-screen .img-container--right {
   transform: scale(0.7) translateX(-0.5rem);
+  opacity: 0.7;
 }
 
 .in-timer-screen .img-container--hidden {
