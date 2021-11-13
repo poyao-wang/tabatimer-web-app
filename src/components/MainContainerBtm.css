@@ -1,6 +1,5 @@
 .main-container-btm {
   display: flex;
-  align-items: center;
   justify-content: center;
   align-self: stretch;
   flex: 1;
@@ -42,6 +41,8 @@
 @media screen and (orientation: portrait) {
   .main-container-btm {
     flex-direction: row;
+    align-items: flex-start;
+    padding-top: 0.5rem;
   }
 
   .main-container-btm--hide {
@@ -52,6 +53,8 @@
 @media screen and (orientation: landscape) {
   .main-container-btm {
     flex-direction: column;
+    align-items: flex-end;
+    padding-right: 0.5rem;
   }
   .main-container-btm--hide {
     transform: translateX(-4rem);
