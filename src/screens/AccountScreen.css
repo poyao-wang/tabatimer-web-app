@@ -19,8 +19,10 @@
 .account-screen-btns {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 0.5rem;
   align-items: center;
+  height: 5rem;
   margin-top: 0.9rem;
 }
 
