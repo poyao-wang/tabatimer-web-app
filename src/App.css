@@ -44,8 +44,6 @@ html {
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 90vh;
-  width: 90vw;
 }
 
 button {
@@ -84,6 +82,11 @@ button.disabled {
     font-size: 8.5vw;
   }
 
+  .App {
+    height: 90vh;
+    width: 95vw;
+  }
+
   .screen-container {
     justify-content: start;
     flex-direction: column;
@@ -99,8 +102,36 @@ button.disabled {
     flex-direction: row;
   }
 
+  .main-container-mid {
+    height: 95vw;
+    width: 95vw;
+  }
+
   .top-container--hide {
     transform: translateY(-4rem);
+  }
+
+  @media screen and (max-width: 450px) {
+    :root {
+      font-size: 10vw;
+    }
+
+    @media screen and (min-aspect-ratio: 11/16) {
+      :root {
+        font-size: 9vw;
+      }
+    }
+  }
+
+  @media screen and (min-aspect-ratio: 12/16) {
+    :root {
+      font-size: 6.5vw;
+    }
+
+    .App {
+      height: 95vw;
+      width: 70vw;
+    }
   }
 }
 
@@ -109,9 +140,13 @@ button.disabled {
     font-size: 8.5vh;
   }
 
+  .App {
+    height: 90vh;
+    width: 95vw;
+  }
+
   .screen-container {
     flex-direction: row-reverse;
-    align-items: flex-start;
   }
 
   .top-container {
@@ -122,5 +157,16 @@ button.disabled {
 
   .top-container--hide {
     transform: translateX(4rem);
+  }
+
+  @media screen and (max-aspect-ratio: 4/3) {
+    :root {
+      font-size: 6.5vw;
+    }
+
+    .App {
+      height: 70vw;
+      width: 95vw;
+    }
   }
 }
