@@ -7,6 +7,7 @@ import { ItemFlatListArrayProps } from "../config/timerSetupDefaultData";
 import { MainContext } from "../config/MainContext";
 import cache from "../config/cache";
 import Icon from "../components/Icon";
+import Loader from "../components/Loader";
 import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
 
@@ -28,6 +29,7 @@ const WorkoutListDetailScreen: React.FC<
   const { storeToCache } = cache;
 
   const [imgSrc, setImgSrc] = useState(props.location.state.item.image);
+  const [loading, setLoading] = useState(false);
 
   const item = props.location.state.item;
   const title = props.location.state.index + 1 + ".";
@@ -39,6 +41,7 @@ const WorkoutListDetailScreen: React.FC<
   function addImage(e: any) {
     let file = e.target.files[0];
     let reader = new FileReader();
+    setLoading(true);
     reader.readAsDataURL(file);
     reader.onload = () => {
       Jimp.read(reader.result as string, (err, image) => {
@@ -54,6 +57,7 @@ const WorkoutListDetailScreen: React.FC<
               mainData.workoutSetup.updated = true;
               setMainData(mainData);
               storeToCache(mainData);
+              setLoading(false);
             });
         }
       });
@@ -61,11 +65,13 @@ const WorkoutListDetailScreen: React.FC<
   }
 
   function deleteImage() {
+    setLoading(true);
     setImgSrc("");
     mainData.workoutSetup.flatListArray[item.id].image = "";
     mainData.workoutSetup.updated = true;
     setMainData(mainData);
     storeToCache(mainData);
+    setLoading(false);
   }
 
   return (
@@ -73,14 +79,16 @@ const WorkoutListDetailScreen: React.FC<
       <MainContainerMid customClassName="in-workout-list-detail-screen">
         <p className="screen-title">{title}</p>
         <div className="img-workout-container">
-          {imgSrc && (
+          {loading && <Loader />}
+          {!loading && imgSrc && (
             <button className="btn-delete-img" onClick={deleteImage}>
               <Icon.Delete />
             </button>
           )}
-          {imgSrc ? (
+          {!loading && imgSrc && (
             <img className="workout-image" src={imgSrc} alt="" />
-          ) : (
+          )}
+          {!loading && !imgSrc && (
             <>
               <input
                 ref={inputRef}
