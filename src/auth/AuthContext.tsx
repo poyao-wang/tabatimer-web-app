@@ -33,6 +33,20 @@ export function AuthProvider({ children }: any) {
     return firebase.auth().signOut();
   };
 
+  const updateUserInfoInDatabase = async (firebaseUser: firebase.User) => {
+    try {
+      await firebase
+        .database()
+        .ref("/users/" + firebaseUser.uid)
+        .update({
+          additionalUserInfo: firebaseUser.providerData[0],
+        });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -47,6 +61,7 @@ export function AuthProvider({ children }: any) {
       if (window.location?.pathname === "/account/login") {
         history.push("/account");
       }
+      updateUserInfoInDatabase(currentUser);
     }
   }, [currentUser]); // eslint-disable-line react-hooks/exhaustive-deps
 

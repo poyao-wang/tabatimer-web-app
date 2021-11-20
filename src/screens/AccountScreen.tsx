@@ -139,7 +139,7 @@ const AccountScreen: React.FC<
   const SigninBtns: React.FC = () => {
     return (
       <div className="account-screen-btns">
-        {/* <BtnAccountScreen.Apple btnText="Sign in with Apple" /> */}
+        <BtnAccountScreen.Apple btnText="Sign in with Apple" />
         <BtnAccountScreen.Google btnText="Sign in with Google" />
       </div>
     );

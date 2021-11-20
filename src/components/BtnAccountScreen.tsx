@@ -47,17 +47,7 @@ const Apple: React.FC<BtnProps> = ({ btnText }) => {
   const firebaseSignIn = async () => {
     try {
       setLoading(true);
-      await firebase.auth().signInWithPopup(providerApple);
-
-      const result = await firebase.auth().getRedirectResult();
-      setLoading(true);
-
-      await firebase
-        .database()
-        .ref("/users/" + result.user!.uid)
-        .update({
-          additionalUserInfo: result.additionalUserInfo,
-        });
+      await firebase.auth().signInWithRedirect(providerApple);
     } catch (error) {
       alert(error);
       setLoading(false);
@@ -84,16 +74,6 @@ const Google: React.FC<BtnProps> = ({ btnText }) => {
     try {
       setLoading(true);
       await firebase.auth().signInWithRedirect(providerGoogle);
-
-      const result = await firebase.auth().getRedirectResult();
-      setLoading(true);
-
-      await firebase
-        .database()
-        .ref("/users/" + result.user!.uid)
-        .update({
-          additionalUserInfo: result.additionalUserInfo,
-        });
     } catch (error) {
       alert(error);
       setLoading(false);
