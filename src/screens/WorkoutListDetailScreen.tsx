@@ -1,6 +1,6 @@
 import { RouteComponentProps, StaticContext } from "react-router";
 import Jimp from "jimp";
-import React, { createRef, useContext, useState } from "react";
+import React, { ChangeEvent, createRef, useContext, useState } from "react";
 
 import "./WorkoutListDetailScreen.css";
 import { ItemFlatListArrayProps } from "../config/timerSetupDefaultData";
@@ -10,6 +10,7 @@ import Icon from "../components/Icon";
 import Loader from "../components/Loader";
 import MainContainerBtm from "../components/MainContainerBtm";
 import MainContainerMid from "../components/MainContainerMid";
+import timeDataSetupFunctions from "../config/timeDataSetupFunctions";
 
 const WorkoutListDetailScreen: React.FC<
   RouteComponentProps<
@@ -38,28 +39,55 @@ const WorkoutListDetailScreen: React.FC<
 
   const inputRef = createRef<HTMLInputElement>();
 
-  function addImage(e: any) {
-    let file = e.target.files[0];
+  function addImage(e: ChangeEvent<HTMLInputElement>) {
+    let file = (e.target.files as FileList)[0];
     let reader = new FileReader();
+
     setLoading(true);
     reader.readAsDataURL(file);
     reader.onload = () => {
-      Jimp.read(reader.result as string, (err, image) => {
-        if (err) throw err;
-        else {
-          image
-            .background(0xffffffff)
-            .contain(300, 300)
-            .quality(70)
-            .getBase64(Jimp.MIME_JPEG, function (err, src) {
-              setImgSrc(src);
-              mainData.workoutSetup.flatListArray[item.id].image = src;
-              mainData.workoutSetup.updated = true;
-              setMainData(mainData);
-              storeToCache(mainData);
-              setLoading(false);
-            });
+      timeDataSetupFunctions.getImageOrientation(file, (srcOrientation) => {
+        let rotateDegree = 0;
+
+        switch (srcOrientation) {
+          case 3:
+            rotateDegree = 180;
+            break;
+          case 5:
+            rotateDegree = 90;
+            break;
+          case 6:
+            rotateDegree = 90;
+            break;
+          case 7:
+            rotateDegree = 90;
+            break;
+          case 8:
+            rotateDegree = -90;
+            break;
+          default:
+            break;
         }
+
+        Jimp.read(reader.result as string, (err, image) => {
+          if (err) throw err;
+          else {
+            image
+              .background(0xffffffff)
+              .contain(300, 300)
+              .quality(30)
+              .rotate(rotateDegree)
+              .getBase64(Jimp.MIME_JPEG, function (err, src) {
+                if (err) throw err;
+                setImgSrc(src);
+                mainData.workoutSetup.flatListArray[item.id].image = src;
+                mainData.workoutSetup.updated = true;
+                setMainData(mainData);
+                storeToCache(mainData);
+                setLoading(false);
+              });
+          }
+        });
       });
     };
   }
